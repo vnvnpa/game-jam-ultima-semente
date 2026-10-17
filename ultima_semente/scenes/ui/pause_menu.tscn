@@ -1,0 +1,84 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="1_game_theme"]
+[ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="2_pause_menu"]
+[ext_resource type="PackedScene" path="res://scenes/ui/settings_panel.tscn" id="3_settings_p"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_game_theme")
+process_mode = 3
+script = ExtResource("2_pause_menu")
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0, 0.02, 0.02, 0.7)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(420.0, 0.0)
+theme_type_variation = &"ModalPanel"
+
+[node name="Body" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "PAUSA"
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Center/Panel/Body"]
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="Center/Panel/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 48.0)
+focus_mode = 0
+text = "Continuar [Esc]"
+unique_name_in_owner = true
+
+[node name="SettingsButton" type="Button" parent="Center/Panel/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 48.0)
+focus_mode = 0
+text = "Configurações"
+unique_name_in_owner = true
+
+[node name="AbandonButton" type="Button" parent="Center/Panel/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 48.0)
+focus_mode = 0
+text = "Abandonar expedição"
+unique_name_in_owner = true
+
+[node name="Hint" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "Abandonar perde a Biomassa e os bônus da expedição. Núcleos e mutações permanentes são mantidos."
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+
+[node name="Settings" parent="." instance=ExtResource("3_settings_p")]
+visible = false
+unique_name_in_owner = true

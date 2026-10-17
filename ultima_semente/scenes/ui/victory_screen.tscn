@@ -1,0 +1,169 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="1_game_theme"]
+[ext_resource type="Script" path="res://scripts/ui/victory_screen.gd" id="2_victory_sc"]
+[ext_resource type="PackedScene" path="res://scenes/ui/credits_screen.tscn" id="3_credits_sc"]
+
+[node name="VictoryScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_game_theme")
+process_mode = 3
+script = ExtResource("2_victory_sc")
+
+[node name="Epilogue" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+unique_name_in_owner = true
+
+[node name="Shade" type="ColorRect" parent="Epilogue"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0, 0.02, 0.02, 0.9)
+
+[node name="Center" type="CenterContainer" parent="Epilogue"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Epilogue/Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(700.0, 0.0)
+theme_type_variation = &"ModalPanel"
+
+[node name="Body" type="VBoxContainer" parent="Epilogue/Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Epilogue/Center/Panel/Body"]
+layout_mode = 2
+text = "EPÍLOGO"
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Epilogue/Center/Panel/Body"]
+layout_mode = 2
+
+[node name="EpilogueText" type="Label" parent="Epilogue/Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="Row" type="CenterContainer" parent="Epilogue/Center/Panel/Body"]
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="Epilogue/Center/Panel/Body/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(200.0, 48.0)
+focus_mode = 0
+text = "Continuar"
+unique_name_in_owner = true
+
+[node name="Congrats" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+unique_name_in_owner = true
+
+[node name="Shade" type="ColorRect" parent="Congrats"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0, 0.02, 0.02, 0.9)
+
+[node name="Center" type="CenterContainer" parent="Congrats"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Congrats/Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(700.0, 0.0)
+theme_type_variation = &"ModalPanel"
+
+[node name="Body" type="VBoxContainer" parent="Congrats/Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Congrats/Center/Panel/Body"]
+layout_mode = 2
+text = "PARABÉNS!"
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Congrats/Center/Panel/Body"]
+layout_mode = 2
+
+[node name="Done" type="Label" parent="Congrats/Center/Panel/Body"]
+layout_mode = 2
+text = "Você completou Projeto: Última Semente com sucesso."
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Never" type="Label" parent="Congrats/Center/Panel/Body"]
+layout_mode = 2
+text = "Nymara nunca mais será a mesma."
+theme_type_variation = &"AccentLabel"
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+
+[node name="CongratsStats" type="Label" parent="Congrats/Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="Row" type="HBoxContainer" parent="Congrats/Center/Panel/Body"]
+layout_mode = 2
+alignment = 1
+
+[node name="CreditsButton" type="Button" parent="Congrats/Center/Panel/Body/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(240.0, 48.0)
+focus_mode = 0
+text = "Continuar (créditos)"
+unique_name_in_owner = true
+
+[node name="MenuButton" type="Button" parent="Congrats/Center/Panel/Body/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(220.0, 48.0)
+focus_mode = 0
+text = "Voltar ao menu"
+unique_name_in_owner = true
+
+[node name="Credits" parent="." instance=ExtResource("3_credits_sc")]
+visible = false
+unique_name_in_owner = true

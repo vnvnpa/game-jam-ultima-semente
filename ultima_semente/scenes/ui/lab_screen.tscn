@@ -1,0 +1,229 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/mutation_card.tscn" id="1_mutation_c"]
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="2_game_theme"]
+[ext_resource type="Script" path="res://scripts/ui/lab_screen.gd" id="3_lab_screen"]
+
+[node name="LabScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_game_theme")
+process_mode = 3
+script = ExtResource("3_lab_screen")
+card_scene = ExtResource("1_mutation_c")
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0, 0.02, 0.02, 0.9)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(1200.0, 0.0)
+theme_type_variation = &"ModalPanel"
+
+[node name="Body" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "LABORATÓRIO DE ADAPTAÇÃO"
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Center/Panel/Body"]
+layout_mode = 2
+
+[node name="NucLabel" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"NucLabel"
+theme_override_font_sizes/font_size = 22
+unique_name_in_owner = true
+
+[node name="MsgLabel" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"WarnLabel"
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="Scroll" type="ScrollContainer" parent="Center/Panel/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 430.0)
+horizontal_scroll_mode = 0
+
+[node name="Columns" type="HBoxContainer" parent="Center/Panel/Body/Scroll"]
+layout_mode = 2
+theme_override_constants/separation = 14
+size_flags_horizontal = 3
+
+[node name="ColDefesa" type="VBoxContainer" parent="Center/Panel/Body/Scroll/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="Header" type="Label" parent="Center/Panel/Body/Scroll/Columns/ColDefesa"]
+layout_mode = 2
+text = "Linha A — Simbiose defensiva"
+theme_type_variation = &"AccentLabel"
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="ColPredacao" type="VBoxContainer" parent="Center/Panel/Body/Scroll/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="Header" type="Label" parent="Center/Panel/Body/Scroll/Columns/ColPredacao"]
+layout_mode = 2
+text = "Linha B — Predação adaptativa"
+theme_type_variation = &"AccentLabel"
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="ColRessonancia" type="VBoxContainer" parent="Center/Panel/Body/Scroll/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="Header" type="Label" parent="Center/Panel/Body/Scroll/Columns/ColRessonancia"]
+layout_mode = 2
+text = "Linha C — Ressonância da Semente"
+theme_type_variation = &"AccentLabel"
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="BackButton" type="Button" parent="Center/Panel/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(180.0, 44.0)
+focus_mode = 0
+text = "Voltar"
+unique_name_in_owner = true
+
+[node name="ConfirmDialog" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+unique_name_in_owner = true
+
+[node name="Shade" type="ColorRect" parent="ConfirmDialog"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0, 0.02, 0.02, 0.7)
+
+[node name="Center" type="CenterContainer" parent="ConfirmDialog"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ConfirmDialog/Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(560.0, 0.0)
+theme_type_variation = &"ModalPanel"
+
+[node name="Body" type="VBoxContainer" parent="ConfirmDialog/Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ConfTitle" type="Label" parent="ConfirmDialog/Center/Panel/Body"]
+layout_mode = 2
+text = "CONFIRMAR"
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="Sep" type="HSeparator" parent="ConfirmDialog/Center/Panel/Body"]
+layout_mode = 2
+
+[node name="ConfName" type="Label" parent="ConfirmDialog/Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"AccentLabel"
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="ConfCost" type="Label" parent="ConfirmDialog/Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"NucLabel"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="ConfAdv" type="Label" parent="ConfirmDialog/Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"GoodLabel"
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="ConfSide" type="Label" parent="ConfirmDialog/Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"BadLabel"
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="ConfDiff" type="Label" parent="ConfirmDialog/Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="Row" type="HBoxContainer" parent="ConfirmDialog/Center/Panel/Body"]
+layout_mode = 2
+alignment = 1
+
+[node name="ConfOk" type="Button" parent="ConfirmDialog/Center/Panel/Body/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(180.0, 46.0)
+focus_mode = 0
+text = "Confirmar"
+unique_name_in_owner = true
+
+[node name="ConfCancel" type="Button" parent="ConfirmDialog/Center/Panel/Body/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(160.0, 46.0)
+focus_mode = 0
+text = "Cancelar"
+unique_name_in_owner = true

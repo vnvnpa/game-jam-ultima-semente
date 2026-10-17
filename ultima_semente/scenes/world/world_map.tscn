@@ -1,0 +1,866 @@
+[gd_scene load_steps=22 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/world_map.gd" id="1_world_map"]
+[ext_resource type="Texture2D" path="res://assets/world/terrain.png" id="2_terrain"]
+[ext_resource type="PackedScene" path="res://scenes/world/region_zone.tscn" id="3_region_zon"]
+[ext_resource type="PackedScene" path="res://scenes/world/hostile_zone.tscn" id="4_hostile_zo"]
+[ext_resource type="PackedScene" path="res://scenes/world/station.tscn" id="5_station"]
+[ext_resource type="PackedScene" path="res://scenes/world/root_gate.tscn" id="13_root_gate"]
+[ext_resource type="PackedScene" path="res://scenes/world/crystal.tscn" id="14_crystal"]
+[ext_resource type="PackedScene" path="res://scenes/world/pillar.tscn" id="15_pillar"]
+[ext_resource type="PackedScene" path="res://scenes/world/tree.tscn" id="16_tree"]
+[ext_resource type="PackedScene" path="res://scenes/entities/biomass_pickup.tscn" id="17_biomass_pi"]
+[ext_resource type="PackedScene" path="res://scenes/entities/interactable.tscn" id="18_interactab"]
+[ext_resource type="Resource" path="res://data/enemies/08_ninho.tres" id="19_08_ninho"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="20_enemy"]
+[ext_resource type="PackedScene" path="res://scenes/world/boss_arena.tscn" id="21_boss_arena"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6"]
+size = Vector2(3800.0, 100.0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7"]
+size = Vector2(3800.0, 100.0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8"]
+size = Vector2(100.0, 2600.0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_9"]
+size = Vector2(100.0, 2600.0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10"]
+size = Vector2(800.0, 36.0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11"]
+size = Vector2(900.0, 36.0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_12"]
+size = Vector2(36.0, 640.0)
+
+[node name="WorldMap" type="Node2D"]
+script = ExtResource("1_world_map")
+
+[node name="Terrain" type="Sprite2D" parent="."]
+texture = ExtResource("2_terrain")
+centered = false
+scale = Vector2(4.0, 4.0)
+
+[node name="Regions" type="Node2D" parent="."]
+
+[node name="Floresta" parent="Regions" instance=ExtResource("3_region_zon")]
+position = Vector2(850.0, 1300.0)
+region_name = "Floresta do Despertar"
+size = Vector2(1700.0, 2600.0)
+map_color = Color(0.1, 0.25, 0.14, 1.0)
+
+[node name="Bacia" parent="Regions" instance=ExtResource("3_region_zon")]
+position = Vector2(2650.0, 1625.0)
+region_name = "Bacia dos Ecos"
+size = Vector2(1900.0, 1950.0)
+map_color = Color(0.13, 0.15, 0.24, 1.0)
+
+[node name="Santuario" parent="Regions" instance=ExtResource("3_region_zon")]
+position = Vector2(2650.0, 325.0)
+region_name = "Santuário das Raízes"
+size = Vector2(1900.0, 650.0)
+map_color = Color(0.2, 0.23, 0.22, 1.0)
+locked_until_gate = true
+
+[node name="HostileZones" type="Node2D" parent="."]
+
+[node name="Zona1" parent="HostileZones" instance=ExtResource("4_hostile_zo")]
+position = Vector2(2450.0, 1300.0)
+size = Vector2(700.0, 600.0)
+
+[node name="Zona2" parent="HostileZones" instance=ExtResource("4_hostile_zo")]
+position = Vector2(3200.0, 1900.0)
+size = Vector2(600.0, 800.0)
+
+[node name="Zona3" parent="HostileZones" instance=ExtResource("4_hostile_zo")]
+position = Vector2(2150.0, 2200.0)
+size = Vector2(700.0, 600.0)
+
+[node name="Stations" type="Node2D" parent="."]
+
+[node name="Base" parent="Stations" instance=ExtResource("5_station")]
+position = Vector2(560.0, 1500.0)
+station_id = "base"
+display_name = "Nave de Kael"
+radius = 170.0
+
+[node name="Eco" parent="Stations" instance=ExtResource("5_station")]
+position = Vector2(1950.0, 1450.0)
+station_id = "eco"
+display_name = "Estação Eco"
+radius = 120.0
+
+[node name="Bolsao1" parent="Stations" instance=ExtResource("5_station")]
+position = Vector2(2850.0, 1300.0)
+station_id = "bolsao1"
+display_name = "Bolsão de Ar"
+radius = 100.0
+
+[node name="Bolsao2" parent="Stations" instance=ExtResource("5_station")]
+position = Vector2(2700.0, 2000.0)
+station_id = "bolsao2"
+display_name = "Bolsão de Ar"
+radius = 100.0
+
+[node name="Borders" type="Node2D" parent="."]
+
+[node name="Top" type="StaticBody2D" parent="Borders"]
+position = Vector2(1800.0, -50.0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape2D" parent="Borders/Top"]
+shape = SubResource("RectangleShape2D_6")
+
+[node name="Bottom" type="StaticBody2D" parent="Borders"]
+position = Vector2(1800.0, 2650.0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape2D" parent="Borders/Bottom"]
+shape = SubResource("RectangleShape2D_7")
+
+[node name="Left" type="StaticBody2D" parent="Borders"]
+position = Vector2(-50.0, 1300.0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape2D" parent="Borders/Left"]
+shape = SubResource("RectangleShape2D_8")
+
+[node name="Right" type="StaticBody2D" parent="Borders"]
+position = Vector2(3650.0, 1300.0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape2D" parent="Borders/Right"]
+shape = SubResource("RectangleShape2D_9")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="WallWest" type="StaticBody2D" parent="Walls"]
+position = Vector2(2100.0, 640.0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape2D" parent="Walls/WallWest"]
+shape = SubResource("RectangleShape2D_10")
+
+[node name="Visual" type="ColorRect" parent="Walls/WallWest"]
+layout_mode = 0
+offset_left = -400.0
+offset_top = -18.0
+offset_right = 400.0
+offset_bottom = 18.0
+mouse_filter = 2
+color = Color(0.35, 0.18, 0.4, 1.0)
+
+[node name="WallEast" type="StaticBody2D" parent="Walls"]
+position = Vector2(3150.0, 640.0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape2D" parent="Walls/WallEast"]
+shape = SubResource("RectangleShape2D_11")
+
+[node name="Visual" type="ColorRect" parent="Walls/WallEast"]
+layout_mode = 0
+offset_left = -450.0
+offset_top = -18.0
+offset_right = 450.0
+offset_bottom = 18.0
+mouse_filter = 2
+color = Color(0.35, 0.18, 0.4, 1.0)
+
+[node name="WallVertical" type="StaticBody2D" parent="Walls"]
+position = Vector2(1700.0, 320.0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape2D" parent="Walls/WallVertical"]
+shape = SubResource("RectangleShape2D_12")
+
+[node name="Visual" type="ColorRect" parent="Walls/WallVertical"]
+layout_mode = 0
+offset_left = -18.0
+offset_top = -320.0
+offset_right = 18.0
+offset_bottom = 320.0
+mouse_filter = 2
+color = Color(0.35, 0.18, 0.4, 1.0)
+
+[node name="Gate" parent="." instance=ExtResource("13_root_gate")]
+
+[node name="Obstacles" type="Node2D" parent="."]
+
+[node name="Crystal01" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2151.6, 1440.3)
+radius = 25.0
+
+[node name="Crystal02" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1966.4, 1871.7)
+radius = 24.8
+
+[node name="Crystal03" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2673.6, 1514.6)
+radius = 17.4
+
+[node name="Pillar01" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(2197.4, 334.6)
+radius = 25.4
+
+[node name="Crystal04" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1624.8, 2080.6)
+radius = 23.6
+
+[node name="Crystal05" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3470.1, 2364.7)
+radius = 25.3
+
+[node name="Crystal06" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3538.8, 1333.7)
+radius = 15.1
+
+[node name="Tree01" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1244.6, 1442.5)
+radius = 18.1
+
+[node name="Crystal07" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1651.9, 2233.7)
+radius = 23.9
+
+[node name="Pillar02" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(2069.4, 121.4)
+radius = 24.0
+
+[node name="Tree02" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1325.1, 1107.1)
+radius = 19.6
+
+[node name="Crystal08" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2098.3, 1296.2)
+radius = 15.6
+
+[node name="Crystal09" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1822.1, 1920.4)
+radius = 22.4
+
+[node name="Crystal10" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1768.8, 2333.6)
+radius = 17.6
+
+[node name="Tree03" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1521.5, 2357.1)
+radius = 20.7
+
+[node name="Pillar03" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(1862.6, 122.9)
+radius = 17.1
+
+[node name="Tree04" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(508.9, 181.2)
+radius = 23.9
+
+[node name="Pillar04" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(3146.1, 314.4)
+radius = 22.7
+
+[node name="Crystal11" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1695.7, 1255.6)
+radius = 17.2
+
+[node name="Crystal12" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3143.0, 1614.1)
+radius = 20.4
+
+[node name="Tree05" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1130.5, 2043.5)
+radius = 21.0
+
+[node name="Crystal13" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2341.6, 1541.2)
+radius = 20.4
+
+[node name="Tree06" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(965.2, 1264.2)
+radius = 21.2
+
+[node name="Crystal14" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2935.1, 2063.7)
+radius = 21.8
+
+[node name="Crystal15" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3217.3, 2121.9)
+radius = 18.4
+
+[node name="Pillar05" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(3250.5, 304.0)
+radius = 23.7
+
+[node name="Crystal16" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3419.1, 2458.8)
+radius = 25.8
+
+[node name="Pillar06" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(1794.5, 299.7)
+radius = 24.5
+
+[node name="Tree07" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1491.4, 1174.5)
+radius = 14.2
+
+[node name="Tree08" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(60.7, 1500.0)
+radius = 27.1
+
+[node name="Tree09" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(349.1, 2028.6)
+radius = 17.5
+
+[node name="Crystal17" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2221.3, 1924.6)
+radius = 27.4
+
+[node name="Crystal18" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2386.3, 1635.8)
+radius = 16.2
+
+[node name="Tree10" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1150.8, 1506.0)
+radius = 24.8
+
+[node name="Crystal19" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3365.8, 1280.1)
+radius = 24.1
+
+[node name="Tree11" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(529.3, 612.9)
+radius = 22.2
+
+[node name="Crystal20" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3394.8, 2232.5)
+radius = 21.1
+
+[node name="Tree12" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(353.8, 1718.0)
+radius = 27.1
+
+[node name="Crystal21" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2786.4, 2329.2)
+radius = 18.3
+
+[node name="Tree13" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1493.9, 2063.8)
+radius = 21.3
+
+[node name="Tree14" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(744.5, 95.0)
+radius = 15.5
+
+[node name="Pillar07" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(3149.4, 187.4)
+radius = 18.9
+
+[node name="Tree15" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1289.8, 1968.4)
+radius = 14.4
+
+[node name="Crystal22" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1836.1, 872.8)
+radius = 18.3
+
+[node name="Tree16" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1194.6, 361.0)
+radius = 27.3
+
+[node name="Crystal23" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2049.2, 2056.2)
+radius = 16.2
+
+[node name="Crystal24" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1868.3, 1135.3)
+radius = 18.7
+
+[node name="Crystal25" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2141.8, 1742.7)
+radius = 15.0
+
+[node name="Tree17" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1449.1, 544.8)
+radius = 26.9
+
+[node name="Tree18" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(217.4, 1411.0)
+radius = 25.7
+
+[node name="Crystal26" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1632.3, 1931.7)
+radius = 16.6
+
+[node name="Crystal27" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2534.1, 2237.0)
+radius = 15.8
+
+[node name="Crystal28" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1904.2, 2007.8)
+radius = 21.2
+
+[node name="Pillar08" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(3388.9, 457.8)
+radius = 25.8
+
+[node name="Tree19" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1417.1, 1114.9)
+radius = 19.8
+
+[node name="Tree20" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(333.7, 816.2)
+radius = 18.8
+
+[node name="Tree21" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(865.0, 2425.1)
+radius = 26.3
+
+[node name="Crystal29" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2307.0, 1071.8)
+radius = 25.0
+
+[node name="Crystal30" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3016.2, 1722.6)
+radius = 27.5
+
+[node name="Tree22" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1284.8, 448.8)
+radius = 21.9
+
+[node name="Crystal31" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2551.7, 1438.4)
+radius = 22.0
+
+[node name="Tree23" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(806.2, 790.9)
+radius = 17.8
+
+[node name="Pillar09" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(1994.0, 311.6)
+radius = 17.7
+
+[node name="Crystal32" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2252.7, 1316.4)
+radius = 17.9
+
+[node name="Crystal33" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2974.1, 781.8)
+radius = 18.4
+
+[node name="Tree24" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(967.8, 215.9)
+radius = 19.8
+
+[node name="Tree25" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(113.7, 299.2)
+radius = 14.3
+
+[node name="Tree26" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(488.1, 1760.8)
+radius = 22.1
+
+[node name="Crystal34" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3317.7, 928.8)
+radius = 24.9
+
+[node name="Crystal35" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3278.1, 843.8)
+radius = 17.0
+
+[node name="Crystal36" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1670.1, 2488.2)
+radius = 26.3
+
+[node name="Crystal37" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2448.9, 2196.0)
+radius = 23.5
+
+[node name="Crystal38" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3274.6, 1024.8)
+radius = 27.3
+
+[node name="Tree27" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1300.0, 1883.8)
+radius = 20.1
+
+[node name="Tree28" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(142.3, 1784.3)
+radius = 18.1
+
+[node name="Crystal39" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3394.8, 2043.6)
+radius = 15.7
+
+[node name="Crystal40" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2732.3, 850.8)
+radius = 26.6
+
+[node name="Crystal41" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1946.7, 909.4)
+radius = 21.9
+
+[node name="Tree29" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(471.6, 371.7)
+radius = 19.0
+
+[node name="Crystal42" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2314.7, 1686.4)
+radius = 14.4
+
+[node name="Crystal43" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2071.9, 942.8)
+radius = 19.4
+
+[node name="Tree30" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(892.8, 1104.0)
+radius = 17.1
+
+[node name="Crystal44" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3312.6, 1755.7)
+radius = 19.6
+
+[node name="Tree31" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(947.3, 426.3)
+radius = 14.3
+
+[node name="Tree32" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1155.3, 2401.7)
+radius = 22.3
+
+[node name="Crystal45" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2981.6, 1431.4)
+radius = 23.1
+
+[node name="Pillar10" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(2349.4, 88.3)
+radius = 27.7
+
+[node name="Crystal46" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3060.1, 2359.5)
+radius = 26.7
+
+[node name="Tree33" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1448.8, 2480.9)
+radius = 27.3
+
+[node name="Tree34" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(869.1, 2116.0)
+radius = 18.8
+
+[node name="Tree35" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(759.4, 950.6)
+radius = 22.9
+
+[node name="Crystal47" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1969.8, 1235.7)
+radius = 25.0
+
+[node name="Pillar11" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(2080.4, 526.0)
+radius = 22.8
+
+[node name="Tree36" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(595.2, 2276.6)
+radius = 27.3
+
+[node name="Crystal48" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2827.9, 1645.0)
+radius = 15.2
+
+[node name="Crystal49" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2633.5, 2537.1)
+radius = 14.3
+
+[node name="Crystal50" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2052.8, 2429.7)
+radius = 19.3
+
+[node name="Crystal51" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2609.4, 887.4)
+radius = 17.7
+
+[node name="Tree37" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(204.7, 1530.0)
+radius = 25.0
+
+[node name="Tree38" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(624.5, 786.4)
+radius = 21.6
+
+[node name="Tree39" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1303.1, 2472.4)
+radius = 16.6
+
+[node name="Crystal52" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1730.4, 1108.2)
+radius = 25.4
+
+[node name="Crystal53" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3199.4, 2488.0)
+radius = 28.0
+
+[node name="Pillar12" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(1936.1, 466.6)
+radius = 26.4
+
+[node name="Crystal54" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1852.2, 2248.2)
+radius = 23.0
+
+[node name="Tree40" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(66.9, 988.9)
+radius = 19.2
+
+[node name="Tree41" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(812.3, 442.5)
+radius = 22.5
+
+[node name="Tree42" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(500.3, 2502.9)
+radius = 20.8
+
+[node name="Crystal55" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2207.0, 1665.9)
+radius = 18.9
+
+[node name="Pillar13" parent="Obstacles" instance=ExtResource("15_pillar")]
+position = Vector2(2096.9, 264.7)
+radius = 24.9
+
+[node name="Tree43" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(365.8, 1287.1)
+radius = 18.4
+
+[node name="Tree44" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(675.1, 2059.8)
+radius = 17.1
+
+[node name="Crystal56" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2458.3, 924.4)
+radius = 25.0
+
+[node name="Tree45" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(597.2, 1902.7)
+radius = 23.2
+
+[node name="Tree46" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(504.0, 723.7)
+radius = 25.7
+
+[node name="Tree47" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1173.7, 2146.1)
+radius = 20.2
+
+[node name="Crystal57" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(3443.4, 1452.0)
+radius = 15.7
+
+[node name="Tree48" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1081.3, 1196.0)
+radius = 19.6
+
+[node name="Tree49" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1232.2, 1744.4)
+radius = 26.9
+
+[node name="Tree50" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1285.5, 879.5)
+radius = 26.9
+
+[node name="Tree51" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(937.6, 888.4)
+radius = 23.0
+
+[node name="Tree52" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(994.9, 104.1)
+radius = 16.9
+
+[node name="Crystal58" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(1650.8, 746.7)
+radius = 22.8
+
+[node name="Tree53" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(823.5, 1209.4)
+radius = 22.5
+
+[node name="Crystal59" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2537.2, 1749.2)
+radius = 21.8
+
+[node name="Tree54" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(704.7, 1880.9)
+radius = 27.8
+
+[node name="Tree55" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(948.6, 2250.5)
+radius = 25.7
+
+[node name="Tree56" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(187.8, 1275.2)
+radius = 14.3
+
+[node name="Tree57" parent="Obstacles" instance=ExtResource("16_tree")]
+position = Vector2(1489.8, 220.1)
+radius = 24.1
+
+[node name="Crystal60" parent="Obstacles" instance=ExtResource("14_crystal")]
+position = Vector2(2360.8, 1751.5)
+radius = 24.7
+
+[node name="Caches" type="Node2D" parent="."]
+
+[node name="Cache01" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(1107.2, 1257.5)
+value = 6
+persistent = true
+
+[node name="Cache02" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(3014.5, 2457.7)
+value = 10
+persistent = true
+
+[node name="Cache03" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(1198.3, 855.8)
+value = 8
+persistent = true
+
+[node name="Cache04" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(1318.7, 270.5)
+value = 10
+persistent = true
+
+[node name="Cache05" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(3050.4, 505.4)
+value = 8
+persistent = true
+
+[node name="Cache06" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(1896.3, 2198.7)
+value = 11
+persistent = true
+
+[node name="Cache07" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(801.3, 1319.6)
+value = 10
+persistent = true
+
+[node name="Cache08" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(3042.9, 1972.9)
+value = 11
+persistent = true
+
+[node name="Cache09" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(1760.7, 1443.7)
+value = 12
+persistent = true
+
+[node name="Cache10" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(3027.4, 967.5)
+value = 11
+persistent = true
+
+[node name="Cache11" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(1428.5, 1581.2)
+value = 10
+persistent = true
+
+[node name="Cache12" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(2504.6, 453.6)
+value = 7
+persistent = true
+
+[node name="Cache13" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(531.5, 2070.8)
+value = 11
+persistent = true
+
+[node name="Cache14" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(3057.0, 764.1)
+value = 8
+persistent = true
+
+[node name="Cache15" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(3316.9, 516.7)
+value = 8
+persistent = true
+
+[node name="Cache16" parent="Caches" instance=ExtResource("17_biomass_pi")]
+position = Vector2(3393.1, 1770.8)
+value = 7
+persistent = true
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="Ship" parent="Interactables" instance=ExtResource("18_interactab")]
+position = Vector2(490.0, 1470.0)
+kind = "ship"
+display_name = "Nave de Kael"
+reach = 100.0
+
+[node name="TerminalBase" parent="Interactables" instance=ExtResource("18_interactab")]
+position = Vector2(630.0, 1500.0)
+kind = "shop"
+ref_id = "base"
+display_name = "Terminal de Suprimentos — Nave de Kael"
+
+[node name="TerminalEco" parent="Interactables" instance=ExtResource("18_interactab")]
+position = Vector2(2020.0, 1450.0)
+kind = "shop"
+ref_id = "eco"
+display_name = "Terminal de Suprimentos — Estação Eco"
+
+[node name="RuinaAlfa" parent="Interactables" instance=ExtResource("18_interactab")]
+position = Vector2(1050.0, 1950.0)
+kind = "poi"
+ref_id = "ruina_alfa"
+display_name = "Ruína dos Arquitetos"
+record_id = "reg_alfa"
+nuc_claim = "nuc_ruina_alfa"
+
+[node name="LabSubmerso" parent="Interactables" instance=ExtResource("18_interactab")]
+position = Vector2(2450.0, 1500.0)
+kind = "poi"
+ref_id = "lab_submerso"
+display_name = "Laboratório Submerso"
+record_id = "reg_lab"
+
+[node name="CamaraSelada" parent="Interactables" instance=ExtResource("18_interactab")]
+position = Vector2(3150.0, 850.0)
+kind = "poi"
+ref_id = "camara_selada"
+display_name = "Câmara Selada"
+record_id = "reg_camara"
+nuc_claim = "nuc_camara"
+
+[node name="TerminalJardineiro" parent="Interactables" instance=ExtResource("18_interactab")]
+position = Vector2(3000.0, 250.0)
+kind = "poi"
+ref_id = "terminal_jardineiro"
+display_name = "Terminal do Jardineiro"
+record_id = "reg_jardineiro"
+
+[node name="Nests" type="Node2D" parent="."]
+
+[node name="Ninho1" parent="Nests" instance=ExtResource("20_enemy")]
+position = Vector2(1100.0, 800.0)
+preset_data = ExtResource("19_08_ninho")
+
+[node name="Ninho2" parent="Nests" instance=ExtResource("20_enemy")]
+position = Vector2(2450.0, 1300.0)
+preset_data = ExtResource("19_08_ninho")
+
+[node name="Ninho3" parent="Nests" instance=ExtResource("20_enemy")]
+position = Vector2(3200.0, 1900.0)
+preset_data = ExtResource("19_08_ninho")
+
+[node name="BossArena" parent="." instance=ExtResource("21_boss_arena")]
+position = Vector2(2650.0, 290.0)

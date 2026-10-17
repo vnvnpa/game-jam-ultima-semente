@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="1_game_theme"]
+
+[node name="ListButton" type="Button"]
+custom_minimum_size = Vector2(0.0, 40.0)
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Item"
+alignment = 0
+theme = ExtResource("1_game_theme")

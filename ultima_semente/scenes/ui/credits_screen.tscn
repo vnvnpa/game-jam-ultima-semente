@@ -1,0 +1,119 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="1_game_theme"]
+[ext_resource type="Script" path="res://scripts/ui/credits_screen.gd" id="2_credits_sc"]
+
+[node name="CreditsScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_game_theme")
+process_mode = 3
+script = ExtResource("2_credits_sc")
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0, 0.02, 0.02, 0.92)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(700.0, 0.0)
+theme_type_variation = &"ModalPanel"
+
+[node name="Body" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "PROJETO: ÚLTIMA SEMENTE"
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Center/Panel/Body"]
+layout_mode = 2
+
+[node name="CreatorLabel" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "Criado por"
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="Thanks" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "Obrigado por jogar e ajudar Kael a descobrir o destino de Nymara."
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Sep2" type="HSeparator" parent="Center/Panel/Body"]
+layout_mode = 2
+
+[node name="Ask" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "Quer ajudar a financiar um próximo projeto?"
+theme_type_variation = &"AccentLabel"
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="SupportText" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "Se você gostou do jogo, poderá apoiar voluntariamente o próximo projeto pela página oficial de Projeto: Última Semente no itch.io.\n\nBaixar, concluir o jogo e assistir aos créditos nunca depende de pagar ou doar. Obrigado por fazer parte desta jornada."
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="SupportRow" type="CenterContainer" parent="Center/Panel/Body"]
+layout_mode = 2
+
+[node name="SupportButton" type="Button" parent="Center/Panel/Body/SupportRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(240.0, 48.0)
+focus_mode = 0
+text = "Apoiar o projeto"
+unique_name_in_owner = true
+
+[node name="ContactLabel" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"NucLabel"
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="License" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "Arte, efeitos sonoros e música são gerados por código neste projeto; nenhum asset de terceiros é utilizado. Motor: Godot Engine (licença MIT)."
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="BackRow" type="CenterContainer" parent="Center/Panel/Body"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="Center/Panel/Body/BackRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(200.0, 46.0)
+focus_mode = 0
+text = "Voltar"
+unique_name_in_owner = true

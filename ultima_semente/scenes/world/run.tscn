@@ -1,0 +1,102 @@
+[gd_scene load_steps=25 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/run.gd" id="1_run"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="2_enemy"]
+[ext_resource type="PackedScene" path="res://scenes/entities/boss.tscn" id="3_boss"]
+[ext_resource type="PackedScene" path="res://scenes/entities/projectile.tscn" id="4_projectile"]
+[ext_resource type="PackedScene" path="res://scenes/entities/biomass_pickup.tscn" id="5_biomass_pi"]
+[ext_resource type="PackedScene" path="res://scenes/entities/spore_zone.tscn" id="6_spore_zone"]
+[ext_resource type="PackedScene" path="res://scenes/entities/root_slam.tscn" id="7_root_slam"]
+[ext_resource type="PackedScene" path="res://scenes/entities/decoy.tscn" id="8_decoy"]
+[ext_resource type="PackedScene" path="res://scenes/entities/fx.tscn" id="9_fx"]
+[ext_resource type="PackedScene" path="res://scenes/ui/level_up_menu.tscn" id="10_level_up_m"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_menu.tscn" id="11_shop_menu"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="12_pause_menu"]
+[ext_resource type="PackedScene" path="res://scenes/ui/record_popup.tscn" id="13_record_pop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_over_screen.tscn" id="14_game_over_"]
+[ext_resource type="PackedScene" path="res://scenes/ui/victory_screen.tscn" id="15_victory_sc"]
+[ext_resource type="PackedScene" path="res://scenes/world/world_map.tscn" id="16_world_map"]
+[ext_resource type="PackedScene" path="res://scenes/entities/player.tscn" id="17_player"]
+[ext_resource type="Script" path="res://scripts/world/guide_arrows.gd" id="18_guide_arro"]
+[ext_resource type="Script" path="res://scripts/world/spawn_director.gd" id="19_spawn_dire"]
+[ext_resource type="Script" path="res://scripts/world/world_events.gd" id="20_world_even"]
+[ext_resource type="Script" path="res://scripts/oxygen/oxygen_manager.gd" id="21_oxygen_man"]
+[ext_resource type="Script" path="res://scripts/economy/shop_manager.gd" id="22_shop_manag"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="23_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/map_overlay.tscn" id="24_map_overla"]
+
+[node name="Run" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_run")
+enemy_scene = ExtResource("2_enemy")
+boss_scene = ExtResource("3_boss")
+projectile_scene = ExtResource("4_projectile")
+pickup_scene = ExtResource("5_biomass_pi")
+spore_scene = ExtResource("6_spore_zone")
+slam_scene = ExtResource("7_root_slam")
+decoy_scene = ExtResource("8_decoy")
+fx_scene = ExtResource("9_fx")
+level_up_scene = ExtResource("10_level_up_m")
+shop_scene = ExtResource("11_shop_menu")
+pause_scene = ExtResource("12_pause_menu")
+record_scene = ExtResource("13_record_pop")
+game_over_scene = ExtResource("14_game_over_")
+victory_scene = ExtResource("15_victory_sc")
+
+[node name="World" type="Node2D" parent="."]
+process_mode = 1
+unique_name_in_owner = true
+
+[node name="Map" parent="World" instance=ExtResource("16_world_map")]
+unique_name_in_owner = true
+
+[node name="Zones" type="Node2D" parent="World"]
+unique_name_in_owner = true
+
+[node name="Drops" type="Node2D" parent="World"]
+unique_name_in_owner = true
+
+[node name="Enemies" type="Node2D" parent="World"]
+unique_name_in_owner = true
+
+[node name="Player" parent="World" instance=ExtResource("17_player")]
+position = Vector2(560.0, 1570.0)
+unique_name_in_owner = true
+
+[node name="Projectiles" type="Node2D" parent="World"]
+unique_name_in_owner = true
+
+[node name="Effects" type="Node2D" parent="World"]
+unique_name_in_owner = true
+
+[node name="GuideArrows" type="Node2D" parent="World"]
+script = ExtResource("18_guide_arro")
+unique_name_in_owner = true
+
+[node name="SpawnDirector" type="Node" parent="World"]
+script = ExtResource("19_spawn_dire")
+unique_name_in_owner = true
+
+[node name="WorldEvents" type="Node" parent="World"]
+script = ExtResource("20_world_even")
+unique_name_in_owner = true
+
+[node name="Oxygen" type="Node" parent="World"]
+script = ExtResource("21_oxygen_man")
+unique_name_in_owner = true
+
+[node name="Shop" type="Node" parent="World"]
+script = ExtResource("22_shop_manag")
+unique_name_in_owner = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+process_mode = 3
+layer = 10
+unique_name_in_owner = true
+
+[node name="Hud" parent="UI" instance=ExtResource("23_hud")]
+unique_name_in_owner = true
+
+[node name="MapOverlay" parent="UI" instance=ExtResource("24_map_overla")]
+visible = false
+unique_name_in_owner = true

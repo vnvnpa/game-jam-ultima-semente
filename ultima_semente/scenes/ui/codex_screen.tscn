@@ -1,0 +1,92 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/codex_entry.tscn" id="1_codex_entr"]
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="2_game_theme"]
+[ext_resource type="Script" path="res://scripts/ui/codex_screen.gd" id="3_codex_scre"]
+
+[node name="CodexScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_game_theme")
+process_mode = 3
+script = ExtResource("3_codex_scre")
+entry_scene = ExtResource("1_codex_entr")
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0, 0.02, 0.02, 0.88)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(860.0, 520.0)
+theme_type_variation = &"ModalPanel"
+
+[node name="Body" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "ARQUIVO BIOLÓGICO"
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Center/Panel/Body"]
+layout_mode = 2
+
+[node name="Tabs" type="TabContainer" parent="Center/Panel/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 400.0)
+unique_name_in_owner = true
+
+[node name="Creatures" type="ScrollContainer" parent="Center/Panel/Body/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="EnemyList" type="VBoxContainer" parent="Center/Panel/Body/Tabs/Creatures"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="Mutations" type="ScrollContainer" parent="Center/Panel/Body/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="MutationList" type="VBoxContainer" parent="Center/Panel/Body/Tabs/Mutations"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="Records" type="ScrollContainer" parent="Center/Panel/Body/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="RecordList" type="VBoxContainer" parent="Center/Panel/Body/Tabs/Records"]
+layout_mode = 2
+size_flags_horizontal = 3
+unique_name_in_owner = true
+
+[node name="BackButton" type="Button" parent="Center/Panel/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(180.0, 44.0)
+focus_mode = 0
+text = "Voltar"
+unique_name_in_owner = true

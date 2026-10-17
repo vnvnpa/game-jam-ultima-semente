@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="1_game_theme"]
+[ext_resource type="Script" path="res://scripts/ui/level_up_card.gd" id="2_level_up_c"]
+
+[node name="LevelUpCard" type="PanelContainer"]
+size_flags_horizontal = 3
+theme = ExtResource("1_game_theme")
+theme_type_variation = &"CardPanel"
+script = ExtResource("2_level_up_c")
+
+[node name="Box" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="FamilyLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = "Família"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 14
+unique_name_in_owner = true
+
+[node name="NameLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = "Mutação"
+theme_type_variation = &"AccentLabel"
+theme_override_font_sizes/font_size = 22
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="LevelLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = "Nível 0 → 1"
+theme_override_font_sizes/font_size = 15
+unique_name_in_owner = true
+
+[node name="DescLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = "Descrição"
+theme_type_variation = &"GoodLabel"
+theme_override_font_sizes/font_size = 17
+autowrap_mode = 3
+custom_minimum_size = Vector2(240.0, 80.0)
+unique_name_in_owner = true
+
+[node name="SideLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = "Efeito colateral"
+theme_type_variation = &"BadLabel"
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+custom_minimum_size = Vector2(240.0, 0.0)
+unique_name_in_owner = true
+
+[node name="PickButton" type="Button" parent="Box"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 44.0)
+focus_mode = 0
+text = "Escolher"
+unique_name_in_owner = true

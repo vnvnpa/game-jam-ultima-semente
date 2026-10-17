@@ -1,0 +1,109 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="1_game_theme"]
+[ext_resource type="Script" path="res://scripts/ui/start_screen.gd" id="2_start_scre"]
+
+[node name="StartScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_game_theme")
+process_mode = 3
+script = ExtResource("2_start_scre")
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0, 0.02, 0.02, 0.85)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(800.0, 0.0)
+theme_type_variation = &"ModalPanel"
+
+[node name="Body" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "PREPARAR EXPEDIÇÃO"
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Center/Panel/Body"]
+layout_mode = 2
+
+[node name="Goal" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "Kael precisa chegar ao Santuário das Raízes. Destrua 2 dos 3 ninhos para abrir a barreira, enfrente o Guardião de Raízes e sobreviva. A expedição dura em média 20–30 minutos."
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="ControlsTitle" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "Controles"
+theme_type_variation = &"AccentLabel"
+theme_override_font_sizes/font_size = 20
+
+[node name="Controls" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "WASD / Setas: mover   •   Mouse: mirar   •   A arma dispara sozinha no inimigo mais próximo\nEspaço: Pulso de Raízes   •   Q: Ruptura Celular (arrancada)   •   R: Pulso de Emergência\nE: interagir (terminais, ruínas)   •   M: mapa   •   Esc: pausa"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+
+[node name="TipsTitle" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "Dicas"
+theme_type_variation = &"AccentLabel"
+theme_override_font_sizes/font_size = 20
+
+[node name="Tips" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "• A Floresta do Despertar tem ar respirável. Na Bacia dos Ecos, as zonas magenta consomem oxigênio: use os bolsões de ar azuis.\n• Biomassa compra melhorias nos terminais. Núcleos Primordiais (chefes e descobertas) compram mutações permanentes.\n• A extração na nave libera aos 10:00 e não concede recompensa de chefe."
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+
+[node name="MutationsLabel" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"NucLabel"
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="Row" type="HBoxContainer" parent="Center/Panel/Body"]
+layout_mode = 2
+alignment = 1
+
+[node name="StartButton" type="Button" parent="Center/Panel/Body/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(240.0, 52.0)
+focus_mode = 0
+text = "Iniciar expedição"
+unique_name_in_owner = true
+
+[node name="BackButton" type="Button" parent="Center/Panel/Body/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(160.0, 52.0)
+focus_mode = 0
+text = "Voltar"
+unique_name_in_owner = true

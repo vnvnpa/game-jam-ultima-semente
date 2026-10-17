@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="1_game_theme"]
+[ext_resource type="Script" path="res://scripts/ui/mutation_card.gd" id="2_mutation_c"]
+
+[node name="MutationCard" type="PanelContainer"]
+size_flags_horizontal = 3
+theme = ExtResource("1_game_theme")
+theme_type_variation = &"CardPanel"
+script = ExtResource("2_mutation_c")
+
+[node name="Box" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="NameLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = "Mutação"
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="CostLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"NucLabel"
+theme_override_font_sizes/font_size = 14
+unique_name_in_owner = true
+
+[node name="AdvLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"GoodLabel"
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="SideLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"BadLabel"
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="ReqLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="IncLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"WarnLabel"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="ActionButton" type="Button" parent="Box"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 38.0)
+focus_mode = 0
+text = "Adquirir"
+unique_name_in_owner = true
+
+[node name="NoteLabel" type="Label" parent="Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"WarnLabel"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+unique_name_in_owner = true

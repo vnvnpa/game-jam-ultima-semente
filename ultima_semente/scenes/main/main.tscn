@@ -1,0 +1,27 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/ui/main_menu.tscn" id="2_main_menu"]
+[ext_resource type="PackedScene" path="res://scenes/ui/start_screen.tscn" id="3_start_scre"]
+[ext_resource type="PackedScene" path="res://scenes/ui/lab_screen.tscn" id="4_lab_screen"]
+[ext_resource type="PackedScene" path="res://scenes/ui/codex_screen.tscn" id="5_codex_scre"]
+[ext_resource type="PackedScene" path="res://scenes/ui/settings_panel.tscn" id="6_settings_p"]
+[ext_resource type="PackedScene" path="res://scenes/ui/credits_screen.tscn" id="7_credits_sc"]
+[ext_resource type="PackedScene" path="res://scenes/ui/loading_screen.tscn" id="8_loading_sc"]
+[ext_resource type="PackedScene" path="res://scenes/world/run.tscn" id="9_run"]
+
+[node name="Main" type="Node"]
+process_mode = 3
+script = ExtResource("1_main")
+main_menu_scene = ExtResource("2_main_menu")
+start_scene = ExtResource("3_start_scre")
+lab_scene = ExtResource("4_lab_screen")
+codex_scene = ExtResource("5_codex_scre")
+settings_scene = ExtResource("6_settings_p")
+credits_scene = ExtResource("7_credits_sc")
+loading_scene = ExtResource("8_loading_sc")
+run_scene = ExtResource("9_run")
+
+[node name="Ui" type="CanvasLayer" parent="."]
+layer = 5
+unique_name_in_owner = true

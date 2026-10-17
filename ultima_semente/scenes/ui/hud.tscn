@@ -1,0 +1,392 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/alert_label.tscn" id="1_alert_labe"]
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="2_game_theme"]
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="3_hud"]
+
+[sub_resource type="Gradient" id="Gradient_4"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.35, 0.1, 0.5, 0, 0.35, 0.1, 0.5, 0, 0.35, 0.1, 0.5, 0.9)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5"]
+gradient = SubResource("Gradient_4")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1.0, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_6"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.9, 0.05, 0.05, 0, 0.9, 0.05, 0.05, 0, 0.9, 0.05, 0.05, 0.9)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7"]
+gradient = SubResource("Gradient_6")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1.0, 0.5)
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_game_theme")
+process_mode = 3
+script = ExtResource("3_hud")
+mouse_filter = 2
+alert_scene = ExtResource("1_alert_labe")
+
+[node name="O2Vignette" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+modulate = Color(1.0, 1.0, 1.0, 0.0)
+texture = SubResource("GradientTexture2D_5")
+expand_mode = 1
+stretch_mode = 0
+unique_name_in_owner = true
+
+[node name="HurtVignette" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+modulate = Color(1.0, 1.0, 1.0, 0.0)
+texture = SubResource("GradientTexture2D_7")
+expand_mode = 1
+stretch_mode = 0
+unique_name_in_owner = true
+
+[node name="TopLeft" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 14.0
+offset_top = 12.0
+offset_right = 344.0
+offset_bottom = 12.0
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="Box" type="VBoxContainer" parent="TopLeft"]
+layout_mode = 2
+theme_override_constants/separation = 3
+mouse_filter = 2
+
+[node name="HpLabel" type="Label" parent="TopLeft/Box"]
+layout_mode = 2
+text = "Vida"
+theme_override_font_sizes/font_size = 16
+unique_name_in_owner = true
+
+[node name="HpBar" type="ProgressBar" parent="TopLeft/Box"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 16.0)
+theme_type_variation = &"HpBar"
+max_value = 1.0
+step = 0.001
+value = 1.0
+show_percentage = false
+unique_name_in_owner = true
+
+[node name="O2Row" type="VBoxContainer" parent="TopLeft/Box"]
+layout_mode = 2
+theme_override_constants/separation = 3
+unique_name_in_owner = true
+
+[node name="O2Label" type="Label" parent="TopLeft/Box/O2Row"]
+layout_mode = 2
+text = "Oxigênio"
+theme_type_variation = &"NucLabel"
+theme_override_font_sizes/font_size = 16
+unique_name_in_owner = true
+
+[node name="O2Bar" type="ProgressBar" parent="TopLeft/Box/O2Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 16.0)
+theme_type_variation = &"O2Bar"
+max_value = 1.0
+step = 0.001
+value = 1.0
+show_percentage = false
+unique_name_in_owner = true
+
+[node name="ZoneLabel" type="Label" parent="TopLeft/Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 14
+unique_name_in_owner = true
+
+[node name="ObjectiveLabel" type="Label" parent="TopLeft/Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"WarnLabel"
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+custom_minimum_size = Vector2(300.0, 0.0)
+unique_name_in_owner = true
+
+[node name="BuffLabel" type="Label" parent="TopLeft/Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"GoodLabel"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+custom_minimum_size = Vector2(300.0, 0.0)
+unique_name_in_owner = true
+
+[node name="TopRight" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -244.0
+offset_top = 12.0
+offset_right = -14.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="Box" type="VBoxContainer" parent="TopRight"]
+layout_mode = 2
+theme_override_constants/separation = 3
+mouse_filter = 2
+
+[node name="TimeLabel" type="Label" parent="TopRight/Box"]
+layout_mode = 2
+text = "00:00"
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="StageLabel" type="Label" parent="TopRight/Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="RegionLabel" type="Label" parent="TopRight/Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="BioLabel" type="Label" parent="TopRight/Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"BioLabel"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="NucLabel" type="Label" parent="TopRight/Box"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"NucLabel"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="HintLabel" type="Label" parent="TopRight/Box"]
+layout_mode = 2
+text = "[M] Mapa   [Esc] Pausa"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 2
+
+[node name="TopCenter" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -310.0
+offset_top = 10.0
+offset_right = 310.0
+offset_bottom = 10.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="BossPanel" type="PanelContainer" parent="TopCenter"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"BossPanel"
+unique_name_in_owner = true
+
+[node name="Box" type="VBoxContainer" parent="TopCenter/BossPanel"]
+layout_mode = 2
+
+[node name="BossLabel" type="Label" parent="TopCenter/BossPanel/Box"]
+layout_mode = 2
+text = "Guardião de Raízes"
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.95, 0.7, 1.0, 1.0)
+unique_name_in_owner = true
+
+[node name="BossBar" type="ProgressBar" parent="TopCenter/BossPanel/Box"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 14.0)
+theme_type_variation = &"BossBar"
+max_value = 1.0
+step = 0.001
+value = 1.0
+show_percentage = false
+unique_name_in_owner = true
+
+[node name="EventLabel" type="Label" parent="TopCenter"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"BadLabel"
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="Alerts" type="VBoxContainer" parent="TopCenter"]
+layout_mode = 2
+theme_override_constants/separation = 2
+mouse_filter = 2
+unique_name_in_owner = true
+
+[node name="Skills" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = -92.0
+offset_right = 14.0
+offset_bottom = -42.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="WeaponBox" type="PanelContainer" parent="Skills"]
+layout_mode = 2
+custom_minimum_size = Vector2(100.0, 50.0)
+mouse_filter = 2
+theme_type_variation = &"SkillPanel"
+unique_name_in_owner = true
+
+[node name="WeaponLabel" type="Label" parent="Skills/WeaponBox"]
+layout_mode = 2
+text = "Espinho\n(automático)"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="PulseBox" type="PanelContainer" parent="Skills"]
+layout_mode = 2
+custom_minimum_size = Vector2(108.0, 50.0)
+mouse_filter = 2
+theme_type_variation = &"SkillPanel"
+unique_name_in_owner = true
+
+[node name="PulseLabel" type="Label" parent="Skills/PulseBox"]
+layout_mode = 2
+text = "[Espaço] Pulso"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="DashBox" type="PanelContainer" parent="Skills"]
+layout_mode = 2
+custom_minimum_size = Vector2(108.0, 50.0)
+mouse_filter = 2
+theme_type_variation = &"SkillPanel"
+unique_name_in_owner = true
+
+[node name="DashLabel" type="Label" parent="Skills/DashBox"]
+layout_mode = 2
+text = "[Q] Ruptura"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="EmergBox" type="PanelContainer" parent="Skills"]
+layout_mode = 2
+custom_minimum_size = Vector2(108.0, 50.0)
+mouse_filter = 2
+theme_type_variation = &"SkillPanel"
+unique_name_in_owner = true
+
+[node name="EmergLabel" type="Label" parent="Skills/EmergBox"]
+layout_mode = 2
+text = "[R] Emergência"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="PromptLabel" type="Label" parent="."]
+layout_mode = 1
+text = ""
+theme_type_variation = &"WarnLabel"
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_top = -140.0
+offset_right = 330.0
+offset_bottom = -110.0
+grow_horizontal = 2
+grow_vertical = 0
+unique_name_in_owner = true
+
+[node name="XpLabel" type="Label" parent="."]
+layout_mode = 1
+text = "Nível 1"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 13
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -50.0
+offset_right = 318.0
+offset_bottom = -32.0
+grow_vertical = 0
+unique_name_in_owner = true
+
+[node name="XpBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = -30.0
+offset_right = -14.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="XpBar" type="ProgressBar" parent="XpBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0.0, 10.0)
+theme_type_variation = &"XpBar"
+max_value = 1.0
+step = 0.001
+value = 0.0
+show_percentage = false
+unique_name_in_owner = true

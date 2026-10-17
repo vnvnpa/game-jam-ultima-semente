@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/root_gate.gd" id="1_root_gate"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2"]
+size = Vector2(200.0, 36.0)
+
+[node name="RootGate" type="StaticBody2D"]
+position = Vector2(2600.0, 640.0)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_root_gate")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2")

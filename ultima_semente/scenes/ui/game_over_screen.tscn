@@ -1,0 +1,203 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://ui/game_theme.tres" id="1_game_theme"]
+[ext_resource type="Script" path="res://scripts/ui/game_over_screen.gd" id="2_game_over_"]
+
+[node name="GameOverScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_game_theme")
+process_mode = 3
+script = ExtResource("2_game_over_")
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0, 0.02, 0.02, 0.85)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(620.0, 0.0)
+theme_type_variation = &"ModalPanel"
+
+[node name="Body" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "EXPEDIÇÃO ENCERRADA"
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
+unique_name_in_owner = true
+
+[node name="Sep" type="HSeparator" parent="Center/Panel/Body"]
+layout_mode = 2
+
+[node name="SubLabel" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = ""
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+autowrap_mode = 3
+unique_name_in_owner = true
+
+[node name="Stats" type="GridContainer" parent="Center/Panel/Body"]
+layout_mode = 2
+columns = 2
+
+[node name="KValTime" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "Tempo de expedição"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 18
+size_flags_horizontal = 3
+
+[node name="ValTime" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="KValLevel" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "Nível alcançado"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 18
+size_flags_horizontal = 3
+
+[node name="ValLevel" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="KValKills" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "Criaturas derrotadas"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 18
+size_flags_horizontal = 3
+
+[node name="ValKills" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="KValNests" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "Ninhos destruídos"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 18
+size_flags_horizontal = 3
+
+[node name="ValNests" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="KValBiomass" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "Biomassa coletada"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 18
+size_flags_horizontal = 3
+
+[node name="ValBiomass" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="KValRecords" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "Registros descobertos"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 18
+size_flags_horizontal = 3
+
+[node name="ValRecords" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="KValNuclei" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "Núcleos Primordiais obtidos"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 18
+size_flags_horizontal = 3
+
+[node name="ValNuclei" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="KValNucleiTotal" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "Núcleos totais (permanentes)"
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 18
+size_flags_horizontal = 3
+
+[node name="ValNucleiTotal" type="Label" parent="Center/Panel/Body/Stats"]
+layout_mode = 2
+text = "0"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+unique_name_in_owner = true
+
+[node name="Hint" type="Label" parent="Center/Panel/Body"]
+layout_mode = 2
+text = "Núcleos e mutações permanentes foram preservados. Use o Laboratório de Adaptação no menu."
+theme_type_variation = &"NucLabel"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Row" type="HBoxContainer" parent="Center/Panel/Body"]
+layout_mode = 2
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="Center/Panel/Body/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(200.0, 48.0)
+focus_mode = 0
+text = "Nova expedição"
+unique_name_in_owner = true
+
+[node name="MenuButton" type="Button" parent="Center/Panel/Body/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(200.0, 48.0)
+focus_mode = 0
+text = "Menu principal"
+unique_name_in_owner = true
