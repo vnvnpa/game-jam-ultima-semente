@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/entities/boss.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = "guardiao_raizes"
+nome = "Guardião de Raízes"
+descricao = "Chefe regional do Santuário. Esmaga o chão e invoca larvas."
+comportamento = "chefe"
+vida_maxima = 1800.0
+dano = 16.0
+velocidade = 46.0
+experiencia = 120
+biomassa_minima = 20
+biomassa_maxima = 30
+raio = 34.0
+cor = Color(0.3, 0.5, 0.35, 1.0)
+cor_detalhe = Color(0.7, 1.0, 0.6, 1.0)
+intervalo_ataque = 1.0
+alcance_preferido = 0.0
+parametro_a = 26.0
+parametro_b = 0.0
+cena = ExtResource("2_scene")

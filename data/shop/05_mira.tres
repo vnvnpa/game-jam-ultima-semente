@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ShopItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/shop_item_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "mira"
+nome = "Módulo de Mira"
+custo = 30
+efeito = "+25% de alcance de aquisição de alvos nesta expedição."
+limitacao = "Não aumenta o dano. Compra única por expedição."
+limite_por_visita = 1

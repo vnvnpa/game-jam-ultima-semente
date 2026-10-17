@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "espinhos_permanentes"
+nome = "Espinhos Permanentes"
+linha = "predacao"
+vantagem = "+8% de dano da arma biológica."
+efeito_colateral = "-3% de eficácia da cura recebida."
+custo = 2
+prerequisitos = []
+incompativeis = []
+mods_add = {}
+mods_mul = {
+"damage_mult": 1.08,
+"heal_mult": 0.97
+}
+especial = ""

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "metabolismo_acelerado"
+nome = "Metabolismo Acelerado"
+linha = "predacao"
+vantagem = "+10% de cadência de disparo."
+efeito_colateral = "Consumo de oxigênio +8%."
+custo = 3
+prerequisitos = ["espinhos_permanentes"]
+incompativeis = []
+mods_add = {}
+mods_mul = {
+"fire_rate_mult": 1.1,
+"o2_use_mult": 1.08
+}
+especial = ""

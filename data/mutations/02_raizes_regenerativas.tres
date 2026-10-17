@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "raizes_regenerativas"
+nome = "Raízes Regenerativas"
+linha = "defesa"
+vantagem = "Recupera lentamente a vida fora de perigo."
+efeito_colateral = "Recuperação de oxigênio 10% mais lenta."
+custo = 3
+prerequisitos = ["casca_celular"]
+incompativeis = []
+mods_add = {
+"regen": 1.0
+}
+mods_mul = {
+"o2_recover_mult": 0.9
+}
+especial = ""

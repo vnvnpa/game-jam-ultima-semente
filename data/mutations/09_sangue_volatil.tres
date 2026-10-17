@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "sangue_volatil"
+nome = "Sangue Volátil"
+linha = "predacao"
+vantagem = "Eliminações podem causar uma explosão biológica."
+efeito_colateral = "As explosões podem ferir você se estiver muito perto."
+custo = 5
+prerequisitos = ["instinto_predatorio"]
+incompativeis = []
+mods_add = {}
+mods_mul = {}
+especial = "sangue_volatil"

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = "esporideo"
+nome = "Esporídeo"
+descricao = "Cria zonas de esporos perigosas no chão por onde passa."
+comportamento = "esporideo"
+vida_maxima = 45.0
+dano = 6.0
+velocidade = 48.0
+experiencia = 5
+biomassa_minima = 3
+biomassa_maxima = 6
+raio = 13.0
+cor = Color(0.55, 0.65, 0.2, 1.0)
+cor_detalhe = Color(0.9, 1.0, 0.4, 1.0)
+intervalo_ataque = 3.0
+alcance_preferido = 0.0
+parametro_a = 40.0
+parametro_b = 5.0
+cena = ExtResource("2_scene")

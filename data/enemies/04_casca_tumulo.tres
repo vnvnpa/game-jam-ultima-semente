@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = "casca_tumulo"
+nome = "Casca-Túmulo"
+descricao = "Tanque lento e resistente. Quase não é empurrado."
+comportamento = "tanque"
+vida_maxima = 150.0
+dano = 12.0
+velocidade = 38.0
+experiencia = 9
+biomassa_minima = 3
+biomassa_maxima = 6
+raio = 18.0
+cor = Color(0.42, 0.38, 0.5, 1.0)
+cor_detalhe = Color(0.75, 0.7, 0.85, 1.0)
+intervalo_ataque = 1.0
+alcance_preferido = 0.0
+parametro_a = 0.0
+parametro_b = 0.0
+cena = ExtResource("2_scene")

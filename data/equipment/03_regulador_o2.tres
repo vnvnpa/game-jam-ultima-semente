@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/equipment_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "regulador_o2"
+nome = "Regulador de Oxigênio"
+slot = "modulo"
+custo = 50
+vantagem = "Reduz o consumo de oxigênio em 35%."
+desvantagem = "Ocupa o espaço de módulo."
+mods_add = {}
+mods_mul = {
+"o2_use_mult": 0.65
+}
+especial = ""

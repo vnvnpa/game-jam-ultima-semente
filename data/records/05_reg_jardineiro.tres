@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RecordData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/record_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "reg_jardineiro"
+titulo = "Terminal do Jardineiro Vazio"
+texto = "O Guardião foi plantado aqui para impedir a passagem. Suas raízes lembram um jardim que ninguém mais cuida. Se você chegou até aqui, a Semente já escolheu você."

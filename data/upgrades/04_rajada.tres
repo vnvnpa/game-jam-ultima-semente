@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "rajada"
+nome = "Rajada Simbiótica"
+familia = "predacao"
+max_nivel = 3
+descricao = "+1 espinho extra por disparo, em leque."
+efeito_colateral = "-5% de dano por espinho, por nível."
+mods_add = {
+"extra_projectiles": 1.0
+}
+mods_mul = {
+"damage_mult": 0.95
+}
+especial = ""
+evolucao = false
+requer_familia = ""

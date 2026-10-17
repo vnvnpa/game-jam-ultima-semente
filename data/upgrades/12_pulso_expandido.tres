@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "pulso_expandido"
+nome = "Pulso Expandido"
+familia = "ressonancia"
+max_nivel = 5
+descricao = "O Pulso de Raízes fica 15% mais forte e 7% mais rápido de recarregar."
+efeito_colateral = ""
+mods_add = {}
+mods_mul = {
+"skill_power_mult": 1.15,
+"skill_cd_mult": 0.93
+}
+especial = ""
+evolucao = false
+requer_familia = ""

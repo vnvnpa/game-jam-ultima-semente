@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "consciencia_da_rede"
+nome = "Consciência da Rede"
+linha = "ressonancia"
+vantagem = "Revela informações sobre chefes e permite identificar padrões de ataque."
+efeito_colateral = "Aumenta em 20% a intensidade dos eventos da Rede Raiz."
+custo = 7
+prerequisitos = ["ressonancia_profunda"]
+incompativeis = []
+mods_add = {}
+mods_mul = {
+"event_size_mult": 1.2
+}
+especial = "consciencia_rede"

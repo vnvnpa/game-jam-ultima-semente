@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "simbiose_de_campo"
+nome = "Simbiose de Campo"
+linha = "ressonancia"
+vantagem = "Recupera +6 de Biomassa ao concluir eventos."
+efeito_colateral = "Reduz em 10% a capacidade máxima de oxigênio."
+custo = 5
+prerequisitos = ["sentido_biologico"]
+incompativeis = []
+mods_add = {
+"event_biomass_bonus": 6.0
+}
+mods_mul = {
+"o2_max_mult": 0.9
+}
+especial = ""

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/equipment_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "escudo_campo"
+nome = "Escudo de Campo"
+slot = "modulo"
+custo = 75
+vantagem = "Gera 25 de escudo periodicamente (a cada 20 s)."
+desvantagem = "Recarga longa e atrasa a regeneração natural em 3 s."
+mods_add = {
+"regen_delay_bonus": 3.0
+}
+mods_mul = {}
+especial = "escudo_campo"

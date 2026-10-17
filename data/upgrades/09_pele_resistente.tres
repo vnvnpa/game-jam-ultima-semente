@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "pele_resistente"
+nome = "Pele Resistente"
+familia = "defesa"
+max_nivel = 4
+descricao = "-7% de dano recebido por nível."
+efeito_colateral = ""
+mods_add = {}
+mods_mul = {
+"damage_taken_mult": 0.93
+}
+especial = ""
+evolucao = false
+requer_familia = ""

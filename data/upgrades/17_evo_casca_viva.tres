@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "evo_casca_viva"
+nome = "Casca Viva"
+familia = "defesa"
+max_nivel = 1
+descricao = "EVOLUÇÃO: gera 15 de escudo a cada 10 s (máx. 60)."
+efeito_colateral = ""
+mods_add = {}
+mods_mul = {}
+especial = "casca_viva"
+evolucao = true
+requer_familia = "defesa"

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = "parasita_sinal"
+nome = "Parasita de Sinal"
+descricao = "Fortalece os inimigos próximos. Mantém-se afastado do combate."
+comportamento = "parasita"
+vida_maxima = 28.0
+dano = 4.0
+velocidade = 58.0
+experiencia = 6
+biomassa_minima = 3
+biomassa_maxima = 6
+raio = 10.0
+cor = Color(0.25, 0.6, 0.8, 1.0)
+cor_detalhe = Color(0.7, 1.0, 1.0, 1.0)
+intervalo_ataque = 1.0
+alcance_preferido = 230.0
+parametro_a = 150.0
+parametro_b = 0.0
+cena = ExtResource("2_scene")

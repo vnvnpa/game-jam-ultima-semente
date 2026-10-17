@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/equipment_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "traje_leve"
+nome = "Traje de Explorador Leve"
+slot = "traje"
+custo = 60
+vantagem = "Aumenta a velocidade em 18%."
+desvantagem = "Aumenta o dano recebido em 15%."
+mods_add = {}
+mods_mul = {
+"speed_mult": 1.18,
+"damage_taken_mult": 1.15
+}
+especial = ""

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EquipmentData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/equipment_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "traje_reforcado"
+nome = "Traje de Astronauta Reforçado"
+slot = "traje"
+custo = 60
+vantagem = "Reduz o dano recebido em 20%."
+desvantagem = "Reduz a velocidade de movimento em 12%."
+mods_add = {}
+mods_mul = {
+"damage_taken_mult": 0.8,
+"speed_mult": 0.88
+}
+especial = ""

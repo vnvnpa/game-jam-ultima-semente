@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "casca_celular"
+nome = "Casca Celular"
+linha = "defesa"
+vantagem = "+10% de vida máxima."
+efeito_colateral = "-3% de velocidade de movimento."
+custo = 2
+prerequisitos = []
+incompativeis = []
+mods_add = {}
+mods_mul = {
+"hp_mult": 1.1,
+"speed_mult": 0.97
+}
+especial = ""

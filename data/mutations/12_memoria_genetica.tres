@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "memoria_genetica"
+nome = "Memória Genética"
+linha = "ressonancia"
+vantagem = "+10% de experiência obtida."
+efeito_colateral = "Elites podem surgir 1 minuto mais cedo."
+custo = 3
+prerequisitos = ["sentido_biologico"]
+incompativeis = []
+mods_add = {
+"elite_time_shift": 60.0
+}
+mods_mul = {
+"xp_mult": 1.1
+}
+especial = ""

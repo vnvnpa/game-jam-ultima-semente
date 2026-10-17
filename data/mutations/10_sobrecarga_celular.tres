@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "sobrecarga_celular"
+nome = "Sobrecarga Celular"
+linha = "predacao"
+vantagem = "Ao usar uma habilidade, ela causa muito mais dano por 4 s."
+efeito_colateral = "Depois do efeito, a recarga das habilidades fica 50% maior por 8 s."
+custo = 7
+prerequisitos = ["metabolismo_acelerado"]
+incompativeis = ["membrana_adaptativa"]
+mods_add = {}
+mods_mul = {}
+especial = "sobrecarga_celular"

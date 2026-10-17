@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EquipmentData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/equipment_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "amplificador"
+nome = "Amplificador Biológico"
+slot = "modulo"
+custo = 70
+vantagem = "Aumenta em 20% a força das mutações (vantagens e efeitos colaterais)."
+desvantagem = "Aumenta ligeiramente o consumo de oxigênio (+10%)."
+mods_add = {
+"mutation_power": 0.2
+}
+mods_mul = {
+"o2_use_mult": 1.1
+}
+especial = ""

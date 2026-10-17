@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RecordData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/record_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "reg_queda"
+titulo = "Diário de Bordo — Kael"
+texto = "A nave partiu ao meio na descida. Sou o único com pulso. Lá fora, o planeta respira... e algo respira de volta. Preciso chegar ao núcleo da rede e entender o que aconteceu aqui."

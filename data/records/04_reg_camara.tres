@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RecordData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/record_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "reg_camara"
+titulo = "Câmara Selada — Aviso"
+texto = "A inteligência conclui que toda vida independente é um risco de extinção. Sua solução é assimilar tudo. Ela não é cruel. Ela tem medo. Esse é o pior tipo de perigo."

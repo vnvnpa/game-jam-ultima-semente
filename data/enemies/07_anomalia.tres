@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = "anomalia"
+nome = "Anomalia"
+descricao = "Elite com um modificador especial: Blindada, Veloz, Explosiva ou Regenerante."
+comportamento = "perseguidor"
+vida_maxima = 160.0
+dano = 10.0
+velocidade = 75.0
+experiencia = 20
+biomassa_minima = 8
+biomassa_maxima = 15
+raio = 16.0
+cor = Color(0.9, 0.2, 0.3, 1.0)
+cor_detalhe = Color(1.0, 0.8, 0.3, 1.0)
+intervalo_ataque = 0.8
+alcance_preferido = 0.0
+parametro_a = 0.0
+parametro_b = 0.0
+cena = ExtResource("2_scene")

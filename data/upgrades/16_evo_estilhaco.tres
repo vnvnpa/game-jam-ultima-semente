@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "evo_estilhaco"
+nome = "Espinho Estilhaçante"
+familia = "predacao"
+max_nivel = 1
+descricao = "EVOLUÇÃO: espinhos que eliminam um inimigo se partem em 3 fragmentos."
+efeito_colateral = ""
+mods_add = {}
+mods_mul = {}
+especial = "estilhaco"
+evolucao = true
+requer_familia = "predacao"

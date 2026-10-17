@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "espinho_afiado"
+nome = "Espinho Afiado"
+familia = "predacao"
+max_nivel = 5
+descricao = "+15% de dano da arma por nível."
+efeito_colateral = ""
+mods_add = {}
+mods_mul = {
+"damage_mult": 1.15
+}
+especial = ""
+evolucao = false
+requer_familia = ""

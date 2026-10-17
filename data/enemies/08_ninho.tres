@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+id = "ninho"
+nome = "Ninho"
+descricao = "Casulo que gera larvas. Destruí-lo rende muita Biomassa."
+comportamento = "ninho"
+vida_maxima = 240.0
+dano = 0.0
+velocidade = 0.0
+experiencia = 12
+biomassa_minima = 15
+biomassa_maxima = 30
+raio = 22.0
+cor = Color(0.5, 0.15, 0.4, 1.0)
+cor_detalhe = Color(0.95, 0.5, 0.7, 1.0)
+intervalo_ataque = 5.5
+alcance_preferido = 0.0
+parametro_a = 0.0
+parametro_b = 0.0
+cena = ExtResource("2_scene")

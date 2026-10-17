@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "casca_regenerativa"
+nome = "Casca Regenerativa"
+familia = "defesa"
+max_nivel = 5
+descricao = "+10% de vida máxima por nível. A Ruptura Celular concede escudo (sinergia)."
+efeito_colateral = ""
+mods_add = {}
+mods_mul = {
+"hp_mult": 1.1
+}
+especial = ""
+evolucao = false
+requer_familia = ""

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "membrana_adaptativa"
+nome = "Membrana Adaptativa"
+linha = "defesa"
+vantagem = "Reduz 8% do dano recebido."
+efeito_colateral = "Aumenta 8% o tempo de recarga das habilidades."
+custo = 4
+prerequisitos = ["casca_celular"]
+incompativeis = ["sobrecarga_celular"]
+mods_add = {}
+mods_mul = {
+"damage_taken_mult": 0.92,
+"skill_cd_mult": 1.08
+}
+especial = ""

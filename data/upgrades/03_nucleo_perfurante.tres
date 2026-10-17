@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "nucleo_perfurante"
+nome = "Núcleo Perfurante"
+familia = "predacao"
+max_nivel = 3
+descricao = "Os espinhos atravessam +1 inimigo por nível."
+efeito_colateral = ""
+mods_add = {
+"pierce": 1.0
+}
+mods_mul = {}
+especial = ""
+evolucao = false
+requer_familia = ""

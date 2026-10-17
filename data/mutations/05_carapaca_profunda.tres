@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "carapaca_profunda"
+nome = "Carapaça Profunda"
+linha = "defesa"
+vantagem = "Após um golpe forte, grande redução de dano por 3 s."
+efeito_colateral = "Velocidade reduzida enquanto o efeito estiver ativo."
+custo = 7
+prerequisitos = ["membrana_adaptativa"]
+incompativeis = []
+mods_add = {}
+mods_mul = {}
+especial = "carapaca_profunda"

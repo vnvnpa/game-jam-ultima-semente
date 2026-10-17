@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "instinto_predatorio"
+nome = "Instinto Predatório"
+linha = "predacao"
+vantagem = "+25% de dano contra elites e chefes."
+efeito_colateral = "Dano 5% menor contra inimigos comuns."
+custo = 4
+prerequisitos = ["espinhos_permanentes"]
+incompativeis = []
+mods_add = {}
+mods_mul = {
+"elite_dmg_mult": 1.25,
+"common_dmg_mult": 0.95
+}
+especial = ""
