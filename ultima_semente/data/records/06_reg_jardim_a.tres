@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RecordData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/record_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "reg_jardim_a"
+titulo = "Último Jardim — Protocolo de Contenção"
+texto = "Plantamos o Jardineiro para podar o que a Rede Raiz não deveria alcançar. Ele nunca foi feito para matar: foi feito para impedir que a Semente fosse colhida cedo demais."

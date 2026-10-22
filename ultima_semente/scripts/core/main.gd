@@ -11,10 +11,12 @@ extends Node
 @export var credits_scene: PackedScene
 @export var loading_scene: PackedScene
 @export var run_scene: PackedScene
+@export var garden_run_scene: PackedScene
 
 var screen: Control = null
 var run: Run = null
 var _starting: bool = false
+var _level: String = "region"
 
 @onready var ui: CanvasLayer = %Ui
 
@@ -68,8 +70,10 @@ func _on_menu_action(id: String) -> void:
 	if id == "play":
 		var s: StartScreen = start_scene.instantiate() as StartScreen
 		_set_screen(s)
-		s.start_pressed.connect(start_run)
+		s.start_pressed.connect(func() -> void: start_run("region"))
 		s.back_pressed.connect(show_main_menu)
+	elif id == "garden":
+		start_run("garden")
 	elif id == "lab":
 		var l: LabScreen = lab_scene.instantiate() as LabScreen
 		_set_screen(l)
@@ -90,18 +94,21 @@ func _on_menu_action(id: String) -> void:
 		get_tree().quit()
 
 
-func start_run() -> void:
+func start_run(level: String = "region") -> void:
 	if _starting:
 		return
 	_starting = true
+	_level = level
 	_cleanup_run()
 	_set_screen(loading_scene.instantiate() as Control)
 	# Dois quadros para a tela de carregamento aparecer antes da geração do mundo.
 	await get_tree().process_frame
 	await get_tree().process_frame
-	run = run_scene.instantiate() as Run
+	var scn: PackedScene = garden_run_scene if level == "garden" else run_scene
+	run = scn.instantiate() as Run
 	run.request_menu.connect(show_main_menu)
-	run.request_restart.connect(start_run)
+	run.request_restart.connect(func() -> void: start_run(_level))
+	run.request_garden.connect(func() -> void: start_run("garden"))
 	add_child(run)
 	_clear_screen()
 	_starting = false

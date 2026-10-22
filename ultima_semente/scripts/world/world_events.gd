@@ -9,11 +9,16 @@ var active: bool = false
 var kind: String = ""
 var remaining: float = 0.0
 var spawn_timer: float = 0.0
+## Desligue em fases dedicadas que têm seus próprios objetivos.
+@export var enabled: bool = true
 var completed: int = 0
 
 
 func setup(r: Run) -> void:
 	run = r
+	if not enabled:
+		schedule = []
+		return
 	var m: float = run.state.stat("event_time_mult")
 	schedule = [
 		{"time": 540.0 * m, "kind": "enxame", "done": false},
@@ -50,6 +55,13 @@ func _finish() -> void:
 	run.notify("Evento concluído! +%d Biomassa" % reward, UIKit.COL_GOOD, "levelup")
 
 
+## Interrompe o evento sem recompensa (o chefe despertou).
+func _abort() -> void:
+	active = false
+	run.director.event_boost = 0
+	run.notify("O Guardião interrompeu a ameaça.", UIKit.COL_WARN, "")
+
+
 func _physics_process(delta: float) -> void:
 	if run == null or run.ended or run.player == null or run.player.dead:
 		return
@@ -60,6 +72,9 @@ func _physics_process(delta: float) -> void:
 			if not bool(ev["done"]) and run.state.run_time >= float(ev["time"]):
 				_start(ev)
 				break
+		return
+	if run.boss_active:
+		_abort()
 		return
 	remaining -= delta
 	spawn_timer -= delta

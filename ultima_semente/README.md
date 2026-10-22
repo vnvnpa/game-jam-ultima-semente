@@ -30,11 +30,16 @@ WASD/Setas mover · Mouse mirar · a arma (Espinho Simbiótico) dispara sozinha 
 - Núcleos Primordiais: salvos imediatamente, recompensa de chefe e descobertas creditadas **uma única vez**.
 - Save em `user://` com validação, backup e transação (compra/reversão desfeitas se a gravação falhar).
 - Pausa automática ao perder o foco da janela/aba.
+- **Santuário do Último Jardim** (GDD 14.1), missão dedicada liberada ao derrotar o Guardião de Raízes (menu principal):
+  3 mecanismos para ativar resistindo a ondas, passagem para a Câmara e chefe **Jardineiro Vazio** (blindado, só recebe
+  dano nas janelas de vulnerabilidade; disparos em leque, raízes telegrafadas e invocações na fase 2). Começa só com as
+  mutações permanentes; derrotar o Guardião na expedição principal agora abre uma tela de transição em vez dos créditos.
+- Remapeamento de teclas (Configurações > Controles): tecla principal de cada ação, com troca automática em conflito; Esc, setas e 1–3 reservadas.
 
 ## Fora desta build (pendente, conforme GDD)
-- Níveis finais (Santuário das Raízes como fase própria e Coração de Nymara) e a escolha do final:
-  nesta build, derrotar o Guardião encerra a campanha (epílogo + créditos).
-- Remapeamento de teclas, gamepad, localização, Nuvem de Esporos/Dardo de Fotossíntese e outras sinergias extras.
+- Nível final **Coração de Nymara** e a escolha do final: nesta build, derrotar o Jardineiro Vazio (Santuário do
+  Último Jardim) encerra a campanha (epílogo + créditos), de forma provisória.
+- Gamepad, localização, Nuvem de Esporos/Dardo de Fotossíntese e outras sinergias extras.
 - Modo "revisitar o mundo" (previsto só como pós-lançamento no GDD).
 - `ITCH_URL` em `scripts/core/game_config.gd` está **vazio de propósito**: preencha com o endereço real do
   jogo para o botão "Apoiar o projeto" aparecer nos créditos.
@@ -49,6 +54,7 @@ WASD/Setas mover · Mouse mirar · a arma (Espinho Simbiótico) dispara sozinha 
 | **Cenário inteiro** (terreno, regiões, zonas contaminadas, estações, muralhas, barreira, obstáculos, caches, nave, terminais, ruínas, ninhos, arena do chefe) | `scenes/world/world_map.tscn`: abra e mova/duplique/apague os nós no editor (grupos `Regions`, `HostileZones`, `Stations`, `Walls`, `Obstacles`, `Caches`, `Interactables`, `Nests`, `BossArena`) |
 | Imagem do terreno | `assets/world/terrain.png` (pinte/substitua no editor de imagens; 1 pixel = 4 px do mundo) |
 | Cada tipo de elemento | `scenes/world/station.tscn`, `hostile_zone.tscn`, `region_zone.tscn`, `boss_arena.tscn`, `tree/crystal/pillar.tscn`, `root_gate.tscn` e `scenes/entities/interactable.tscn`, `biomass_pickup.tscn` |
+| Nível do Jardim | `scenes/world/garden_map.tscn` (mapa), `scenes/world/garden_run.tscn` (regras: `Level Id`, `Boss Id`, dificuldade inicial no `SpawnDirector`, `Objectives`), `data/enemies/10_jardineiro_vazio.tres` |
 | Estrutura da expedição (mundo, sistemas, HUD, quais cenas são usadas) | `scenes/world/run.tscn` |
 | HUD, mapa, menus, loja, laboratório, créditos etc. | `scenes/ui/*.tscn` |
 | Cores, botões, painéis, fontes da interface | `ui/game_theme.tres` (Theme; veja as "Type Variations") |
@@ -78,6 +84,8 @@ compacte tudo em um `.zip` e envie ao itch.io marcando "This file will be played
 godot --headless --path . -s res://tools/smoke_test.gd`
 Carrega e instancia **todas** as cenas e `.tres`, e exercita mundo, oxigênio, inimigos, chefe, mutações, loja, menus e
 salvamento (faz backup/restauração do seu save). Qualquer erro aparece no console.
+
+`godot --headless --path . -s res://tools/smoke_garden.gd` testa o Santuário do Último Jardim (mecanismos, chefe, vitória).
 
 `python3 tools/validate_scenes.py` (opcional, fora do Godot) confere referências, nomes únicos `%Nome`, variações
 de tema e propriedades das cenas/`.tres`.

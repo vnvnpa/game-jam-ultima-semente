@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RecordData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/record_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "reg_jardim_b"
+titulo = "Rede Raiz — Fragmento de Voz"
+texto = "Eu não destruo. Eu guardo. Cada vida que absorvo deixa de poder desaparecer. Vocês chamam de fome; eu chamo de memória."

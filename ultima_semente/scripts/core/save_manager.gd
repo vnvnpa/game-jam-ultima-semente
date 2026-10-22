@@ -30,12 +30,13 @@ static func default_data() -> Dictionary:
 		"codex_enemies": [],
 		"claimed_rewards": [],
 		"campaign_completed": false,
+		"garden_unlocked": false,
 		"stats": {
 			"runs": 0, "deaths": 0, "extractions": 0, "victories": 0, "abandons": 0,
 			"kills": 0, "best_time": 0.0, "total_time": 0.0, "bosses_defeated": 0,
 			"biomass_total": 0, "max_level": 1,
 		},
-		"settings": {"music": 0.7, "sfx": 0.8, "reduce_fx": false, "damage_numbers": true},
+		"settings": {"music": 0.7, "sfx": 0.8, "reduce_fx": false, "damage_numbers": true, "keys": {}},
 	}
 
 
@@ -70,6 +71,21 @@ func _string_list(v: Variant) -> Array:
 	return out
 
 
+## Teclas personalizadas: { nome_da_ação: código }. A validação semântica
+## (ação existente, tecla não reservada, sem repetição) é do GameManager.
+func _sanitize_keys(v: Variant) -> Dictionary:
+	var out: Dictionary = {}
+	if typeof(v) != TYPE_DICTIONARY:
+		return out
+	for a in v:
+		if typeof(a) != TYPE_STRING or out.size() >= 16:
+			continue
+		var code: int = _to_int(v[a], 0)
+		if code > 0 and code < (1 << 25):
+			out[a] = code
+	return out
+
+
 ## Valida e normaliza dados lidos do disco. Nunca confia no conteúdo.
 func _sanitize(raw: Dictionary) -> Dictionary:
 	var d: Dictionary = default_data()
@@ -87,6 +103,7 @@ func _sanitize(raw: Dictionary) -> Dictionary:
 	d["codex_enemies"] = _string_list(raw.get("codex_enemies", []))
 	d["claimed_rewards"] = _string_list(raw.get("claimed_rewards", []))
 	d["campaign_completed"] = bool(raw.get("campaign_completed", false)) if typeof(raw.get("campaign_completed", false)) == TYPE_BOOL else false
+	d["garden_unlocked"] = bool(raw.get("garden_unlocked", false)) if typeof(raw.get("garden_unlocked", false)) == TYPE_BOOL else false
 	var base_stats: Dictionary = d["stats"]
 	var raw_stats: Variant = raw.get("stats", {})
 	if typeof(raw_stats) == TYPE_DICTIONARY:
@@ -107,11 +124,22 @@ func _sanitize(raw: Dictionary) -> Dictionary:
 			base_set["reduce_fx"] = raw_set["reduce_fx"]
 		if typeof(raw_set.get("damage_numbers", true)) == TYPE_BOOL:
 			base_set["damage_numbers"] = raw_set["damage_numbers"]
+		base_set["keys"] = _sanitize_keys(raw_set.get("keys", {}))
 	d["settings"] = base_set
 	return d
 
 
 # ----------------------------------------------------- disco
+## True se o texto é um JSON cujo topo é um dicionário (um salvamento legível).
+static func _is_valid_save_text(text: String) -> bool:
+	if text == "":
+		return false
+	var parser: JSON = JSON.new()
+	if parser.parse(text) != OK:
+		return false
+	return typeof(parser.data) == TYPE_DICTIONARY
+
+
 func _read_file(path: String) -> Variant:
 	if not FileAccess.file_exists(path):
 		return null
@@ -150,7 +178,9 @@ func save_game() -> bool:
 	var text: String = JSON.stringify(data, "\t")
 	if FileAccess.file_exists(SAVE_PATH):
 		var old_text: String = FileAccess.get_file_as_string(SAVE_PATH)
-		if old_text != "":
+		# Só vira backup se estiver íntegro: um arquivo corrompido nunca
+		# pode sobrescrever o último backup bom.
+		if _is_valid_save_text(old_text):
 			var b: FileAccess = FileAccess.open(BACKUP_PATH, FileAccess.WRITE)
 			if b != null:
 				b.store_string(old_text)
@@ -160,7 +190,11 @@ func save_game() -> bool:
 		push_warning("SaveManager: não foi possível abrir o arquivo para escrita.")
 		return false
 	f.store_string(text)
+	var werr: int = f.get_error()
 	f.close()
+	if werr != OK:
+		push_warning("SaveManager: erro ao gravar o salvamento (%d)." % werr)
+		return false
 	return true
 
 
@@ -313,12 +347,20 @@ func has_record(id: String) -> bool:
 
 func add_codex_enemy(id: String) -> void:
 	var arr: Array = data["codex_enemies"]
-	if not arr.has(id):
-		arr.append(id)
+	if arr.has(id):
+		return
+	arr.append(id)
+	# Descoberta nova (no máximo uma vez por criatura): grava na hora, para
+	# não se perder se a aba do navegador for fechada no meio da expedição.
+	save_game()
 
 
 func has_codex_enemy(id: String) -> bool:
 	return (data["codex_enemies"] as Array).has(id)
+
+
+func is_garden_unlocked() -> bool:
+	return bool(data.get("garden_unlocked", false))
 
 
 # --------------------------------------------------- estatísticas
@@ -338,6 +380,8 @@ func record_run(summary: Dictionary) -> void:
 			st["extractions"] = int(st["extractions"]) + 1
 		"abandon":
 			st["abandons"] = int(st["abandons"]) + 1
+		"region_clear":
+			data["garden_unlocked"] = true
 		"victory":
 			st["victories"] = int(st["victories"]) + 1
 			data["campaign_completed"] = true
@@ -357,7 +401,10 @@ func get_setting(key: String) -> Variant:
 	return (data["settings"] as Dictionary).get(key)
 
 
-func set_setting(key: String, value: Variant) -> void:
+## `persist = false` altera só na memória (ex.: arrastar um slider); quem
+## chama deve gravar depois com save_game().
+func set_setting(key: String, value: Variant, persist: bool = true) -> void:
 	var settings: Dictionary = data["settings"]
 	settings[key] = value
-	save_game()
+	if persist:
+		save_game()

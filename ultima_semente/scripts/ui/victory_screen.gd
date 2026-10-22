@@ -49,16 +49,12 @@ func _show_credits() -> void:
 
 func _epilogue_text() -> String:
 	var recs: int = (SaveManager.data["records"] as Array).size()
-	var nests: int = int(_summary.get("nests", 0))
-	var t: String = "O Guardião de Raízes desaba, e o Santuário respira pela primeira vez em séculos. "
-	if recs >= 5:
+	var t: String = "O Jardineiro Vazio se desliga, e o Último Jardim respira pela primeira vez em séculos. "
+	if recs >= 7:
 		t += "Kael entendeu cada registro dos Arquitetos Verdes: a Rede Raiz não é cruel, apenas aterrorizada. "
-	elif recs >= 3:
+	elif recs >= 4:
 		t += "Kael reuniu o bastante para suspeitar que a Rede Raiz age por medo, não por maldade. "
 	else:
 		t += "Kael ainda tem mais perguntas que respostas sobre o que a Rede Raiz realmente quer. "
-	if nests >= 3:
-		t += "Os ninhos silenciaram, e a floresta ao redor parece cicatrizar."
-	else:
-		t += "Ao longe, raízes ainda pulsam no escuro."
+	t += "Sob as raízes, algo ainda pulsa: o Coração de Nymara espera."
 	return t

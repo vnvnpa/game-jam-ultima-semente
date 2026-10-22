@@ -33,7 +33,7 @@ func _draw() -> void:
 	draw_rect(Rect2(origin - Vector2(16, 44), Vector2(MAP_W + 32, MAP_H + 70)), Color(0.02, 0.05, 0.06, 0.92))
 	draw_rect(Rect2(origin - Vector2(16, 44), Vector2(MAP_W + 32, MAP_H + 70)), UIKit.COL_BORDER, false, 2.0)
 	var font: Font = ThemeDB.fallback_font
-	draw_string(font, origin + Vector2(0, -16), "MAPA DE NYMARA — [M] fechar", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, UIKit.COL_ACCENT)
+	draw_string(font, origin + Vector2(0, -16), "MAPA DE NYMARA — [%s] fechar" % GameManager.key_text("map"), HORIZONTAL_ALIGNMENT_LEFT, -1, 18, UIKit.COL_ACCENT)
 	# regiões
 	for rg in WorldLayout.regions:
 		var rz: RegionZone = rg
@@ -63,6 +63,10 @@ func _draw() -> void:
 	# ruínas
 	for it in run.interactables:
 		var poi: Interactable = it
+		if poi.kind == "mechanism":
+			var mcol: Color = Color(0.4, 0.95, 0.5) if poi.used else Color(1.0, 0.8, 0.3)
+			draw_rect(Rect2(_w2m(poi.global_position, origin) - Vector2(5, 5), Vector2(10, 10)), mcol)
+			continue
 		if poi.kind != "poi":
 			continue
 		var known: bool = run.state.discovered_pois.has(poi.ref_id)
@@ -87,4 +91,4 @@ func _draw() -> void:
 	var pm: Vector2 = _w2m(ppos, origin)
 	draw_circle(pm, 6.0, Color(1.0, 1.0, 1.0))
 	draw_circle(pm, 4.0, Color(1.0, 0.55, 0.2))
-	draw_string(font, origin + Vector2(0, MAP_H + 22), "Laranja: você   Azul: ar pressurizado   Magenta: zona contaminada   Rosa: ninho   Roxo: ruína", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, UIKit.COL_DIM)
+	draw_string(font, origin + Vector2(0, MAP_H + 22), "Laranja: você  Azul: ar  Magenta: contaminada  Rosa: ninho  Roxo: ruína  Dourado: mecanismo", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, UIKit.COL_DIM)

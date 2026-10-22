@@ -17,11 +17,20 @@ var timer: float = 1.0
 var elites_spawned: int = 0
 var next_elite_time: float = 390.0
 var event_boost: int = 0
+## Fases dedicadas começam como se já tivessem passado `time_offset` segundos
+## (etapa, teto de inimigos e vida inimiga usam o tempo + deslocamento).
+@export var time_offset: float = 0.0
+## Segundo de expedição em que a primeira elite surge.
+@export var first_elite_time: float = 390.0
 
 
 func setup(r: Run) -> void:
 	run = r
-	next_elite_time = 390.0 - run.state.stat("elite_time_shift")
+	next_elite_time = first_elite_time - run.state.stat("elite_time_shift")
+
+
+func _t() -> float:
+	return run.state.run_time + time_offset
 
 
 static func stage_name(t: float) -> String:
@@ -102,7 +111,7 @@ func find_spawn_pos(radius: float, dmin: float = MIN_DIST, dmax: float = MAX_DIS
 
 
 func spawn_group(count: int, dmin: float, dmax: float) -> int:
-	var t: float = run.state.run_time
+	var t: float = _t()
 	var made: int = 0
 	for i in count:
 		if run.regular_enemy_count() >= HARD_CAP:
@@ -118,7 +127,7 @@ func spawn_group(count: int, dmin: float, dmax: float) -> int:
 
 
 func spawn_elite() -> bool:
-	var t: float = run.state.run_time
+	var t: float = _t()
 	var data: EnemyData = GameData.enemies["anomalia"]
 	var pos: Vector2 = find_spawn_pos(data.raio, 350.0, 650.0)
 	if pos == INVALID_POS:
@@ -143,7 +152,7 @@ func elite_count() -> int:
 func _physics_process(delta: float) -> void:
 	if run == null or run.ended or run.player == null or run.player.dead:
 		return
-	var t: float = run.state.run_time
+	var t: float = _t()
 	timer -= delta
 	if timer <= 0.0:
 		timer = current_interval(t)
@@ -151,9 +160,13 @@ func _physics_process(delta: float) -> void:
 		if room > 0:
 			var batch: int = 1 if t < 720.0 else 2
 			spawn_group(mini(batch, room), MIN_DIST, MAX_DIST)
-	if t >= next_elite_time and not run.boss_active:
+	var rt: float = run.state.run_time
+	if rt >= next_elite_time and not run.boss_active:
 		if elite_count() < max_elites(t):
 			if spawn_elite():
-				next_elite_time = t + 210.0
+				next_elite_time = rt + 210.0
+			else:
+				# Sem posição válida agora: tenta de novo em 3 s, não a cada quadro.
+				next_elite_time = rt + 3.0
 		else:
-			next_elite_time = t + 20.0
+			next_elite_time = rt + 20.0

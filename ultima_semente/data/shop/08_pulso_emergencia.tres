@@ -7,6 +7,6 @@ script = ExtResource("1_script")
 id = "pulso_emergencia"
 nome = "Pulso de Emergência"
 custo = 40
-efeito = "Guarda 1 carga (tecla R) que empurra os inimigos próximos."
+efeito = "Guarda 1 carga de Pulso de Emergência (veja a tecla no HUD) que empurra os inimigos próximos."
 limitacao = "Máximo de 2 cargas."
 limite_por_visita = 2

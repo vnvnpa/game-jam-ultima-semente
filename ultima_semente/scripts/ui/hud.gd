@@ -47,6 +47,7 @@ var _t: float = 0.0
 @onready var pulse_box: Control = %PulseBox
 @onready var dash_box: Control = %DashBox
 @onready var emerg_box: Control = %EmergBox
+@onready var hint_label: Label = %HintLabel
 
 
 ## Chamado pelo Run depois que o HUD já está pronto na árvore.
@@ -129,23 +130,19 @@ func refresh(r: Run) -> void:
 	bio_label.text = "Biomassa: %d" % st.biomass
 	nuc_label.text = "Núcleos: %d" % SaveManager.get_nuclei()
 	time_label.text = GameManager.format_time(st.run_time)
-	stage_label.text = "Etapa: %s" % SpawnDirector.stage_name(st.run_time)
+	stage_label.text = "Etapa: %s" % SpawnDirector.stage_name(st.run_time + r.director.time_offset)
 	# objetivo
-	if r.state.boss_defeated:
-		objective_label.text = "Guardião derrotado!"
-	elif not r.map.gate.is_open:
-		objective_label.text = "Objetivo: destrua %d ninhos (%d/%d) para abrir o Santuário." % [r.nests_required, st.nests_destroyed, r.nests_required]
-	else:
-		objective_label.text = "Objetivo: derrote o Guardião de Raízes no Santuário (norte)."
+	objective_label.text = r.objective_text()
 	# buffs
 	var parts: Array = []
 	for id in st.buffs:
 		parts.append("%s %ds" % [str(BUFF_NAMES.get(id, id)), ceili(float(st.buffs[id]))])
 	buff_label.text = " | ".join(parts)
 	# habilidades
-	pulse_label.text = _cd_text(pl.pulse_cd, pl.pulse_cd_max, "[Espaço] Pulso")
-	dash_label.text = _cd_text(pl.dash_cd, pl.dash_cd_max, "[Q] Ruptura")
-	emerg_label.text = "[R] Emergência\n×%d" % st.pulse_charges
+	pulse_label.text = _cd_text(pl.pulse_cd, pl.pulse_cd_max, "[%s] Pulso" % GameManager.key_text("skill_1"))
+	dash_label.text = _cd_text(pl.dash_cd, pl.dash_cd_max, "[%s] Ruptura" % GameManager.key_text("skill_2"))
+	emerg_label.text = "[%s] Emergência\n×%d" % [GameManager.key_text("use_pulse"), st.pulse_charges]
+	hint_label.text = "[%s] Mapa   [Esc] Pausa" % GameManager.key_text("map")
 	pulse_box.modulate.a = 0.55 if pl.pulse_cd > 0.05 else 1.0
 	dash_box.modulate.a = 0.55 if pl.dash_cd > 0.05 else 1.0
 	emerg_box.modulate.a = 1.0 if st.pulse_charges > 0 else 0.4

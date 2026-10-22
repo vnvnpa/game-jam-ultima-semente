@@ -44,3 +44,8 @@ func _draw() -> void:
 				best = poi.global_position
 		if best_d < INF and best_d > 60.0:
 			_arrow(p, (best - p).normalized(), Color(0.8, 0.5, 1.0, 0.85), "RUÍNA")
+	var obj: GardenObjectives = run.objectives
+	if obj != null and not obj.opened and obj.active == null:
+		var pend: Interactable = obj.nearest_pending(p)
+		if pend != null and p.distance_to(pend.global_position) > 90.0:
+			_arrow(p, (pend.global_position - p).normalized(), Color(1.0, 0.85, 0.3, 0.9), "MECANISMO")

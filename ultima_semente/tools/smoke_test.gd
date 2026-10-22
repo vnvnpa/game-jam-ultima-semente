@@ -74,7 +74,7 @@ func _process(_delta: float) -> bool:
 	elif frame == 60:
 		_check(run.oxygen.zone == "pressurizado", "base pressurizada")
 		for id in GameData.enemies:
-			if id != "guardiao_raizes" and id != "ninho":
+			if id != "guardiao_raizes" and id != "jardineiro_vazio" and id != "ninho":
 				run.spawn_enemy(str(id), run.player.global_position + Vector2(260, 40), 1.0, "veloz")
 		for uid in GameData.upgrade_order:
 			var u: UpgradeData = GameData.upgrades[uid]
@@ -129,6 +129,31 @@ func _process(_delta: float) -> bool:
 		_check(bool(buy["ok"]) or SaveManager.has_mutation("casca_celular"), "compra de mutação permanente")
 		var rev: Dictionary = SaveManager.revert_mutation("casca_celular")
 		print("[smoke] reversão: ", rev["msg"])
+	elif frame == 270:
+		SaveManager.save_game()
+		SaveManager.save_game()
+		_check(SaveManager._read_file(SaveManager.BACKUP_PATH) != null, "backup do salvamento é válido")
+		var bad: FileAccess = FileAccess.open(SaveManager.SAVE_PATH, FileAccess.WRITE)
+		bad.store_string("{ isto nao e json")
+		bad.close()
+		SaveManager.save_game()
+		_check(SaveManager._read_file(SaveManager.BACKUP_PATH) != null, "arquivo corrompido não sobrescreve o backup")
+		SaveManager.add_codex_enemy("larva_fertil")
+		var cdx: int = (SaveManager.data["codex_enemies"] as Array).size()
+		SaveManager.add_codex_enemy("larva_fertil")
+		_check((SaveManager.data["codex_enemies"] as Array).size() == cdx, "bestiário sem duplicatas")
+	elif frame == 275:
+		_check(not bool(GameManager.rebind("map", KEY_ESCAPE)["ok"]), "tecla reservada é recusada")
+		_check(bool(GameManager.rebind("map", KEY_K)["ok"]) and GameManager.primary_key("map") == KEY_K, "remapear mapa para K")
+		var has_k: bool = false
+		for ev in InputMap.action_get_events("map"):
+			if ev is InputEventKey and (ev as InputEventKey).physical_keycode == KEY_K:
+				has_k = true
+		_check(has_k, "InputMap recebeu a nova tecla")
+		GameManager.rebind("interact", KEY_K)
+		_check(GameManager.primary_key("map") == KEY_E and GameManager.primary_key("interact") == KEY_K, "teclas repetidas trocam entre si")
+		GameManager.reset_bindings()
+		_check(GameManager.primary_key("map") == KEY_M and GameManager.primary_key("interact") == KEY_E, "restaurar teclas padrão")
 	elif frame == 300:
 		run.end_run("extract")
 		_check(run.ended, "expedição encerrada")

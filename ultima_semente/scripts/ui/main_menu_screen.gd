@@ -14,6 +14,7 @@ var _spores: Array = []
 @onready var notice_label: Label = %NoticeLabel
 @onready var version_label: Label = %VersionLabel
 @onready var play_button: Button = %PlayButton
+@onready var garden_button: Button = %GardenButton
 @onready var lab_button: Button = %LabButton
 @onready var codex_button: Button = %CodexButton
 @onready var settings_button: Button = %SettingsButton
@@ -32,6 +33,8 @@ func _ready() -> void:
 	version_label.text = "v%s  •  Criado por %s" % [GameConfig.GAME_VERSION, GameConfig.CREATOR]
 	quit_button.visible = not GameManager.is_web()
 	_bind(play_button, "play")
+	garden_button.visible = SaveManager.is_garden_unlocked()
+	_bind(garden_button, "garden")
 	_bind(lab_button, "lab")
 	_bind(codex_button, "codex")
 	_bind(settings_button, "settings")

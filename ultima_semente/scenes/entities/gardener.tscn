@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/gardener.gd" id="1_gardener"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="2_enemy"]
+
+[node name="Gardener" instance=ExtResource("2_enemy")]
+script = ExtResource("1_gardener")

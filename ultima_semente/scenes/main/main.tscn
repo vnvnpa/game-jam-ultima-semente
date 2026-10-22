@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/core/main.gd" id="1_main"]
 [ext_resource type="PackedScene" path="res://scenes/ui/main_menu.tscn" id="2_main_menu"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/credits_screen.tscn" id="7_credits_sc"]
 [ext_resource type="PackedScene" path="res://scenes/ui/loading_screen.tscn" id="8_loading_sc"]
 [ext_resource type="PackedScene" path="res://scenes/world/run.tscn" id="9_run"]
+[ext_resource type="PackedScene" path="res://scenes/world/garden_run.tscn" id="10_garden_run"]
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -21,6 +22,7 @@ settings_scene = ExtResource("6_settings_p")
 credits_scene = ExtResource("7_credits_sc")
 loading_scene = ExtResource("8_loading_sc")
 run_scene = ExtResource("9_run")
+garden_run_scene = ExtResource("10_garden_run")
 
 [node name="Ui" type="CanvasLayer" parent="."]
 layer = 5

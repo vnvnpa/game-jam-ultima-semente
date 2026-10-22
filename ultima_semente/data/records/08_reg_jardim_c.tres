@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RecordData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/record_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "reg_jardim_c"
+titulo = "Terminal do Jardim Interior — Propósito"
+texto = "A Rede Raiz nasceu como o sistema de reserva da Última Semente. Quando o ecossistema quase morreu, ela passou a preservar tudo à força. Este jardim é o último lugar onde ela ainda lembra como era deixar algo crescer livre."

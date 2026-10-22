@@ -68,6 +68,7 @@ text = "WASD / Setas: mover   •   Mouse: mirar   •   A arma dispara sozinha 
 theme_type_variation = &"DimLabel"
 theme_override_font_sizes/font_size = 16
 autowrap_mode = 3
+unique_name_in_owner = true
 
 [node name="TipsTitle" type="Label" parent="Center/Panel/Body"]
 layout_mode = 2

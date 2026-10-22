@@ -2,11 +2,12 @@
 class_name Interactable
 extends Node2D
 ## Ponto de interação (tecla E): terminal de suprimentos, nave (extração)
-## ou ponto de interesse com registro narrativo.
+## ponto de interesse com registro narrativo ou mecanismo de ativação (Jardim).
 
 @export var draw_placeholder: bool = true
-## Tipo: "shop" (terminal de suprimentos), "ship" (extração) ou "poi" (ruína com registro).
-@export_enum("shop", "ship", "poi") var kind: String = "poi"
+## Tipo: "shop" (terminal de suprimentos), "ship" (extração), "poi" (ruína com registro)
+## ou "mechanism" (mecanismo do Santuário do Último Jardim).
+@export_enum("shop", "ship", "poi", "mechanism") var kind: String = "poi"
 ## Para "shop": id do terminal (controla as ofertas). Para "poi": id único da ruína.
 @export var ref_id: String = ""
 @export var display_name: String = ""
@@ -26,13 +27,18 @@ func _ready() -> void:
 
 
 func prompt_text() -> String:
+	var key: String = GameManager.key_text("interact")
 	if kind == "shop":
-		return "[E] %s" % display_name
+		return "[%s] %s" % [key, display_name]
 	if kind == "ship":
-		return "[E] Segure para extrair (encerra a expedição)"
+		return "[%s] Segure para extrair (encerra a expedição)" % key
+	if kind == "mechanism":
+		if used:
+			return "%s — ativo" % display_name
+		return "[%s] Ativar — %s (resista às criaturas)" % [key, display_name]
 	if used:
-		return "[E] Reler registro — %s" % display_name
-	return "[E] Examinar — %s" % display_name
+		return "[%s] Reler registro — %s" % [key, display_name]
+	return "[%s] Examinar — %s" % [key, display_name]
 
 
 func _process(delta: float) -> void:
@@ -57,6 +63,14 @@ func _draw() -> void:
 			draw_rect(Rect2(-4, -8, 14, 8), Color(0.55, 0.9, 1.0))
 			draw_line(Vector2(-60, 10), Vector2(-70, 24), Color(0.3, 0.3, 0.3), 3.0)
 			draw_circle(Vector2(-72, 26), 3.0, Color(1.0, 0.5, 0.2, 0.5 + 0.4 * sin(t * 5.0)))
+		"mechanism":
+			var mc: Color = Color(0.4, 0.95, 0.5) if used else Color(1.0, 0.8, 0.3)
+			var pg: float = 0.5 + 0.5 * sin(t * (1.0 if used else 3.0))
+			draw_rect(Rect2(-12, -24, 24, 44), Color(0.22, 0.25, 0.27))
+			draw_rect(Rect2(-12, -24, 24, 44), mc, false, 2.0)
+			draw_circle(Vector2(0, -8), 7.0, Color(mc.r, mc.g, mc.b, 0.35 + 0.5 * pg))
+			draw_line(Vector2(-6, 8), Vector2(6, 8), mc, 2.0)
+			draw_arc(Vector2.ZERO, 34.0, 0.0, TAU, 28, Color(mc.r, mc.g, mc.b, 0.35), 2.0)
 		_:
 			var col: Color = Color(0.7, 0.45, 0.95) if not used else Color(0.45, 0.4, 0.55)
 			draw_rect(Rect2(-9, -22, 18, 38), Color(0.25, 0.27, 0.3))

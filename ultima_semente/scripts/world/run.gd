@@ -6,11 +6,19 @@ extends Node2D
 
 signal request_menu
 signal request_restart
+signal request_garden
 
 const EXTRACT_UNLOCK_TIME: float = 600.0
 const EXTRACT_HOLD_TIME: float = 2.0
 
 @export_group("Regras da expedição")
+## "region" (expedição principal) ou "garden" (Santuário do Último Jardim).
+@export var level_id: String = "region"
+## Id (em data/enemies) do chefe que desperta na arena.
+@export var boss_id: String = "guardiao_raizes"
+## Registro narrativo concedido ao iniciar ("" = nenhum).
+@export var starting_record: String = "reg_queda"
+@export_multiline var intro_text: String = "Expedição iniciada. Explore, sobreviva e destrua os ninhos."
 @export var nests_required: int = 2
 @export_group("Cenas instanciadas durante a expedição")
 @export var enemy_scene: PackedScene
@@ -28,6 +36,7 @@ const EXTRACT_HOLD_TIME: float = 2.0
 @export var record_scene: PackedScene
 @export var game_over_scene: PackedScene
 @export var victory_scene: PackedScene
+@export var level_complete_scene: PackedScene
 @export_group("")
 
 var state: RunState = null
@@ -45,6 +54,7 @@ var modal: String = ""
 var modal_node: Control = null
 var extract_hold: float = 0.0
 var nearest: Interactable = null
+var objectives: GardenObjectives = null
 var summary: Dictionary = {}
 var _in_explosion: bool = false
 var _last_float_ms: int = 0
@@ -83,11 +93,14 @@ func _ready() -> void:
 	shop.setup(self)
 	hud.setup(self)
 	map_overlay.setup(self)
+	objectives = get_node_or_null("%Objectives") as GardenObjectives
+	if objectives != null:
+		objectives.setup(self)
 	_bind_scene_actors()
-	if SaveManager.add_record("reg_queda"):
-		state.records_found.append("reg_queda")
+	if starting_record != "" and SaveManager.add_record(starting_record):
+		state.records_found.append(starting_record)
 	AudioManager.start_music()
-	notify("Expedição iniciada. Explore, sobreviva e destrua os ninhos.", UIKit.COL_TEXT, "")
+	notify(intro_text, UIKit.COL_TEXT, "")
 
 
 # ------------------------------------------------------ preparação
@@ -145,6 +158,17 @@ func regular_enemy_count() -> int:
 
 func decoy_active() -> bool:
 	return decoy != null and is_instance_valid(decoy)
+
+
+## Texto do objetivo atual para o HUD.
+func objective_text() -> String:
+	if objectives != null:
+		return objectives.objective_text()
+	if state.boss_defeated:
+		return "Guardião derrotado!"
+	if not map.gate.is_open:
+		return "Objetivo: destrua %d ninhos (%d/%d) para abrir o Santuário." % [nests_required, state.nests_destroyed, nests_required]
+	return "Objetivo: derrote o Guardião de Raízes no Santuário (norte)."
 
 
 func get_enemy_target_pos(from: Vector2) -> Vector2:
@@ -387,12 +411,12 @@ func _on_nest_killed() -> void:
 func _spawn_boss() -> void:
 	if WorldLayout.boss_arena == null:
 		return
-	boss = spawn_enemy("guardiao_raizes", WorldLayout.boss_arena.global_position, 1.0)
+	boss = spawn_enemy(boss_id, WorldLayout.boss_arena.global_position, 1.0)
 	if boss == null:
 		return
 	boss_active = true
 	boss_immune_time = 2.0
-	notify("O Guardião de Raízes desperta!", UIKit.COL_BAD, "boss")
+	notify("%s desperta!" % boss.data.nome, UIKit.COL_BAD, "boss")
 	shake(6.0)
 
 
@@ -409,7 +433,8 @@ func _on_boss_killed() -> void:
 		notify("Núcleo Primordial +%d" % n, UIKit.COL_NUC, "")
 		if not ok:
 			notify("Aviso: não foi possível gravar o salvamento agora.", UIKit.COL_WARN, "")
-	notify("O Guardião caiu!", UIKit.COL_GOOD, "victory")
+	var boss_name: String = boss.data.nome if boss != null else "O chefe"
+	notify("%s caiu!" % boss_name, UIKit.COL_GOOD, "victory")
 	boss_death_timer = 3.5
 	for e in enemies.duplicate():
 		if is_instance_valid(e):
@@ -439,7 +464,7 @@ func _physics_process(delta: float) -> void:
 	if boss_death_timer > 0.0:
 		boss_death_timer -= delta
 		if boss_death_timer <= 0.0:
-			end_run("victory")
+			end_run("victory" if level_id == "garden" else "region_clear")
 			return
 	_audio_t -= delta
 	if _audio_t <= 0.0:
@@ -530,6 +555,8 @@ func _update_interaction(delta: float) -> void:
 			open_shop(nearest.ref_id)
 		elif nearest.kind == "poi":
 			_read_poi(nearest)
+		elif nearest.kind == "mechanism" and objectives != null:
+			objectives.try_activate(nearest)
 
 
 func _read_poi(it: Interactable) -> void:
@@ -656,7 +683,7 @@ func end_run(reason: String) -> void:
 	if ended:
 		return
 	ended = true
-	if reason == "victory" and not state.boss_defeated:
+	if (reason == "victory" or reason == "region_clear") and not state.boss_defeated:
 		reason = "extract"
 	summary = {
 		"reason": reason,
@@ -670,6 +697,8 @@ func end_run(reason: String) -> void:
 		"cause": state.cause_of_death,
 		"records": state.records_found.size(),
 		"nests": state.nests_destroyed,
+		"level_id": level_id,
+		"mechanisms": objectives.activated_count() if objectives != null else 0,
 	}
 	SaveManager.record_run(summary)
 	AudioManager.set_combat_intensity(0.0)
@@ -692,6 +721,13 @@ func end_run(reason: String) -> void:
 		ui_layer.add_child(v)
 		v.setup(summary)
 		v.menu_pressed.connect(_go_menu)
+	elif reason == "region_clear":
+		AudioManager.play_sfx("victory")
+		var lc: LevelCompleteScreen = level_complete_scene.instantiate() as LevelCompleteScreen
+		ui_layer.add_child(lc)
+		lc.setup(summary)
+		lc.garden_pressed.connect(_go_garden)
+		lc.menu_pressed.connect(_go_menu)
 	else:
 		AudioManager.play_sfx("gameover")
 		var g: GameOverScreen = game_over_scene.instantiate() as GameOverScreen
@@ -708,6 +744,11 @@ func _abandon() -> void:
 func _go_menu() -> void:
 	get_tree().paused = false
 	request_menu.emit()
+
+
+func _go_garden() -> void:
+	get_tree().paused = false
+	request_garden.emit()
 
 
 func _go_restart() -> void:
