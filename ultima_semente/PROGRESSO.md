@@ -1,5 +1,24 @@
 # PROGRESSO — Última Semente
 
+## Controle (gamepad) — ligações completas
+Mover: analógico esquerdo / D-pad · **Mirar: analógico direito (novo)** · A ou **RT** Pulso de Raízes · RB ou **R3** Ruptura · Y ou **LT** Nuvem de Esporos · X Pulso de Emergência · B interagir (segurar para extrair) · Back mapa · Start pausa.
+- Novas ações `aim_left/right/up/down` (eixos 2 e 3) no Input Map; `player.gd` usa o analógico direito para a direção do Kael/arma.
+- Textos do HUD, tela de preparação, mapa e prompts mostram os botões do controle (A, RB, Y, X, B, Back, Start) quando o último dispositivo usado foi o controle (`GameManager.using_pad`, `key_text`, `pause_text`). A tela de remapeamento continua mostrando o teclado.
+- `smoke_test.gd` confere que todas as 15 ações têm evento de controle.
+- Falta: remapear botões do controle na tela de configurações. NÃO testado com controle real.
+
+## Correção: profundidade e rotação do Kael (pós-F8a)
+**Causa:** a folha `player_sheet` já tinha frente/costas/perfil (`idle_down`, `walk_up`, `dash_side`...), mas o `player.gd` ainda pedia `idle/walk/hurt/dash`, que não existem; nenhuma animação tocava e o Kael nunca virava.
+**Feito**
+- `player.gd`: vista escolhida pela mira (com histerese): frente/costas/perfil (espelhado para a esquerda); animações `idle|walk|hurt|dash` + `_down|_up|_side`. Sem alvo e com o mouse parado, o Kael olha para onde anda (toque/gamepad). Nova arma (`Weapon`, `weapon.png`) que gira de verdade para a mira e passa atrás do corpo quando ele está de costas.
+- `player.tscn`: nó `Weapon`, `autoplay = idle_down`, sombra com `z_index = -1`.
+- Profundidade (Y-sort): `Run._setup_depth()` ordena Kael, inimigos, árvores/cristais/pilares, caches, ruínas/terminais, ninhos e biomassa pelo Y (quem está ao sul aparece na frente). Chão, regiões, zonas, estações, arena, muralhas e sombras ficam embaixo; projéteis, efeitos e setas em cima. A nave fica no chão. Vale para Floresta, Jardim e Coração.
+- Corpo morto dos inimigos entra na mesma ordenação (`enemy.gd`).
+- `smoke_test.gd`: 3 checagens novas (animações direcionais, arma, Y-sort).
+**Assets conferidos:** 480 referências `res://` (1 falso positivo de texto), tamanhos de PNG coerentes com os `.tres`.
+**NÃO testado na Godot.** Ajustes finos prováveis: `FOOT` em `obstacle.gd` e a posição do pé (sombra em y=12 no Kael) para o ponto de troca de frente/atrás; posição/offset da arma.
+
+
 ## Refatoração (docs/PROMPT_REFATORACAO_COMPLETA.md)
 
 ### F0 — Base e empacotamento: CONCLUÍDA (estática)

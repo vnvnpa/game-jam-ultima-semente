@@ -101,7 +101,7 @@ func _refresh_keys() -> void:
 		if str(action) == _listening:
 			btn.text = "Pressione uma tecla..."
 		else:
-			btn.text = GameManager.key_text(str(action))
+			btn.text = GameManager.keyboard_text(str(action))
 
 
 func _show_keys(on: bool) -> void:

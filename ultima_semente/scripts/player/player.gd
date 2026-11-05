@@ -56,6 +56,12 @@ var anim_t: float = 0.0
 @export var companion_frames: SpriteFrames
 var comp_sprites: Array = []
 var _anim: StringName = &""
+## Vista atual do Kael: "down" (frente), "up" (costas) ou "side" (perfil, espelhado pela mira).
+var _view: String = "down"
+var _weapon_front: bool = true
+var _mouse_last: Vector2 = Vector2.ZERO
+var _mouse_still_t: float = 0.0
+@onready var weapon_sprite: Sprite2D = get_node_or_null("Weapon") as Sprite2D
 var pulse_cd_max: float = 8.0
 var dash_cd_max: float = 5.0
 var cloud_cd: float = 0.0
@@ -209,7 +215,10 @@ func _physics_process(delta: float) -> void:
 	# movimento
 	var input: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var mouse_dir: Vector2 = get_global_mouse_position() - global_position
-	if _pad_mode:
+	var aim_in: Vector2 = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
+	if aim_in.length() > 0.3:
+		facing = aim_in.normalized()
+	elif _pad_mode:
 		if input.length() > 0.2:
 			facing = input.normalized()
 	elif mouse_dir.length() > 6.0:
@@ -242,6 +251,15 @@ func _physics_process(delta: float) -> void:
 		if dart_cd <= 0.0 and st.has_special("dardo"):
 			_fire_dart(target)
 	else:
+		# Sem alvo: o Kael olha para onde anda quando o mouse está parado (toque/gamepad/teclado).
+		var mpos: Vector2 = get_viewport().get_mouse_position()
+		if mpos.distance_to(_mouse_last) > 2.0:
+			_mouse_still_t = 0.0
+			_mouse_last = mpos
+		else:
+			_mouse_still_t += delta
+		if aim_in.length() <= 0.3 and input.length() > 0.2 and (_pad_mode or _mouse_still_t > 0.5):
+			facing = input.normalized()
 		aim_dir = facing
 	_update_companions(delta)
 	# câmera
@@ -423,34 +441,63 @@ func _show_death() -> void:
 		sprite.modulate.a = 1.0
 
 
-## Só visual (roda em _process): animação, espelhamento, espinhos de mutação,
-## escudo e companheiros.
+## Escolhe a vista (frente/costas/perfil) pela direção de mira, com histerese
+## para não piscar perto das diagonais.
+func _pick_view(d: Vector2) -> String:
+	var bias: float = 0.75 if _view == "side" else 1.35
+	if absf(d.x) >= absf(d.y) * bias:
+		return "side"
+	return "up" if d.y < 0.0 else "down"
+
+
+## Só visual (roda em _process): vista direcional, animação, arma girando para a
+## mira, espinhos de mutação, escudo e companheiros.
 func _process(_delta: float) -> void:
 	if sprite == null or run == null or dead or sprite.sprite_frames == null:
 		return
 	var st: RunState = run.state
-	sprite.flip_h = aim_dir.x < 0.0
-	var want: StringName = &"idle"
+	var d: Vector2 = aim_dir if aim_dir.length() > 0.1 else facing
+	_view = _pick_view(d)
+	sprite.flip_h = _view == "side" and d.x < 0.0
+	var base: String = "idle"
 	if dash_t > 0.0:
-		want = &"dash"
+		base = "dash"
 	elif hurt_flash > 0.5:
-		want = &"hurt"
+		base = "hurt"
 	elif velocity.length() > 10.0:
-		want = &"walk"
+		base = "walk"
+	var want: StringName = StringName("%s_%s" % [base, _view])
 	if want != _anim and sprite.sprite_frames.has_animation(want):
 		_anim = want
 		sprite.play(want)
 	var flick: bool = invuln > 0.0 and int(anim_t * 20.0) % 2 == 0
 	sprite.modulate.a = 0.45 if flick else 1.0
+	_update_weapon_visual(d)
 	if spines != null:
 		var n_mut: int = mini(8, st.perm_ids.size() + floori(float(st.total_upgrade_levels()) / 2.0))
 		spines.visible = n_mut > 0
 		if n_mut > 0 and spines.texture != null:
 			spines.region_rect = Rect2(float((n_mut - 1) * 32), 0.0, 32.0, 32.0)
-		spines.scale.x = -1.0 if aim_dir.x < 0.0 else 1.0
+		spines.scale.x = -1.0 if (_view == "side" and d.x < 0.0) else 1.0
 	if shield_fx != null:
 		shield_fx.visible = shield > 0.0
 	_sync_companion_sprites(int(st.stat("companions")))
+
+
+## A arma aponta para a mira (rotação real) e passa por trás do corpo quando o Kael está de costas.
+func _update_weapon_visual(d: Vector2) -> void:
+	if weapon_sprite == null:
+		return
+	weapon_sprite.rotation = d.angle()
+	weapon_sprite.flip_v = d.x < 0.0
+	weapon_sprite.position = Vector2(0.0, -4.0) + d * 3.0
+	var front: bool = d.y >= -0.35
+	if front != _weapon_front and sprite != null:
+		_weapon_front = front
+		if front:
+			move_child(weapon_sprite, sprite.get_index() + 1)
+		else:
+			move_child(weapon_sprite, sprite.get_index())
 
 
 func _sync_companion_sprites(n: int) -> void:

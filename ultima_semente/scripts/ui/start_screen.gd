@@ -25,8 +25,10 @@ func _move_keys_text() -> String:
 
 func _controls_text() -> String:
 	var l1: String = "%s / Setas: mover   •   Mouse: mirar   •   A arma dispara sozinha no inimigo mais próximo" % _move_keys_text()
+	if GameManager.using_pad:
+		l1 = "Analógico esquerdo / D-pad: mover   •   Analógico direito: mirar   •   A arma dispara sozinha no inimigo mais próximo"
 	var l2: String = "%s: Pulso de Raízes   •   %s: Ruptura Celular (arrancada)   •   %s: Pulso de Emergência" % [GameManager.key_text("skill_1"), GameManager.key_text("skill_2"), GameManager.key_text("use_pulse")]
-	var l3: String = "%s: interagir (terminais, ruínas)   •   %s: mapa   •   Esc: pausa   •   Teclas ajustáveis em Configurações" % [GameManager.key_text("interact"), GameManager.key_text("map")]
+	var l3: String = "%s: interagir (terminais, ruínas)   •   %s: mapa   •   %s: pausa   •   Teclas ajustáveis em Configurações" % [GameManager.key_text("interact"), GameManager.key_text("map"), GameManager.pause_text()]
 	return "%s\n%s\n%s" % [l1, l2, l3]
 
 

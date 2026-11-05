@@ -17,6 +17,16 @@ const ACTION_NAMES: Array = ["move_up", "move_down", "move_left", "move_right", 
 ## ação -> Array[int] de physical_keycode padrão (a primeira é a "principal").
 var _defaults: Dictionary = {}
 
+## true quando o último dispositivo usado foi o controle (textos mostram botões).
+var using_pad: bool = false
+
+## Rótulos dos botões do controle (layout Xbox; PlayStation: A=X, B=O, X=Quadrado, Y=Triângulo).
+const PAD_LABELS: Dictionary = {
+	"move_up": "Analógico E", "move_down": "Analógico E", "move_left": "Analógico E", "move_right": "Analógico E",
+	"skill_1": "A", "skill_2": "RB", "skill_3": "Y", "use_pulse": "X",
+	"interact": "B", "map": "Back", "pause": "Start",
+}
+
 const ACTION_LABELS: Dictionary = {
 	"move_up": "Mover para cima",
 	"move_down": "Mover para baixo",
@@ -64,9 +74,21 @@ func primary_key(action: String) -> int:
 	return int(defaults[0])
 
 
-## Nome legível da tecla principal (ex.: "Espaço", "Q").
+## Nome legível da tecla principal (ex.: "Espaço", "Q"); com controle em uso, o botão (ex.: "A", "RB").
 func key_text(action: String) -> String:
+	if using_pad and PAD_LABELS.has(action):
+		return str(PAD_LABELS[action])
+	return keyboard_text(action)
+
+
+## Sempre o nome da tecla do teclado (tela de remapeamento).
+func keyboard_text(action: String) -> String:
 	return key_name(primary_key(action))
+
+
+## "Start" no controle, "Esc" no teclado.
+func pause_text() -> String:
+	return "Start" if using_pad else "Esc"
 
 
 static func key_name(code: int) -> String:
@@ -108,6 +130,15 @@ func _read_defaults() -> void:
 			if e is InputEventKey:
 				codes.append(int((e as InputEventKey).physical_keycode))
 		_defaults[a] = codes
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton:
+		using_pad = true
+	elif event is InputEventJoypadMotion and absf((event as InputEventJoypadMotion).axis_value) > 0.5:
+		using_pad = true
+	elif event is InputEventKey or event is InputEventMouseButton:
+		using_pad = false
 
 
 func _setup_input() -> void:

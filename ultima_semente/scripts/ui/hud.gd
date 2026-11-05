@@ -140,7 +140,7 @@ func refresh(r: Run) -> void:
 	pulse_label.text = _cd_text(pl.pulse_cd, pl.pulse_cd_max, "[%s] Pulso" % GameManager.key_text("skill_1"))
 	dash_label.text = _cd_text(pl.dash_cd, pl.dash_cd_max, "[%s] Ruptura" % GameManager.key_text("skill_2"))
 	emerg_label.text = "[%s] Emergência\n×%d" % [GameManager.key_text("use_pulse"), st.pulse_charges]
-	hint_label.text = "[%s] Mapa   [Esc] Pausa" % GameManager.key_text("map")
+	hint_label.text = "[%s] Mapa   [%s] Pausa" % [GameManager.key_text("map"), GameManager.pause_text()]
 	pulse_box.modulate.a = 0.55 if pl.pulse_cd > 0.05 else 1.0
 	dash_box.modulate.a = 0.55 if pl.dash_cd > 0.05 else 1.0
 	emerg_box.modulate.a = 1.0 if st.pulse_charges > 0 else 0.4

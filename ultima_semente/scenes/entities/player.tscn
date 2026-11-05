@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
 
@@ -7,6 +7,7 @@
 [ext_resource type="SpriteFrames" path="res://assets/art/frames/shield.tres" id="4_shield"]
 [ext_resource type="Texture2D" path="res://assets/art/fx/shadow.png" id="5_shadow"]
 [ext_resource type="Texture2D" path="res://assets/art/player/mutation_spines.png" id="6_spines"]
+[ext_resource type="Texture2D" path="res://assets/art/player/weapon.png" id="7_weapon"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2"]
 radius = 8.8
@@ -23,6 +24,7 @@ companion_frames = ExtResource("3_comp")
 shape = SubResource("CircleShape2D_2")
 
 [node name="Shadow" type="Sprite2D" parent="."]
+z_index = -1
 position = Vector2(0, 12)
 texture = ExtResource("5_shadow")
 
@@ -34,7 +36,12 @@ region_rect = Rect2(0, 0, 32, 32)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_frames")
-autoplay = "idle"
+autoplay = "idle_down"
+
+[node name="Weapon" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = ExtResource("7_weapon")
+offset = Vector2(7, 0)
 
 [node name="ShieldFx" type="AnimatedSprite2D" parent="."]
 visible = false

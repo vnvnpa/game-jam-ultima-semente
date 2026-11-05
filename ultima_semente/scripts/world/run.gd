@@ -85,6 +85,7 @@ var _audio_t: float = 0.0
 
 func _ready() -> void:
 	rng.randomize()
+	_setup_depth()
 	state = RunState.new()
 	state.perm_ids = SaveManager.owned_ids()
 	state.rebuild_stats()
@@ -105,6 +106,31 @@ func _ready() -> void:
 		state.records_found.append(starting_record)
 	AudioManager.start_music()
 	notify(intro_text, UIKit.COL_TEXT, "")
+
+
+# ------------------------------------------------------ profundidade
+## Ordenação em Y (profundidade): quem está mais ao sul aparece na frente. Kael,
+## inimigos, árvores, cristais, pilares, ruínas, terminais, caches e biomassa
+## dividem a mesma ordenação; chão, zonas, sombras e muralhas ficam sempre
+## embaixo; projéteis, efeitos e setas ficam sempre em cima.
+## Para mudar um item, ajuste y_sort_enabled / z_index na cena dele.
+func _setup_depth() -> void:
+	world.y_sort_enabled = true
+	map.y_sort_enabled = true
+	for group_name in ["Obstacles", "Caches", "Interactables", "Nests"]:
+		var grp: Node2D = map.get_node_or_null(group_name) as Node2D
+		if grp != null:
+			grp.y_sort_enabled = true
+	for group_name in ["Ground", "Regions", "HostileZones", "Stations", "BossArena", "Walls"]:
+		var low: Node2D = map.get_node_or_null(group_name) as Node2D
+		if low != null:
+			low.z_index = -20 if group_name == "Ground" else -10
+	drops_node.y_sort_enabled = true
+	enemies_node.y_sort_enabled = true
+	zones_node.z_index = -5
+	projectiles_node.z_index = 20
+	fx_node.z_index = 30
+	guide_arrows.z_index = 40
 
 
 # ------------------------------------------------------ preparação

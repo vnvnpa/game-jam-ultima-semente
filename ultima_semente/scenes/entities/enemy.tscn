@@ -20,6 +20,7 @@ draw_placeholder = false
 shape = SubResource("CircleShape2D_2")
 
 [node name="Shadow" type="Sprite2D" parent="."]
+z_index = -1
 texture = ExtResource("2_shadow")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]

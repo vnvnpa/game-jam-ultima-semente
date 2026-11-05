@@ -47,6 +47,7 @@ func _setup_sprite() -> void:
 		"ship":
 			fr = ship_frames
 			off = Vector2(0.0, -2.0)
+			z_index = -2   # a nave é grande e baixa: o Kael sempre passa na frente
 		"mechanism":
 			fr = mechanism_frames
 			off = Vector2(0.0, -10.0)

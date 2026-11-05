@@ -195,16 +195,20 @@ func _process(delta: float) -> void:
 func _spawn_death_visual() -> void:
 	if sprite == null or sprite.sprite_frames == null or run == null or not sprite.sprite_frames.has_animation(&"death"):
 		return
-	if run.fx_node.get_child_count() > 100:
+	if run.enemies_node.get_child_count() > 160:
 		return
+	# O corpo morto entra na mesma ordenação em Y dos inimigos (e não no nó de efeitos).
+	var holder: Node2D = Node2D.new()
+	run.enemies_node.add_child(holder)
+	holder.global_position = global_position
 	var v: AnimatedSprite2D = AnimatedSprite2D.new()
 	v.sprite_frames = sprite.sprite_frames
 	v.scale = sprite.scale
 	v.flip_h = sprite.flip_h
-	run.fx_node.add_child(v)
-	v.global_position = sprite.global_position
+	v.position = sprite.position
+	holder.add_child(v)
 	v.play(&"death")
-	v.animation_finished.connect(v.queue_free)
+	v.animation_finished.connect(holder.queue_free)
 
 
 func display_name() -> String:

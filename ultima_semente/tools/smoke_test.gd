@@ -65,8 +65,18 @@ func _process(_delta: float) -> bool:
 		_check(WorldLayout.region_name(Vector2(560, 1500)) == "Floresta do Despertar", "nome da região")
 		_check(run.state.max_hp() == 100.0, "vida base 100")
 		_check(run.player.get_node_or_null("Sprite") != null, "Kael com sprite")
+		var psf: SpriteFrames = (run.player.get_node("Sprite") as AnimatedSprite2D).sprite_frames
+		_check(psf.has_animation(&"idle_down") and psf.has_animation(&"walk_up") and psf.has_animation(&"dash_side"), "Kael com animações direcionais")
+		_check(run.player.get_node_or_null("Weapon") != null, "arma do Kael (gira com a mira)")
+		_check(run.world.y_sort_enabled and run.enemies_node.y_sort_enabled and run.map.get_node("Obstacles").y_sort_enabled, "ordenação em Y ativa")
 		_check(GameData.abilities.has("nuvem_esporos") and GameData.dart_weapon != null, "Nuvem de Esporos e Dardo carregados")
 		_check(InputMap.has_action("skill_3"), "ação skill_3 no Input Map")
+		for act in ["move_up", "move_down", "move_left", "move_right", "skill_1", "skill_2", "skill_3", "use_pulse", "interact", "map", "pause", "aim_left", "aim_right", "aim_up", "aim_down"]:
+			var has_pad: bool = false
+			for ev in InputMap.action_get_events(act):
+				if ev is InputEventJoypadButton or ev is InputEventJoypadMotion:
+					has_pad = true
+			_check(has_pad, "ação '%s' ligada ao controle" % act)
 		_check(AudioManager.has_sfx("shoot") and AudioManager.has_sfx("gate_open") and AudioManager.has_sfx("heal"), "banco de sons carregado")
 		_check(GameData.wave_profiles.has("floresta") and GameData.wave_profiles.has("jardim"), "perfis de ondas carregados")
 		_check(run.director.profile != null and run.director.profile.stages.size() == 6, "diretor usa o WaveProfile")
