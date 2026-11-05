@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/world_map.gd" id="1_world_map"]
 [ext_resource type="Texture2D" path="res://assets/world/terrain.png" id="2_terrain"]
@@ -14,6 +14,10 @@
 [ext_resource type="Resource" path="res://data/enemies/08_ninho.tres" id="19_08_ninho"]
 [ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="20_enemy"]
 [ext_resource type="PackedScene" path="res://scenes/world/boss_arena.tscn" id="21_boss_arena"]
+
+[ext_resource type="Script" path="res://scripts/world/ground_painter.gd" id="90_painter"]
+[ext_resource type="TileSet" path="res://assets/art/world/ground_tileset.tres" id="91_tileset"]
+[ext_resource type="Texture2D" path="res://assets/art/world/decor.png" id="92_decor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6"]
 size = Vector2(3800.0, 100.0)
@@ -43,6 +47,12 @@ script = ExtResource("1_world_map")
 texture = ExtResource("2_terrain")
 centered = false
 scale = Vector2(4.0, 4.0)
+
+[node name="Ground" type="TileMapLayer" parent="."]
+tile_set = ExtResource("91_tileset")
+script = ExtResource("90_painter")
+
+decor_texture = ExtResource("92_decor")
 
 [node name="Regions" type="Node2D" parent="."]
 

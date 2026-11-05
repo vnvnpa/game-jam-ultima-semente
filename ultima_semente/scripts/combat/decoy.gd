@@ -6,6 +6,8 @@ extends Node2D
 var life: float = 8.0
 var t: float = 0.0
 
+@onready var sprite: AnimatedSprite2D = get_node_or_null("Sprite") as AnimatedSprite2D
+
 
 func _process(delta: float) -> void:
 	t += delta
@@ -13,6 +15,8 @@ func _process(delta: float) -> void:
 	if life <= 0.0:
 		queue_free()
 		return
+	if sprite != null:
+		sprite.modulate.a = clampf(life / 1.0, 0.0, 1.0)
 	queue_redraw()
 
 

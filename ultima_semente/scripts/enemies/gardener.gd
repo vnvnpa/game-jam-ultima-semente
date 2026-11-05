@@ -6,9 +6,9 @@ extends Boss
 ## Fase 2 (<50% de vida): mais disparos, janelas mais curtas e invocações.
 ## parametro_a = dano de cada disparo; parametro_b = dano das raízes.
 
-const SHIELDED_TIME: float = 7.0
-const EXPOSED_TIME_P1: float = 5.5
-const EXPOSED_TIME_P2: float = 4.0
+const SHIELDED_TIME: float = 6.0
+const EXPOSED_TIME_P1: float = 7.0
+const EXPOSED_TIME_P2: float = 5.5
 
 var vulnerable: bool = false
 var cycle_t: float = 5.0
@@ -36,7 +36,7 @@ func _behavior(delta: float, dir: Vector2, dist: float, _target: Vector2) -> Vec
 		run.fx_ring(global_position, radius * 2.2, Color(1.0, 0.85, 0.4) if vulnerable else Color(0.5, 0.8, 1.0), 0.5)
 	shoot_t -= delta
 	if shoot_t <= 0.0:
-		shoot_t = (3.2 if vulnerable else 2.2) * fast
+		shoot_t = (3.8 if vulnerable else 2.8) * fast
 		_pattern_shots()
 	roots_t -= delta
 	if roots_t <= 0.0 and not vulnerable:
@@ -45,7 +45,7 @@ func _behavior(delta: float, dir: Vector2, dist: float, _target: Vector2) -> Vec
 	if phase == 2:
 		summon_timer -= delta
 		if summon_timer <= 0.0:
-			summon_timer = 16.0
+			summon_timer = 20.0
 			_pattern_summon()
 	if dist > 280.0:
 		return _steer(dir) * speed
@@ -56,10 +56,11 @@ func _behavior(delta: float, dir: Vector2, dist: float, _target: Vector2) -> Vec
 
 ## Leque de disparos mirados no jogador.
 func _pattern_shots() -> void:
+	play_event(&"shoot", 0.4)
 	var pl: Player = run.player
 	if pl == null or pl.dead:
 		return
-	var count: int = 3 if phase == 1 else 5
+	var count: int = 3 if phase == 1 else 4
 	var base: Vector2 = (pl.global_position - global_position).normalized()
 	for i in count:
 		var off: float = (float(i) - float(count - 1) * 0.5) * 0.22
@@ -78,10 +79,11 @@ func _pattern_shots() -> void:
 
 ## Raízes telegrafadas em linha entre o Jardineiro e o jogador (bloqueiam a rota).
 func _pattern_roots() -> void:
+	play_event(&"roots", 0.75)
 	var pl: Player = run.player
 	if pl == null or pl.dead:
 		return
-	var n: int = 5 if phase == 1 else 7
+	var n: int = 4 if phase == 1 else 6
 	for i in n:
 		var k: float = float(i + 1) / float(n + 1)
 		var pos: Vector2 = global_position.lerp(pl.global_position, k) + Vector2.from_angle(randf() * TAU) * 24.0
@@ -108,26 +110,33 @@ func _apply_dot(amount: float) -> void:
 	super._apply_dot(amount)
 
 
+## Animação de base: blindado ou com o núcleo exposto.
+func _base_anim() -> StringName:
+	return &"exposed" if vulnerable else &"shielded"
+
+
 func _draw() -> void:
-	if data == null or not draw_placeholder:
+	if data == null:
 		return
-	draw_circle(Vector2(0, radius * 0.8), radius * 1.1, Color(0, 0, 0, 0.3))
-	var col: Color = _tint(data.cor)
-	for i in 8:
-		var a: float = float(i) * TAU / 8.0 + sin(anim_t * 0.5 + float(i)) * 0.12
-		var p1: Vector2 = Vector2.from_angle(a) * radius * 0.9
-		var p2: Vector2 = Vector2.from_angle(a + sin(anim_t * 0.8 + float(i)) * 0.25) * radius * 1.8
-		draw_line(p1, p2, Color(0.25, 0.35, 0.22), 6.0)
-		draw_line(p1, p2, Color(0.45, 0.6, 0.35), 2.0)
-	draw_circle(Vector2.ZERO, radius, col)
-	draw_arc(Vector2.ZERO, radius * 0.8, anim_t * 0.6, anim_t * 0.6 + TAU * 0.75, 18, data.cor_detalhe, 3.0)
-	draw_arc(Vector2.ZERO, radius * 0.55, -anim_t, -anim_t + TAU * 0.6, 14, col.lightened(0.25), 3.0)
+	if draw_placeholder:
+		draw_circle(Vector2(0, radius * 0.8), radius * 1.1, Color(0, 0, 0, 0.3))
+		var col: Color = _tint(data.cor)
+		for i in 8:
+			var a: float = float(i) * TAU / 8.0 + sin(anim_t * 0.5 + float(i)) * 0.12
+			var p1: Vector2 = Vector2.from_angle(a) * radius * 0.9
+			var p2: Vector2 = Vector2.from_angle(a + sin(anim_t * 0.8 + float(i)) * 0.25) * radius * 1.8
+			draw_line(p1, p2, Color(0.25, 0.35, 0.22), 6.0)
+			draw_line(p1, p2, Color(0.45, 0.6, 0.35), 2.0)
+		draw_circle(Vector2.ZERO, radius, col)
+		draw_arc(Vector2.ZERO, radius * 0.8, anim_t * 0.6, anim_t * 0.6 + TAU * 0.75, 18, data.cor_detalhe, 3.0)
+		draw_arc(Vector2.ZERO, radius * 0.55, -anim_t, -anim_t + TAU * 0.6, 14, col.lightened(0.25), 3.0)
 	var pulse: float = 0.6 + 0.4 * sin(anim_t * 5.0)
 	if vulnerable:
-		draw_circle(Vector2.ZERO, radius * 0.42, Color(1.0, 0.85, 0.3, 0.4 + 0.5 * pulse))
-		draw_circle(Vector2.ZERO, radius * 0.22, Color(1.0, 1.0, 0.8))
+		if draw_placeholder:
+			draw_circle(Vector2.ZERO, radius * 0.42, Color(1.0, 0.85, 0.3, 0.4 + 0.5 * pulse))
+			draw_circle(Vector2.ZERO, radius * 0.22, Color(1.0, 1.0, 0.8))
 		draw_arc(Vector2.ZERO, radius + 8.0, 0.0, TAU, 32, Color(1.0, 0.85, 0.3, 0.6 + 0.3 * pulse), 3.0)
-	else:
+	elif draw_placeholder:
 		draw_circle(Vector2.ZERO, radius * 0.3, Color(0.35, 0.4, 0.45))
 		draw_arc(Vector2.ZERO, radius + 8.0, 0.0, TAU, 32, Color(0.5, 0.8, 1.0, 0.45 + 0.2 * pulse), 3.0)
 	if run != null and run.state.has_special("consciencia_rede"):

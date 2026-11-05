@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "dardo"
+nome = "Dardo de Fotossíntese"
+familia = "predacao"
+max_nivel = 3
+descricao = "Arma automática extra: disparo rápido e preciso. Marca o alvo; dardos seguintes causam +60% de dano nele. +25% de dano por nível."
+efeito_colateral = ""
+mods_add = {
+"dart_level": 1.0
+}
+mods_mul = {}
+especial = "dardo"
+evolucao = false
+requer_familia = ""
+requer_upgrade = ""

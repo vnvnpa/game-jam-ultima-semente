@@ -14,16 +14,43 @@ var radius: float = 5.0
 var hit_ids: Array = []
 var poison: bool = false
 var shard: bool = false
+var dart: bool = false
+var mark_bonus: float = 1.0
+var mark_time: float = 0.0
 var color: Color = Color(0.7, 1.0, 0.55)
 var done: bool = false
 
 @export var draw_placeholder: bool = true
+
+@onready var sprite: AnimatedSprite2D = get_node_or_null("Sprite") as AnimatedSprite2D
+
+
+func _ready() -> void:
+	if sprite == null:
+		return
+	var anim: StringName = &"espinho"
+	if not friendly:
+		anim = &"cuspe"
+	elif dart:
+		anim = &"bolt"
+	elif shard:
+		anim = &"estilhaco"
+	sprite.play(anim)
+	sprite.rotation = dir.angle()
+	var k: float = clampf(radius / 4.5, 0.8, 1.5)
+	sprite.scale = Vector2(k, k)
+	if poison and friendly:
+		sprite.modulate = Color(0.85, 1.0, 0.4)
 
 
 func _physics_process(delta: float) -> void:
 	if done or run == null or run.ended:
 		return
 	global_position += dir * speed * delta
+	if run.map != null and run.map.is_inside_wall(global_position, 0.0):
+		run.fx_burst(global_position, color, 4, 10.0)
+		_finish()
+		return
 	life -= delta
 	if life <= 0.0 or not WorldLayout.WORLD_RECT.has_point(global_position):
 		_finish()
@@ -48,7 +75,12 @@ func _check_enemies() -> void:
 		if hit_ids.has(id):
 			continue
 		hit_ids.append(id)
-		en.take_damage(damage, "proj")
+		var dmg: float = damage
+		if dart:
+			if en.mark_time > 0.0:
+				dmg *= mark_bonus
+			en.mark_time = mark_time
+		en.take_damage(dmg, "proj")
 		if poison and en.alive:
 			en.apply_poison(4.0 + damage * 0.15, 3.0)
 		if not en.alive and not shard and run.state.has_special("estilhaco"):

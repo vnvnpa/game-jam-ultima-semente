@@ -16,3 +16,5 @@ extends Resource
 ## Evoluções especiais só aparecem com requisitos cumpridos.
 @export var evolucao: bool = false
 @export var requer_familia: String = ""
+## Id de outra melhoria que precisa estar escolhida antes desta aparecer.
+@export var requer_upgrade: String = ""

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "nuvem_esporos"
+nome = "Nuvem de Esporos"
+recarga = 14.0
+raio = 120.0
+duracao = 6.0
+vulnerabilidade = 1.25
+lentidao = 0.65
+duracao_fraqueza = 1.0
+fraqueza_pulso = 5.0
+max_ativas = 4
+cadeia_chance = 0.4
+cadeia_raio_mult = 0.55
+cadeia_duracao = 3.5

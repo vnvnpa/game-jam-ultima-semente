@@ -15,6 +15,8 @@ static func roll_options(state: RunState, count: int = 3) -> Array:
 		var lv: int = state.upgrade_level(uid)
 		if lv >= u.max_nivel:
 			continue
+		if u.requer_upgrade != "" and state.upgrade_level(u.requer_upgrade) == 0:
+			continue
 		if u.evolucao:
 			if lv == 0 and state.has_special("ressonancia_profunda") and state.family_count(u.requer_familia) >= 3:
 				evolutions.append(u)

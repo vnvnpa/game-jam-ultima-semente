@@ -9,18 +9,13 @@ extends Node
 
 signal bindings_changed
 
-const ACTIONS: Dictionary = {
-	"move_up": [KEY_W, KEY_UP],
-	"move_down": [KEY_S, KEY_DOWN],
-	"move_left": [KEY_A, KEY_LEFT],
-	"move_right": [KEY_D, KEY_RIGHT],
-	"skill_1": [KEY_SPACE],
-	"skill_2": [KEY_Q],
-	"use_pulse": [KEY_R],
-	"interact": [KEY_E],
-	"map": [KEY_M],
-	"pause": [KEY_ESCAPE],
-}
+## As ações e as teclas PADRÃO vivem no Input Map do project.godot (Projeto >
+## Configurações do Projeto > Mapa de Entrada). Aqui só guardamos uma cópia dos
+## padrões (lida no _ready, antes de aplicar o remapeamento do jogador).
+const ACTION_NAMES: Array = ["move_up", "move_down", "move_left", "move_right", "skill_1", "skill_2", "skill_3", "use_pulse", "interact", "map", "pause"]
+
+## ação -> Array[int] de physical_keycode padrão (a primeira é a "principal").
+var _defaults: Dictionary = {}
 
 const ACTION_LABELS: Dictionary = {
 	"move_up": "Mover para cima",
@@ -29,18 +24,20 @@ const ACTION_LABELS: Dictionary = {
 	"move_right": "Mover para a direita",
 	"skill_1": "Pulso de Raízes",
 	"skill_2": "Ruptura Celular",
+	"skill_3": "Nuvem de Esporos",
 	"use_pulse": "Pulso de Emergência",
 	"interact": "Interagir",
 	"map": "Mapa",
 }
 
 ## Ações cuja tecla principal o jogador pode trocar (ordem de exibição).
-const REBINDABLE: Array = ["move_up", "move_down", "move_left", "move_right", "skill_1", "skill_2", "use_pulse", "interact", "map"]
+const REBINDABLE: Array = ["move_up", "move_down", "move_left", "move_right", "skill_1", "skill_2", "skill_3", "use_pulse", "interact", "map"]
 const RESERVED_KEYS: Array = [KEY_ESCAPE, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_1, KEY_2, KEY_3]
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_read_defaults()
 	_validate_bindings()
 	_setup_input()
 	AudioManager.apply_volumes()
@@ -56,7 +53,7 @@ func _raw_keys() -> Dictionary:
 
 ## Tecla principal efetiva de uma ação (personalizada, se válida; senão a padrão).
 func primary_key(action: String) -> int:
-	var defaults: Array = ACTIONS.get(action, [])
+	var defaults: Array = _defaults.get(action, [])
 	if defaults.is_empty():
 		return KEY_NONE
 	var custom: Dictionary = _raw_keys()
@@ -98,21 +95,40 @@ func _validate_bindings() -> void:
 		SaveManager.set_setting("keys", {})
 
 
+## Lê do Input Map (project.godot) as teclas padrão de cada ação.
+func _read_defaults() -> void:
+	_defaults.clear()
+	for action_name in ACTION_NAMES:
+		var a: String = str(action_name)
+		if not InputMap.has_action(a):
+			push_error("GameManager: ação '%s' ausente do Input Map (project.godot)." % a)
+			continue
+		var codes: Array = []
+		for e in InputMap.action_get_events(a):
+			if e is InputEventKey:
+				codes.append(int((e as InputEventKey).physical_keycode))
+		_defaults[a] = codes
+
+
 func _setup_input() -> void:
-	for action_name in ACTIONS:
-		if not InputMap.has_action(action_name):
-			InputMap.add_action(action_name)
 	_apply_all()
 
 
 func _apply_all() -> void:
-	for action_name in ACTIONS:
+	for action_name in _defaults:
 		_apply_action(str(action_name))
 
 
 func _apply_action(action: String) -> void:
+	var keys: Array = (_defaults.get(action, []) as Array).duplicate()
+	if keys.is_empty():
+		return
+	# Preserva os eventos que não são de teclado (gamepad) definidos no Input Map.
+	var others: Array = []
+	for ev0 in InputMap.action_get_events(action):
+		if not (ev0 is InputEventKey):
+			others.append(ev0)
 	InputMap.action_erase_events(action)
-	var keys: Array = (ACTIONS[action] as Array).duplicate()
 	keys[0] = primary_key(action)
 	var seen: Array = []
 	for k in keys:
@@ -123,6 +139,8 @@ func _apply_action(action: String) -> void:
 		var ev: InputEventKey = InputEventKey.new()
 		ev.physical_keycode = code as Key
 		InputMap.action_add_event(action, ev)
+	for o in others:
+		InputMap.action_add_event(action, o)
 
 
 ## Troca a tecla principal de uma ação. Retorna {"ok": bool, "msg": String}.
@@ -142,6 +160,11 @@ func rebind(action: String, code: int) -> Dictionary:
 			keys[o] = old
 			msg += " %s passou para %s." % [str(ACTION_LABELS[o]), key_name(old)]
 	keys[action] = code
+	# Guarda SÓ as diferenças em relação ao Input Map padrão.
+	for k in keys.keys():
+		var d: Array = _defaults.get(str(k), [])
+		if not d.is_empty() and int(keys[k]) == int(d[0]):
+			keys.erase(k)
 	SaveManager.set_setting("keys", keys)
 	_apply_all()
 	bindings_changed.emit()

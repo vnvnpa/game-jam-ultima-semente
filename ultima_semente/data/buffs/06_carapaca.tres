@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BuffData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/buff_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "carapaca"
+nome = "Carapaça"
+duracao = 3.0
+mods_add = {}
+mods_mul = {
+"damage_taken_mult": 0.45,
+"speed_mult": 0.7
+}
+especial = ""

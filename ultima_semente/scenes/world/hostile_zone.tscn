@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/hostile_zone.gd" id="1_hostile_zo"]
 
+[ext_resource type="Texture2D" path="res://assets/art/world/fog_tile.png" id="2_fog"]
+
 [node name="HostileZone" type="Node2D"]
 script = ExtResource("1_hostile_zo")
+draw_placeholder = false
+
+[node name="Fog" type="Sprite2D" parent="."]
+texture_repeat = 2
+texture = ExtResource("2_fog")
+region_enabled = true
+region_rect = Rect2(0, 0, 600, 400)

@@ -32,6 +32,8 @@ func setup(state: RunState, options: Array) -> void:
 
 func _enable() -> void:
 	_enabled = true
+	if Input.get_connected_joypads().size() > 0 and not _cards.is_empty():
+		(_cards[0] as LevelUpCard).pick_button.grab_focus()
 	for c in _cards:
 		(c as LevelUpCard).set_enabled(true)
 

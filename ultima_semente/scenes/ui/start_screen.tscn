@@ -64,7 +64,7 @@ theme_override_font_sizes/font_size = 20
 
 [node name="Controls" type="Label" parent="Center/Panel/Body"]
 layout_mode = 2
-text = "WASD / Setas: mover   •   Mouse: mirar   •   A arma dispara sozinha no inimigo mais próximo\nEspaço: Pulso de Raízes   •   Q: Ruptura Celular (arrancada)   •   R: Pulso de Emergência\nE: interagir (terminais, ruínas)   •   M: mapa   •   Esc: pausa"
+text = "WASD / Setas: mover   •   Mouse: mirar   •   A arma dispara sozinha no inimigo mais próximo\nEspaço: Pulso de Raízes   •   Q: Ruptura Celular (arrancada)   •   R: Pulso de Emergência   •   F: Nuvem de Esporos (após escolher a mutação)\nE: interagir (terminais, ruínas)   •   M: mapa   •   Esc: pausa\nGamepad: analógico esquerdo/D-pad mover   •   A: Pulso   •   RB: Ruptura   •   X: Emergência   •   Y: Nuvem   •   B: interagir   •   Back: mapa   •   Start: pausa"
 theme_type_variation = &"DimLabel"
 theme_override_font_sizes/font_size = 16
 autowrap_mode = 3

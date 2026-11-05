@@ -48,6 +48,8 @@ func _show_credits() -> void:
 
 
 func _epilogue_text() -> String:
+	if str(_summary.get("level_id", "")) == "heart":
+		return _heart_epilogue()
 	var recs: int = (SaveManager.data["records"] as Array).size()
 	var t: String = "O Jardineiro Vazio se desliga, e o Último Jardim respira pela primeira vez em séculos. "
 	if recs >= 7:
@@ -57,4 +59,23 @@ func _epilogue_text() -> String:
 	else:
 		t += "Kael ainda tem mais perguntas que respostas sobre o que a Rede Raiz realmente quer. "
 	t += "Sob as raízes, algo ainda pulsa: o Coração de Nymara espera."
+	return t
+
+
+## Epílogo do Coração de Nymara: depende da escolha final e dos registros lidos.
+func _heart_epilogue() -> String:
+	var recs: int = (SaveManager.data["records"] as Array).size()
+	var t: String = ""
+	if str(_summary.get("ending", "")) == "coexistir":
+		t = "Kael abaixa a mão. A Última Semente não é plantada nem destruída: é entregue à Rede Raiz como um pacto. As raízes recuam das instalações e passam a crescer ao lado delas. "
+		if recs >= 8:
+			t += "Como Kael entendeu o medo da Rede, ela aprende a soltar: Nymara continua viva e estranha, e pela primeira vez não está sozinha."
+		else:
+			t += "Ninguém sabe se o pacto vai durar, mas, por ora, a Rede escuta."
+	else:
+		t = "Kael planta a Última Semente no coração da Rede. O modelo de um ecossistema inteiro se abre em raízes de luz e Nymara começa a se refazer. "
+		if recs >= 8:
+			t += "A Rede Raiz, que só queria impedir outro fim, descobre que crescer não é perder, e deixa a floresta voltar a ser livre."
+		else:
+			t += "A Rede resiste por um instante, depois cede. O que nascerá no lugar, só o tempo dirá."
 	return t

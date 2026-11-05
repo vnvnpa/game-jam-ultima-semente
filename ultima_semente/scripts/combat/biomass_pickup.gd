@@ -14,11 +14,15 @@ var vel: float = 0.0
 var t: float = 0.0
 var collected: bool = false
 
+@onready var sprite: AnimatedSprite2D = get_node_or_null("Sprite") as AnimatedSprite2D
+
 
 func _ready() -> void:
 	t = randf() * 3.0
 	if persistent:
 		add_to_group("needs_run")
+	if sprite != null:
+		sprite.play(&"cache" if persistent else &"biomass")
 	queue_redraw()
 
 
@@ -54,16 +58,17 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-	if not draw_placeholder:
-		return
 	var pulse: float = 0.8 + 0.2 * sin(t * 6.0)
 	var s: float = (7.0 if persistent else 5.0) * pulse
-	var col: Color = Color(0.85, 0.96, 0.35)
 	if persistent and run != null and run.player != null:
 		var rv: float = run.state.stat("reveal_radius")
 		if rv > 0.0 and global_position.distance_to(run.player.global_position) < rv:
 			draw_arc(Vector2.ZERO, 16.0 + 3.0 * sin(t * 3.0), 0.0, TAU, 24, Color(0.85, 0.96, 0.35, 0.6), 2.0)
-		draw_circle(Vector2.ZERO, s + 5.0, Color(0.85, 0.96, 0.35, 0.16))
+		if draw_placeholder:
+			draw_circle(Vector2.ZERO, s + 5.0, Color(0.85, 0.96, 0.35, 0.16))
+	if not draw_placeholder:
+		return
+	var col: Color = Color(0.85, 0.96, 0.35)
 	var pts: PackedVector2Array = PackedVector2Array([Vector2(0, -s), Vector2(s * 0.8, 0), Vector2(0, s), Vector2(-s * 0.8, 0)])
 	draw_colored_polygon(pts, col)
 	draw_polyline(PackedVector2Array([pts[0], pts[1], pts[2], pts[3], pts[0]]), Color(1, 1, 0.8, 0.9), 1.0)

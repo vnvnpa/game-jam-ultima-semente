@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/boss_arena.gd" id="1_boss_arena"]
 
+[ext_resource type="SpriteFrames" path="res://assets/art/frames/arena.tres" id="2_frames"]
+
 [node name="BossArena" type="Node2D"]
 script = ExtResource("1_boss_arena")
+draw_placeholder = false
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_frames")
+autoplay = "ring"

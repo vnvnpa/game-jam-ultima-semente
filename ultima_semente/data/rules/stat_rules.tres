@@ -1,0 +1,75 @@
+[gd_resource type="Resource" script_class="StatRules" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/stat_rules.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+base_hp = 100.0
+base_speed = 190.0
+base_o2 = 180.0
+base_values = {
+"hp_mult": 1.0,
+"speed_mult": 1.0,
+"damage_mult": 1.0,
+"fire_rate_mult": 1.0,
+"range_mult": 1.0,
+"pierce": 0.0,
+"extra_projectiles": 0.0,
+"proj_speed_mult": 1.0,
+"skill_cd_mult": 1.0,
+"skill_power_mult": 1.0,
+"skill_damage_mult": 1.0,
+"damage_taken_mult": 1.0,
+"heal_mult": 1.0,
+"regen": 0.0,
+"o2_max_mult": 1.0,
+"o2_use_mult": 1.0,
+"o2_recover_mult": 1.0,
+"xp_mult": 1.0,
+"pickup_radius": 70.0,
+"elite_dmg_mult": 1.0,
+"common_dmg_mult": 1.0,
+"event_biomass_bonus": 0.0,
+"elite_time_shift": 0.0,
+"event_time_mult": 1.0,
+"event_size_mult": 1.0,
+"reveal_radius": 0.0,
+"companions": 0.0,
+"mutation_power": 1.0,
+"regen_delay_bonus": 0.0,
+"cloud_power": 1.0,
+"dart_level": 0.0
+}
+limits = {
+"hp_mult": [0.5, 2.2],
+"speed_mult": [0.55, 1.6],
+"damage_mult": [0.4, 4.0],
+"fire_rate_mult": [0.5, 3.0],
+"range_mult": [0.5, 2.2],
+"pierce": [0.0, 6.0],
+"extra_projectiles": [0.0, 4.0],
+"proj_speed_mult": [0.5, 2.0],
+"skill_cd_mult": [0.4, 2.0],
+"skill_power_mult": [0.5, 3.0],
+"skill_damage_mult": [0.5, 4.0],
+"damage_taken_mult": [0.3, 1.8],
+"heal_mult": [0.5, 1.6],
+"regen": [0.0, 6.0],
+"o2_max_mult": [0.5, 2.0],
+"o2_use_mult": [0.3, 2.5],
+"o2_recover_mult": [0.5, 2.0],
+"xp_mult": [0.5, 2.5],
+"pickup_radius": [40.0, 300.0],
+"elite_dmg_mult": [0.5, 3.0],
+"common_dmg_mult": [0.5, 2.0],
+"event_biomass_bonus": [0.0, 30.0],
+"elite_time_shift": [0.0, 120.0],
+"event_time_mult": [0.5, 1.5],
+"event_size_mult": [0.5, 2.0],
+"reveal_radius": [0.0, 900.0],
+"companions": [0.0, 4.0],
+"mutation_power": [0.5, 2.0],
+"regen_delay_bonus": [0.0, 6.0],
+"cloud_power": [0.5, 3.0],
+"dart_level": [0.0, 3.0]
+}

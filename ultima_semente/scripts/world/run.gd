@@ -7,6 +7,7 @@ extends Node2D
 signal request_menu
 signal request_restart
 signal request_garden
+signal request_heart
 
 const EXTRACT_UNLOCK_TIME: float = 600.0
 const EXTRACT_HOLD_TIME: float = 2.0
@@ -29,6 +30,8 @@ const EXTRACT_HOLD_TIME: float = 2.0
 @export var slam_scene: PackedScene
 @export var decoy_scene: PackedScene
 @export var fx_scene: PackedScene
+@export var decision_scene: PackedScene
+@export var cloud_scene: PackedScene
 @export_group("Menus modais")
 @export var level_up_scene: PackedScene
 @export var shop_scene: PackedScene
@@ -56,6 +59,7 @@ var extract_hold: float = 0.0
 var nearest: Interactable = null
 var objectives: GardenObjectives = null
 var summary: Dictionary = {}
+var final_choice: String = ""
 var _in_explosion: bool = false
 var _last_float_ms: int = 0
 var _audio_t: float = 0.0
@@ -140,7 +144,7 @@ func is_spawn_valid(pos: Vector2, radius: float) -> bool:
 			return false
 	if WorldLayout.is_locked_region(pos) and not map.gate.is_open:
 		return false
-	if player != null and pos.distance_to(player.global_position) < SpawnDirector.MIN_DIST:
+	if player != null and pos.distance_to(player.global_position) < director.min_distance():
 		return false
 	return true
 
@@ -162,6 +166,8 @@ func decoy_active() -> bool:
 
 ## Texto do objetivo atual para o HUD.
 func objective_text() -> String:
+	if level_id == "heart":
+		return _heart_objective()
 	if objectives != null:
 		return objectives.objective_text()
 	if state.boss_defeated:
@@ -169,6 +175,21 @@ func objective_text() -> String:
 	if not map.gate.is_open:
 		return "Objetivo: destrua %d ninhos (%d/%d) para abrir o Santuário." % [nests_required, state.nests_destroyed, nests_required]
 	return "Objetivo: derrote o Guardião de Raízes no Santuário (norte)."
+
+
+func _heart_objective() -> String:
+	if state.boss_defeated:
+		return "A Rede Raiz se calou. Nymara respira."
+	var h: HeartBoss = boss as HeartBoss
+	if h == null:
+		return "Objetivo: entre na arena e enfrente o Coração de Nymara."
+	if h.decision_started:
+		return "Decida o destino da Última Semente."
+	if h.stage == 1:
+		return "Etapa 1 — Defesa: resista às raízes e fira o núcleo."
+	if h.stage == 2:
+		return "Etapa 2 — Exposição: destrua as estruturas (%d restantes)." % maxi(0, h.last_alive)
+	return "Etapa 3 — Decisão: derrube as defesas finais do núcleo."
 
 
 func get_enemy_target_pos(from: Vector2) -> Vector2:
@@ -244,6 +265,22 @@ func spawn_root_slam(pos: Vector2, radius: float, damage: float, delay: float) -
 	s.delay = delay
 	s.position = pos
 	zones_node.add_child(s)
+
+
+## Nuvem de Esporos do jogador (substitui a mais antiga se passar do limite).
+func spawn_cloud(pos: Vector2, radius: float, life: float, ab: AbilityData) -> void:
+	if cloud_scene == null:
+		return
+	var active: Array = get_tree().get_nodes_in_group("clouds")
+	if active.size() >= ab.max_ativas:
+		(active[0] as Node).queue_free()
+	var c: FriendlyCloud = cloud_scene.instantiate() as FriendlyCloud
+	c.run = self
+	c.data = ab
+	c.radius = radius
+	c.life = life
+	c.position = pos
+	zones_node.add_child(c)
 
 
 func place_decoy(pos: Vector2) -> bool:
@@ -324,9 +361,21 @@ func add_xp(amount: int) -> void:
 		fx_ring(player.global_position, 60.0, Color(1.0, 0.95, 0.5), 0.5)
 
 
-func add_buff(id: String, duration: float) -> void:
-	state.buffs[id] = duration
+## `duration` < 0 usa a duração padrão do BuffData (data/buffs).
+func add_buff(id: String, duration: float = -1.0) -> void:
+	var dur: float = duration
+	if dur < 0.0:
+		var bd: BuffData = GameData.buffs.get(id)
+		dur = bd.duracao if bd != null else 0.0
+	state.buffs[id] = dur
 	refresh_all_stats()
+
+
+## Aplica um buff sem recalcular atributos (o chamador recalcula depois).
+func add_buff_silent(id: String) -> void:
+	var bd: BuffData = GameData.buffs.get(id)
+	if bd != null:
+		state.buffs[id] = bd.duracao
 
 
 func refresh_all_stats() -> void:
@@ -375,14 +424,18 @@ func on_enemy_killed(e: Enemy) -> void:
 	spawn_biomass(e.global_position, rng.randi_range(e.bio_min, e.bio_max))
 	fx_burst(e.global_position, d.cor, 8, 22.0)
 	AudioManager.play_sfx("kill", randf_range(0.9, 1.2), -6.0)
+	if state.has_special("nuvem_cadeia") and e.weaken_time > 0.0:
+		var cab: AbilityData = GameData.abilities.get("nuvem_esporos")
+		if cab != null and rng.randf() < cab.cadeia_chance:
+			spawn_cloud(e.global_position, cab.raio * cab.cadeia_raio_mult * state.stat("cloud_power"), cab.cadeia_duracao, cab)
 	if e.is_boss:
 		_on_boss_killed()
 	elif d.comportamento == "ninho":
 		_on_nest_killed()
 	if d.comportamento == "esporideo":
 		spawn_spore_zone(e.global_position, 55.0, 6.0, 5.0)
-	if e.explode_on_death:
-		_explode(e.global_position, 90.0, 20.0, 18.0)
+	if e.explode_on_death and e.elite_data != null:
+		_explode(e.global_position, e.elite_data.explosion_radius, e.elite_data.explosion_enemy_damage, e.elite_data.explosion_player_damage)
 	elif state.has_special("sangue_volatil") and not _in_explosion and randf() < 0.35:
 		_explode(e.global_position, 70.0, 20.0 * state.stat("damage_mult"), 10.0)
 
@@ -426,7 +479,9 @@ func _on_boss_killed() -> void:
 	# Recompensa de chefe: creditada UMA única vez, imediatamente (GDD 21.5).
 	if not state.boss_reward_claimed:
 		state.boss_reward_claimed = true
-		var n: int = rng.randi_range(1, 2)
+		var nmin: int = boss.data.nucleos_min if boss != null else 1
+		var nmax: int = boss.data.nucleos_max if boss != null else 2
+		var n: int = rng.randi_range(nmin, maxi(nmin, nmax))
 		var ok: bool = SaveManager.add_nuclei(n)
 		state.nuclei_gained += n
 		AudioManager.play_sfx("nucleus")
@@ -464,7 +519,12 @@ func _physics_process(delta: float) -> void:
 	if boss_death_timer > 0.0:
 		boss_death_timer -= delta
 		if boss_death_timer <= 0.0:
-			end_run("victory" if level_id == "garden" else "region_clear")
+			var end_reason: String = "region_clear"
+			if level_id == "garden":
+				end_reason = "garden_clear"
+			elif level_id == "heart":
+				end_reason = "victory"
+			end_run(end_reason)
 			return
 	_audio_t -= delta
 	if _audio_t <= 0.0:
@@ -499,7 +559,7 @@ func _update_buffs(delta: float) -> void:
 	for id in expired:
 		state.buffs.erase(id)
 		if id == "sobrecarga" and state.has_special("sobrecarga_celular"):
-			state.buffs["sobrecarga_recarga"] = 8.0
+			add_buff_silent("sobrecarga_recarga")
 	refresh_all_stats()
 
 
@@ -683,7 +743,7 @@ func end_run(reason: String) -> void:
 	if ended:
 		return
 	ended = true
-	if (reason == "victory" or reason == "region_clear") and not state.boss_defeated:
+	if (reason == "victory" or reason == "region_clear" or reason == "garden_clear") and not state.boss_defeated:
 		reason = "extract"
 	summary = {
 		"reason": reason,
@@ -698,6 +758,7 @@ func end_run(reason: String) -> void:
 		"records": state.records_found.size(),
 		"nests": state.nests_destroyed,
 		"level_id": level_id,
+		"ending": final_choice,
 		"mechanisms": objectives.activated_count() if objectives != null else 0,
 	}
 	SaveManager.record_run(summary)
@@ -721,12 +782,15 @@ func end_run(reason: String) -> void:
 		ui_layer.add_child(v)
 		v.setup(summary)
 		v.menu_pressed.connect(_go_menu)
-	elif reason == "region_clear":
+	elif reason == "region_clear" or reason == "garden_clear":
 		AudioManager.play_sfx("victory")
 		var lc: LevelCompleteScreen = level_complete_scene.instantiate() as LevelCompleteScreen
 		ui_layer.add_child(lc)
 		lc.setup(summary)
-		lc.garden_pressed.connect(_go_garden)
+		if reason == "garden_clear":
+			lc.garden_pressed.connect(_go_heart)
+		else:
+			lc.garden_pressed.connect(_go_garden)
 		lc.menu_pressed.connect(_go_menu)
 	else:
 		AudioManager.play_sfx("gameover")
@@ -744,6 +808,38 @@ func _abandon() -> void:
 func _go_menu() -> void:
 	get_tree().paused = false
 	request_menu.emit()
+
+
+## Abre a escolha final do Coração de Nymara. Retorna true se tratou o pedido.
+func open_decision(heart: Enemy) -> bool:
+	if ended:
+		return true
+	if decision_scene == null:
+		_on_decision_chosen("restaurar", heart)
+		return true
+	if modal != "":
+		return false
+	modal = "decision"
+	get_tree().paused = true
+	var scr: DecisionScreen = decision_scene.instantiate() as DecisionScreen
+	ui_layer.add_child(scr)
+	scr.setup((SaveManager.data["records"] as Array).size())
+	scr.chosen.connect(_on_decision_chosen.bind(heart))
+	modal_node = scr
+	return true
+
+
+func _on_decision_chosen(id: String, heart: Enemy) -> void:
+	final_choice = id
+	if modal == "decision":
+		_close_modal()
+	if heart != null and is_instance_valid(heart) and heart is HeartBoss:
+		(heart as HeartBoss).finish_after_decision()
+
+
+func _go_heart() -> void:
+	get_tree().paused = false
+	request_heart.emit()
 
 
 func _go_garden() -> void:

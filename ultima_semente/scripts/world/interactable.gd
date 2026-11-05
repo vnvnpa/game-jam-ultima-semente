@@ -15,15 +15,45 @@ extends Node2D
 ## Apenas "poi": id do registro (data/records) e id da recompensa única de Núcleo ("" = sem Núcleo).
 @export var record_id: String = ""
 @export var nuc_claim: String = ""
+## Folhas de animação (nó "Sprite"): terminal, nave, ruína e mecanismo.
+@export var shop_frames: SpriteFrames
+@export var ship_frames: SpriteFrames
+@export var poi_frames: SpriteFrames
+@export var mechanism_frames: SpriteFrames
 
 var run: Run = null
 var used: bool = false
 var t: float = 0.0
 
+@onready var sprite: AnimatedSprite2D = get_node_or_null("Sprite") as AnimatedSprite2D
+
 
 func _ready() -> void:
 	add_to_group("interactables")
 	add_to_group("needs_run")
+	_setup_sprite()
+
+
+## Escolhe a folha e a posição do pé conforme o tipo.
+func _setup_sprite() -> void:
+	if sprite == null:
+		return
+	var fr: SpriteFrames = poi_frames
+	var off: Vector2 = Vector2(0.0, -10.0)
+	match kind:
+		"shop":
+			fr = shop_frames
+			off = Vector2(0.0, -4.0)
+		"ship":
+			fr = ship_frames
+			off = Vector2(0.0, -2.0)
+		"mechanism":
+			fr = mechanism_frames
+			off = Vector2(0.0, -10.0)
+	sprite.sprite_frames = fr
+	sprite.position = off
+	if fr != null and fr.has_animation(&"idle"):
+		sprite.play(&"idle")
 
 
 func prompt_text() -> String:
@@ -43,12 +73,36 @@ func prompt_text() -> String:
 
 func _process(delta: float) -> void:
 	t += delta
+	if sprite != null and sprite.sprite_frames != null:
+		if kind == "mechanism":
+			var want: StringName = &"active" if used else &"idle"
+			if sprite.animation != want and sprite.sprite_frames.has_animation(want):
+				sprite.play(want)
+		elif kind == "poi":
+			sprite.modulate = Color(0.6, 0.6, 0.72) if used else Color.WHITE
 	queue_redraw()
 
 
 func _draw() -> void:
-	if not draw_placeholder:
-		return
+	if draw_placeholder:
+		_draw_placeholder()
+	else:
+		_draw_hints()
+
+
+## Anéis de dica que continuam visíveis mesmo com sprite.
+func _draw_hints() -> void:
+	if kind == "mechanism":
+		var mc: Color = Color(0.4, 0.95, 0.5) if used else Color(1.0, 0.8, 0.3)
+		draw_arc(Vector2.ZERO, 34.0, 0.0, TAU, 28, Color(mc.r, mc.g, mc.b, 0.35), 2.0)
+	elif kind == "poi" and run != null and run.player != null and not used:
+		var gl: float = 0.5 + 0.5 * sin(t * 2.0)
+		var rv: float = run.state.stat("reveal_radius")
+		if rv > 0.0 and global_position.distance_to(run.player.global_position) < rv:
+			draw_arc(Vector2.ZERO, 30.0 + 4.0 * gl, 0.0, TAU, 28, Color(0.8, 0.5, 1.0, 0.6), 2.0)
+
+
+func _draw_placeholder() -> void:
 	match kind:
 		"shop":
 			draw_rect(Rect2(-14, -16, 28, 30), Color(0.2, 0.26, 0.28))

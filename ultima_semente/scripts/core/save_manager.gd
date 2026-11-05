@@ -31,6 +31,8 @@ static func default_data() -> Dictionary:
 		"claimed_rewards": [],
 		"campaign_completed": false,
 		"garden_unlocked": false,
+		"heart_unlocked": false,
+		"last_ending": "",
 		"stats": {
 			"runs": 0, "deaths": 0, "extractions": 0, "victories": 0, "abandons": 0,
 			"kills": 0, "best_time": 0.0, "total_time": 0.0, "bosses_defeated": 0,
@@ -104,6 +106,8 @@ func _sanitize(raw: Dictionary) -> Dictionary:
 	d["claimed_rewards"] = _string_list(raw.get("claimed_rewards", []))
 	d["campaign_completed"] = bool(raw.get("campaign_completed", false)) if typeof(raw.get("campaign_completed", false)) == TYPE_BOOL else false
 	d["garden_unlocked"] = bool(raw.get("garden_unlocked", false)) if typeof(raw.get("garden_unlocked", false)) == TYPE_BOOL else false
+	d["heart_unlocked"] = bool(raw.get("heart_unlocked", false)) if typeof(raw.get("heart_unlocked", false)) == TYPE_BOOL else false
+	d["last_ending"] = str(raw.get("last_ending", "")) if typeof(raw.get("last_ending", "")) == TYPE_STRING else ""
 	var base_stats: Dictionary = d["stats"]
 	var raw_stats: Variant = raw.get("stats", {})
 	if typeof(raw_stats) == TYPE_DICTIONARY:
@@ -359,6 +363,11 @@ func has_codex_enemy(id: String) -> bool:
 	return (data["codex_enemies"] as Array).has(id)
 
 
+## O Coração de Nymara abre ao concluir o Jardim (ou se a campanha antiga já foi concluída).
+func is_heart_unlocked() -> bool:
+	return bool(data.get("heart_unlocked", false)) or bool(data.get("campaign_completed", false))
+
+
 func is_garden_unlocked() -> bool:
 	return bool(data.get("garden_unlocked", false))
 
@@ -382,12 +391,15 @@ func record_run(summary: Dictionary) -> void:
 			st["abandons"] = int(st["abandons"]) + 1
 		"region_clear":
 			data["garden_unlocked"] = true
+		"garden_clear":
+			data["heart_unlocked"] = true
 		"victory":
 			st["victories"] = int(st["victories"]) + 1
 			data["campaign_completed"] = true
 	if bool(summary.get("boss_defeated", false)):
 		st["bosses_defeated"] = int(st["bosses_defeated"]) + 1
 	if reason == "victory":
+		data["last_ending"] = str(summary.get("ending", ""))
 		var t: float = float(summary.get("time", 0.0))
 		var best: float = float(st["best_time"])
 		if best <= 0.0 or t < best:

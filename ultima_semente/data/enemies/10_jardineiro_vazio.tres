@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="EnemyData" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/entities/gardener.tscn" id="2_scene"]
+[ext_resource type="SpriteFrames" path="res://assets/art/frames/jardineiro.tres" id="9_frames"]
 
 [resource]
 script = ExtResource("1_script")
@@ -9,7 +10,7 @@ id = "jardineiro_vazio"
 nome = "Jardineiro Vazio"
 descricao = "Máquina antiga do Último Jardim. Só sofre dano com o núcleo exposto; dispara em leque e cerca o alvo com raízes."
 comportamento = "chefe"
-vida_maxima = 1500.0
+vida_maxima = 1300.0
 dano = 14.0
 velocidade = 40.0
 experiencia = 150
@@ -20,6 +21,7 @@ cor = Color(0.35, 0.42, 0.4, 1.0)
 cor_detalhe = Color(0.75, 0.95, 0.85, 1.0)
 intervalo_ataque = 1.0
 alcance_preferido = 0.0
-parametro_a = 12.0
-parametro_b = 24.0
+parametro_a = 10.0
+parametro_b = 20.0
 cena = ExtResource("2_scene")
+frames = ExtResource("9_frames")

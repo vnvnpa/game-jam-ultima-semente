@@ -10,3 +10,12 @@ custo = 30
 efeito = "+25% de alcance de aquisição de alvos nesta expedição."
 limitacao = "Não aumenta o dano. Compra única por expedição."
 limite_por_visita = 1
+tipo = "flag"
+valor = 0.0
+valor_max = 0.0
+buff_id = ""
+mods_add = {}
+mods_mul = {
+"range_mult": 1.25
+}
+sempre_oferecido = false

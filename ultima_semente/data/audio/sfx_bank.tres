@@ -1,0 +1,233 @@
+[gd_resource type="Resource" script_class="SfxBank" load_steps=52 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/sfx_bank.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/data/sfx_entry.gd" id="2_entry"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/alert.wav" id="s0"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/boss.wav" id="s1"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/click.wav" id="s2"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/confirm.wav" id="s3"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/dash.wav" id="s4"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/error.wav" id="s5"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/explosion.wav" id="s6"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/gameover.wav" id="s7"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/gate_open.wav" id="s8"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/heal.wav" id="s9"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/hit.wav" id="s10"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/hurt.wav" id="s11"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/kill.wav" id="s12"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/levelup.wav" id="s13"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/mechanism.wav" id="s14"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/mutation.wav" id="s15"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/nucleus.wav" id="s16"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/o2.wav" id="s17"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/pickup.wav" id="s18"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/pulse.wav" id="s19"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/shield.wav" id="s20"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/shoot.wav" id="s21"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/spit.wav" id="s22"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/step.wav" id="s23"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/victory.wav" id="s24"]
+
+[sub_resource type="Resource" id="Entry_0"]
+script = ExtResource("2_entry")
+id = "alert"
+stream = ExtResource("s0")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_1"]
+script = ExtResource("2_entry")
+id = "boss"
+stream = ExtResource("s1")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_2"]
+script = ExtResource("2_entry")
+id = "click"
+stream = ExtResource("s2")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_3"]
+script = ExtResource("2_entry")
+id = "confirm"
+stream = ExtResource("s3")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_4"]
+script = ExtResource("2_entry")
+id = "dash"
+stream = ExtResource("s4")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_5"]
+script = ExtResource("2_entry")
+id = "error"
+stream = ExtResource("s5")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_6"]
+script = ExtResource("2_entry")
+id = "explosion"
+stream = ExtResource("s6")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_7"]
+script = ExtResource("2_entry")
+id = "gameover"
+stream = ExtResource("s7")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_8"]
+script = ExtResource("2_entry")
+id = "gate_open"
+stream = ExtResource("s8")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_9"]
+script = ExtResource("2_entry")
+id = "heal"
+stream = ExtResource("s9")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_10"]
+script = ExtResource("2_entry")
+id = "hit"
+stream = ExtResource("s10")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_11"]
+script = ExtResource("2_entry")
+id = "hurt"
+stream = ExtResource("s11")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_12"]
+script = ExtResource("2_entry")
+id = "kill"
+stream = ExtResource("s12")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_13"]
+script = ExtResource("2_entry")
+id = "levelup"
+stream = ExtResource("s13")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_14"]
+script = ExtResource("2_entry")
+id = "mechanism"
+stream = ExtResource("s14")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_15"]
+script = ExtResource("2_entry")
+id = "mutation"
+stream = ExtResource("s15")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_16"]
+script = ExtResource("2_entry")
+id = "nucleus"
+stream = ExtResource("s16")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_17"]
+script = ExtResource("2_entry")
+id = "o2"
+stream = ExtResource("s17")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_18"]
+script = ExtResource("2_entry")
+id = "pickup"
+stream = ExtResource("s18")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_19"]
+script = ExtResource("2_entry")
+id = "pulse"
+stream = ExtResource("s19")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_20"]
+script = ExtResource("2_entry")
+id = "shield"
+stream = ExtResource("s20")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_21"]
+script = ExtResource("2_entry")
+id = "shoot"
+stream = ExtResource("s21")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_22"]
+script = ExtResource("2_entry")
+id = "spit"
+stream = ExtResource("s22")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_23"]
+script = ExtResource("2_entry")
+id = "step"
+stream = ExtResource("s23")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[sub_resource type="Resource" id="Entry_24"]
+script = ExtResource("2_entry")
+id = "victory"
+stream = ExtResource("s24")
+volume_db = 0.0
+pitch = 1.0
+cooldown_ms = 35
+
+[resource]
+script = ExtResource("1_script")
+entries = [SubResource("Entry_0"), SubResource("Entry_1"), SubResource("Entry_2"), SubResource("Entry_3"), SubResource("Entry_4"), SubResource("Entry_5"), SubResource("Entry_6"), SubResource("Entry_7"), SubResource("Entry_8"), SubResource("Entry_9"), SubResource("Entry_10"), SubResource("Entry_11"), SubResource("Entry_12"), SubResource("Entry_13"), SubResource("Entry_14"), SubResource("Entry_15"), SubResource("Entry_16"), SubResource("Entry_17"), SubResource("Entry_18"), SubResource("Entry_19"), SubResource("Entry_20"), SubResource("Entry_21"), SubResource("Entry_22"), SubResource("Entry_23"), SubResource("Entry_24")]

@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/entities/heart_boss.tscn" id="2_scene"]
+[ext_resource type="SpriteFrames" path="res://assets/art/frames/coracao.tres" id="9_frames"]
+
+[resource]
+script = ExtResource("1_script")
+id = "coracao_rede"
+nome = "Coração de Nymara"
+descricao = "Núcleo biológico da Rede Raiz. Invoca criaturas, esmaga o chão com raízes e se protege com estruturas."
+comportamento = "chefe"
+vida_maxima = 2600.0
+dano = 14.0
+velocidade = 0.0
+experiencia = 250
+biomassa_minima = 30
+biomassa_maxima = 50
+raio = 44.0
+cor = Color(0.66, 0.16, 0.35, 1.0)
+cor_detalhe = Color(1.0, 0.5, 0.8, 1.0)
+intervalo_ataque = 1.0
+alcance_preferido = 0.0
+parametro_a = 22.0
+parametro_b = 0.0
+cena = ExtResource("2_scene")
+frames = ExtResource("9_frames")
+nucleos_min = 3
+nucleos_max = 5

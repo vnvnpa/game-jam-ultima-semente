@@ -3,6 +3,11 @@ class_name Obstacle
 extends StaticBody2D
 ## Obstáculo com colisão (árvore, cristal ou pilar). Cada tipo tem a sua cena
 ## (scenes/world/tree.tscn, crystal.tscn, pillar.tscn): edite o visual nelas.
+## O nó "Sprite" (Sprite2D com a folha de variantes) é escolhido por posição e
+## escalado pelo raio; desmarque Draw Placeholder para esconder o desenho de reserva.
+
+## Distância (px da arte) do centro da imagem até o pé, por tipo.
+const FOOT: Array = [28.0, 26.0, 26.0]
 
 @export_enum("Árvore", "Cristal", "Pilar") var kind: int = 0
 @export var radius: float = 20.0:
@@ -10,11 +15,19 @@ extends StaticBody2D
 		radius = v
 		_apply_radius()
 @export var draw_placeholder: bool = true
+## Quantas variantes a folha de arte tem (lado a lado).
+@export var variants: int = 4
 
 @onready var shape_node: CollisionShape2D = $Shape
+@onready var sprite: Sprite2D = get_node_or_null("Sprite") as Sprite2D
 
 
 func _ready() -> void:
+	if sprite != null and sprite.texture != null and variants > 0:
+		var fw: float = float(sprite.texture.get_width()) / float(variants)
+		var v: int = absi(int(global_position.x * 7.0 + global_position.y * 13.0)) % variants
+		sprite.region_enabled = true
+		sprite.region_rect = Rect2(fw * float(v), 0.0, fw, float(sprite.texture.get_height()))
 	_apply_radius()
 
 
@@ -26,6 +39,10 @@ func _apply_radius() -> void:
 	var c: CircleShape2D = shape_node.shape as CircleShape2D
 	if c != null:
 		c.radius = radius * 0.8
+	if sprite != null:
+		var k: float = radius / 20.0
+		sprite.scale = Vector2(k, k)
+		sprite.position = Vector2(0.0, -(float(FOOT[clampi(kind, 0, 2)]) - 10.0) * k)
 
 
 func _draw() -> void:

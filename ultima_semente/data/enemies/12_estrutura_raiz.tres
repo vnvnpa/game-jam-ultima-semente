@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="2_scene"]
+[ext_resource type="SpriteFrames" path="res://assets/art/frames/estrutura.tres" id="9_frames"]
+
+[resource]
+script = ExtResource("1_script")
+id = "estrutura_raiz"
+nome = "Estrutura de Raiz"
+descricao = "Pilar vivo que protege o núcleo da Rede Raiz. Lança raízes telegrafadas contra o intruso."
+comportamento = "estrutura"
+vida_maxima = 320.0
+dano = 0.0
+velocidade = 0.0
+experiencia = 25
+biomassa_minima = 5
+biomassa_maxima = 10
+raio = 20.0
+cor = Color(0.5, 0.3, 0.45, 1.0)
+cor_detalhe = Color(0.7, 1.0, 1.0, 1.0)
+intervalo_ataque = 4.5
+alcance_preferido = 0.0
+parametro_a = 16.0
+parametro_b = 0.0
+cena = ExtResource("2_scene")
+frames = ExtResource("9_frames")

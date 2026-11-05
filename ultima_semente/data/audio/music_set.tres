@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MusicSet" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/music_set.gd" id="1_script"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/explore_loop.wav" id="2_exp"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/combat_loop.wav" id="3_com"]
+
+[resource]
+script = ExtResource("1_script")
+explorar = ExtResource("2_exp")
+combate = ExtResource("3_com")
+explorar_db = -6.0
+combate_db = -9.0
+explorar_queda_db = -10.0
+duck_pausa_db = -9.0
+entrada_s = 1.5
+velocidade_mistura = 0.4

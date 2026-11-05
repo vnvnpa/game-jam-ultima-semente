@@ -145,7 +145,7 @@ for d,_,fs in os.walk(ROOT+'/data'):
             for m in re.finditer(r'\[ext_resource ([^\]]*)\]',t):
                 a=dict(re.findall(r'(\w+)="([^"]*)"',m.group(1))); ext[a['id']]=a
                 if not os.path.exists(disk(a['path'])): err(f'{p}: ext inexistente {a["path"]}')
-            check_refs(p,t,ext,{})
+            check_refs(p,t,ext,{i:'Resource' for i in re.findall(r'\[sub_resource type="\w+" id="([^"]+)"\]',t)})
             sid=ext['1_script']['path']; props=allprops(sid)
             body=t.split('[resource]')[1]
             for k in re.findall(r'^(\w+) = ',body,re.M):
@@ -154,5 +154,21 @@ for d,_,fs in os.walk(ROOT+'/data'):
 pg=open(ROOT+'/project.godot',encoding='utf-8').read()
 ms=re.search(r'run/main_scene="([^"]+)"',pg).group(1)
 if not os.path.exists(disk(ms)): err('main_scene inexistente')
+# F0: Input Map, camadas nomeadas, autoloads e ACTION_NAMES coerentes
+gm=open(ROOT+'/scripts/core/game_manager.gd',encoding='utf-8').read()
+m=re.search(r'const ACTION_NAMES: Array = \[(.*?)\]',gm)
+names=re.findall(r'"(\w+)"',m.group(1)) if m else []
+if not names: err('game_manager.gd: ACTION_NAMES ausente')
+inp=pg.split('[input]')[1].split('\n[')[0] if '[input]' in pg else ''
+for a in names:
+    if not re.search(r'^'+a+r'=\{',inp,re.M): err(f'project.godot: ação {a} ausente do [input]')
+exp=['mundo','jogador','inimigo','projetil_jogador','projetil_inimigo','coletavel','interativo','zona']
+for i,n in enumerate(exp,1):
+    if f'2d_physics/layer_{i}="{n}"' not in pg: err(f'project.godot: layer_{i} deveria se chamar {n}')
+for a,pth in re.findall(r'^(\w+)="\*(res://[^"]+)"',pg,re.M):
+    if not os.path.exists(disk(pth)): err(f'autoload {a}: {pth} inexistente')
+for req in ['data/abilities/01_nuvem_esporos.tres','data/weapons/dardo_fotossintese.tres','data/audio/sfx_bank.tres','data/audio/music_set.tres','default_bus_layout.tres','data/rules/stat_rules.tres','data/waves/01_floresta.tres','icon.svg','ui/game_theme.tres','assets/art/world/ground_tileset.tres','assets/art/frames/station.tres','assets/art/frames/gate.tres','assets/art/frames/pickups.tres','assets/art/world/fog_tile.png','assets/world/terrain.png','assets/world/garden_terrain.png','.gitignore']:
+    if not os.path.exists(os.path.join(ROOT,req)): err(f'arquivo obrigatório ausente: {req}')
+if os.path.isdir(os.path.join(ROOT,'.godot')): err('pasta .godot não deve ir no pacote')
 print('cenas:',len(scenes)); print('\n'.join(errs) if errs else 'VALIDAÇÃO OK'); print(len(errs),'problemas')
 sys.exit(1 if errs else 0)

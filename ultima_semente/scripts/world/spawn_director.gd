@@ -1,22 +1,21 @@
 class_name SpawnDirector
 extends Node
 ## Controla o surgimento de inimigos em mapa aberto (GDD 8): etapa por tempo,
-## limite de ativos, tipos permitidos, posições válidas longe do jogador
-## (250–700 px), elites e dificuldade com teto (não cresce sem limite).
+## limite de ativos, tipos permitidos, posições válidas longe do jogador,
+## elites e dificuldade com teto (não cresce sem limite).
+## TODOS os números vêm de um WaveProfile (data/waves/*.tres, escolhido por
+## `profile_id`): edite o .tres no Inspector para balancear.
 
 const INVALID_POS: Vector2 = Vector2(-9999.0, -9999.0)
-const MIN_DIST: float = 250.0
-const MAX_DIST: float = 700.0
-const CAP_START: float = 10.0
-const CAP_END: float = 45.0
-const RAMP_TIME: float = 1320.0   # 22 min: a pressão para de crescer aqui
-const HARD_CAP: int = 70
 
 var run: Run = null
+var profile: WaveProfile = null
 var timer: float = 1.0
 var elites_spawned: int = 0
 var next_elite_time: float = 390.0
 var event_boost: int = 0
+## id do WaveProfile usado por esta fase (ex.: "floresta", "jardim").
+@export var profile_id: String = "floresta"
 ## Fases dedicadas começam como se já tivessem passado `time_offset` segundos
 ## (etapa, teto de inimigos e vida inimiga usam o tempo + deslocamento).
 @export var time_offset: float = 0.0
@@ -26,6 +25,10 @@ var event_boost: int = 0
 
 func setup(r: Run) -> void:
 	run = r
+	profile = GameData.wave_profiles.get(profile_id)
+	if profile == null:
+		push_error("SpawnDirector: perfil '%s' não encontrado." % profile_id)
+		profile = WaveProfile.new()
 	next_elite_time = first_elite_time - run.state.stat("elite_time_shift")
 
 
@@ -33,46 +36,54 @@ func _t() -> float:
 	return run.state.run_time + time_offset
 
 
-static func stage_name(t: float) -> String:
-	if t < 180.0:
-		return "Aprendizado"
-	if t < 420.0:
-		return "Exploração"
-	if t < 720.0:
-		return "Ameaça crescente"
-	if t < 1020.0:
-		return "Grupos combinados"
-	if t < 1320.0:
-		return "Crise biológica"
-	return "Desafio principal"
+func min_distance() -> float:
+	return profile.dist_min if profile != null else 250.0
+
+
+## Etapa vigente no tempo t (a última cujo `inicio` já passou).
+func _stage(t: float) -> WaveStage:
+	var best: WaveStage = null
+	if profile == null:
+		return null
+	for s in profile.stages:
+		var st: WaveStage = s
+		if t >= st.inicio and (best == null or st.inicio >= best.inicio):
+			best = st
+	return best
+
+
+func stage_name_at(t: float) -> String:
+	var st: WaveStage = _stage(t)
+	return st.nome if st != null else ""
 
 
 func _progress(t: float) -> float:
-	return clampf(t / RAMP_TIME, 0.0, 1.0)
+	return clampf(t / maxf(profile.tempo_rampa, 1.0), 0.0, 1.0)
 
 
 func current_cap(t: float) -> int:
-	var cap: int = roundi(lerpf(CAP_START, CAP_END, _progress(t))) + event_boost
+	var cap: int = roundi(lerpf(profile.cap_inicio, profile.cap_fim, _progress(t))) + event_boost
 	if run.boss_active:
-		cap = roundi(float(cap) * 0.5)
-	return mini(cap, HARD_CAP)
+		cap = roundi(float(cap) * profile.chefe_mult_limite)
+	return mini(cap, profile.limite_maximo)
 
 
 func current_interval(t: float) -> float:
-	return lerpf(1.5, 0.6, _progress(t))
+	var iv: float = lerpf(profile.intervalo_inicio, profile.intervalo_fim, _progress(t))
+	if run != null and run.boss_active:
+		iv *= profile.chefe_mult_intervalo
+	return iv
 
 
 ## Lista de [id, peso] permitidos no tempo t.
 func weights(t: float) -> Array:
-	if t < 180.0:
-		return [["larva_fertil", 100]]
-	if t < 420.0:
-		return [["larva_fertil", 70], ["cortarraiz", 30]]
-	if t < 720.0:
-		return [["larva_fertil", 45], ["cortarraiz", 25], ["flor_ruptura", 20], ["esporideo", 10]]
-	if t < 1020.0:
-		return [["larva_fertil", 30], ["cortarraiz", 20], ["flor_ruptura", 16], ["esporideo", 12], ["casca_tumulo", 12]]
-	return [["larva_fertil", 24], ["cortarraiz", 16], ["flor_ruptura", 14], ["esporideo", 10], ["casca_tumulo", 12], ["parasita_sinal", 10]]
+	var out: Array = []
+	var st: WaveStage = _stage(t)
+	if st == null:
+		return out
+	for id in st.pesos:
+		out.append([str(id), int(st.pesos[id])])
+	return out
 
 
 func pick_type(t: float) -> String:
@@ -90,21 +101,20 @@ func pick_type(t: float) -> String:
 
 ## Escalonamento leve de vida por etapa (dano e velocidade NÃO escalam).
 func hp_scale(t: float) -> float:
-	return 1.0 + 0.5 * _progress(t)
+	return 1.0 + profile.escala_vida_max * _progress(t)
 
 
 func max_elites(t: float) -> int:
-	if t < 720.0:
-		return 1
-	if t < 1020.0:
-		return 2
-	return 3
+	var st: WaveStage = _stage(t)
+	return st.max_elites if st != null else 1
 
 
-func find_spawn_pos(radius: float, dmin: float = MIN_DIST, dmax: float = MAX_DIST) -> Vector2:
+func find_spawn_pos(radius: float, dmin: float = -1.0, dmax: float = -1.0) -> Vector2:
+	var lo: float = dmin if dmin >= 0.0 else profile.dist_min
+	var hi: float = dmax if dmax >= 0.0 else profile.dist_max
 	var center: Vector2 = run.player.global_position
 	for i in 16:
-		var pos: Vector2 = center + Vector2.from_angle(randf() * TAU) * randf_range(dmin, dmax)
+		var pos: Vector2 = center + Vector2.from_angle(randf() * TAU) * randf_range(lo, hi)
 		if run.is_spawn_valid(pos, radius):
 			return pos
 	return INVALID_POS
@@ -114,7 +124,7 @@ func spawn_group(count: int, dmin: float, dmax: float) -> int:
 	var t: float = _t()
 	var made: int = 0
 	for i in count:
-		if run.regular_enemy_count() >= HARD_CAP:
+		if run.regular_enemy_count() >= profile.limite_maximo:
 			break
 		var id: String = pick_type(t)
 		var data: EnemyData = GameData.enemies[id]
@@ -129,11 +139,12 @@ func spawn_group(count: int, dmin: float, dmax: float) -> int:
 func spawn_elite() -> bool:
 	var t: float = _t()
 	var data: EnemyData = GameData.enemies["anomalia"]
-	var pos: Vector2 = find_spawn_pos(data.raio, 350.0, 650.0)
+	var pos: Vector2 = find_spawn_pos(data.raio, profile.elite_dist_min, profile.elite_dist_max)
 	if pos == INVALID_POS:
 		return false
-	var mods: Array = ["blindada", "veloz", "explosiva", "regenerante"]
-	var e: Enemy = run.spawn_enemy("anomalia", pos, hp_scale(t), str(mods[randi() % mods.size()]))
+	var mods: Array = profile.elite_ids
+	var mod_id: String = str(mods[randi() % mods.size()]) if not mods.is_empty() else ""
+	var e: Enemy = run.spawn_enemy("anomalia", pos, hp_scale(t), mod_id)
 	if e == null:
 		return false
 	elites_spawned += 1
@@ -150,7 +161,7 @@ func elite_count() -> int:
 
 
 func _physics_process(delta: float) -> void:
-	if run == null or run.ended or run.player == null or run.player.dead:
+	if run == null or profile == null or run.ended or run.player == null or run.player.dead:
 		return
 	var t: float = _t()
 	timer -= delta
@@ -158,15 +169,16 @@ func _physics_process(delta: float) -> void:
 		timer = current_interval(t)
 		var room: int = current_cap(t) - run.regular_enemy_count()
 		if room > 0:
-			var batch: int = 1 if t < 720.0 else 2
-			spawn_group(mini(batch, room), MIN_DIST, MAX_DIST)
+			var st: WaveStage = _stage(t)
+			var batch: int = st.lote if st != null else 1
+			spawn_group(mini(batch, room), profile.dist_min, profile.dist_max)
 	var rt: float = run.state.run_time
 	if rt >= next_elite_time and not run.boss_active:
 		if elite_count() < max_elites(t):
 			if spawn_elite():
-				next_elite_time = rt + 210.0
+				next_elite_time = rt + profile.elite_intervalo
 			else:
-				# Sem posição válida agora: tenta de novo em 3 s, não a cada quadro.
-				next_elite_time = rt + 3.0
+				# Sem posição válida agora: tenta de novo em breve, não a cada quadro.
+				next_elite_time = rt + profile.elite_nova_tentativa
 		else:
-			next_elite_time = rt + 20.0
+			next_elite_time = rt + profile.elite_espera_cheio

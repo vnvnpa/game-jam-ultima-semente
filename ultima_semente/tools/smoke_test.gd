@@ -64,6 +64,19 @@ func _process(_delta: float) -> bool:
 		_check(run.map.wall_rects.size() == 3, "3 muralhas lidas da cena")
 		_check(WorldLayout.region_name(Vector2(560, 1500)) == "Floresta do Despertar", "nome da região")
 		_check(run.state.max_hp() == 100.0, "vida base 100")
+		_check(run.player.get_node_or_null("Sprite") != null, "Kael com sprite")
+		_check(GameData.abilities.has("nuvem_esporos") and GameData.dart_weapon != null, "Nuvem de Esporos e Dardo carregados")
+		_check(InputMap.has_action("skill_3"), "ação skill_3 no Input Map")
+		_check(AudioManager.has_sfx("shoot") and AudioManager.has_sfx("gate_open") and AudioManager.has_sfx("heal"), "banco de sons carregado")
+		_check(GameData.wave_profiles.has("floresta") and GameData.wave_profiles.has("jardim"), "perfis de ondas carregados")
+		_check(run.director.profile != null and run.director.profile.stages.size() == 6, "diretor usa o WaveProfile")
+		_check(GameData.threat_events.size() == 3 and GameData.buffs.size() == 6 and GameData.elite_modifiers.size() == 4, "eventos, buffs e elites carregados")
+		_check(GameData.stat_rules.base_values.size() == 31 and run.state.stat("pickup_radius") == 70.0, "regras de atributos carregadas")
+		_check(run.director.stage_name_at(0.0) == "Aprendizado" and run.director.max_elites(800.0) == 2, "etapas por tempo")
+		for e0 in run.enemies:
+			_check((e0 as Enemy).sprite != null and (e0 as Enemy).sprite.sprite_frames != null, "ninho com sprite")
+		_check(run.map.get_node("Ground").get_used_cells().size() > 9000, "chão (TileMapLayer) pintado")
+		_check(run.map.get_node("Ground/Decor").get_child_count() > 50, "decoração espalhada")
 	elif frame == 10:
 		run.player.global_position = Vector2(2400, 1250)
 		run.state.run_time = 700.0
@@ -74,7 +87,8 @@ func _process(_delta: float) -> bool:
 	elif frame == 60:
 		_check(run.oxygen.zone == "pressurizado", "base pressurizada")
 		for id in GameData.enemies:
-			if id != "guardiao_raizes" and id != "jardineiro_vazio" and id != "ninho":
+			var cmp0: String = GameData.enemies[id].comportamento
+			if cmp0 != "chefe" and cmp0 != "ninho" and cmp0 != "estrutura":
 				run.spawn_enemy(str(id), run.player.global_position + Vector2(260, 40), 1.0, "veloz")
 		for uid in GameData.upgrade_order:
 			var u: UpgradeData = GameData.upgrades[uid]
@@ -95,6 +109,7 @@ func _process(_delta: float) -> bool:
 	elif frame == 90:
 		run.player.use_pulse()
 		run.player.use_dash()
+		run.player.use_cloud()
 		run.player.use_emergency_pulse()
 		run.damage_area(run.player.global_position, 400.0, 99999.0, 100.0, 1.0)
 	elif frame == 130:

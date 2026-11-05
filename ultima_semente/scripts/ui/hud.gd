@@ -3,15 +3,6 @@ extends Control
 ## HUD da expedição (GDD 15): vida, oxigênio, XP, recursos, tempo, etapa,
 ## habilidades e recargas, alertas, barra de chefe e objetivo atual.
 
-const BUFF_NAMES: Dictionary = {
-	"catalisador": "Catalisador (+dano)",
-	"estimulante": "Estimulante (+cadência)",
-	"cartucho": "Cartucho (veneno)",
-	"sobrecarga": "Sobrecarga!",
-	"sobrecarga_recarga": "Recarga lenta",
-	"carapaca": "Carapaça",
-}
-
 @export var alert_scene: PackedScene
 
 var run: Run = null
@@ -47,6 +38,8 @@ var _t: float = 0.0
 @onready var pulse_box: Control = %PulseBox
 @onready var dash_box: Control = %DashBox
 @onready var emerg_box: Control = %EmergBox
+@onready var cloud_label: Label = %CloudLabel
+@onready var cloud_box: Control = %CloudBox
 @onready var hint_label: Label = %HintLabel
 
 
@@ -90,6 +83,11 @@ func _process(delta: float) -> void:
 	alerts = keep
 
 
+func _buff_name(id: String) -> String:
+	var bd: BuffData = GameData.buffs.get(id)
+	return bd.nome if bd != null else id
+
+
 func _cd_text(cd: float, cd_max: float, title: String) -> String:
 	if cd > 0.05:
 		return "%s\n%.1fs" % [title, cd]
@@ -130,13 +128,13 @@ func refresh(r: Run) -> void:
 	bio_label.text = "Biomassa: %d" % st.biomass
 	nuc_label.text = "Núcleos: %d" % SaveManager.get_nuclei()
 	time_label.text = GameManager.format_time(st.run_time)
-	stage_label.text = "Etapa: %s" % SpawnDirector.stage_name(st.run_time + r.director.time_offset)
+	stage_label.text = "Etapa: %s" % r.director.stage_name_at(st.run_time + r.director.time_offset)
 	# objetivo
 	objective_label.text = r.objective_text()
 	# buffs
 	var parts: Array = []
 	for id in st.buffs:
-		parts.append("%s %ds" % [str(BUFF_NAMES.get(id, id)), ceili(float(st.buffs[id]))])
+		parts.append("%s %ds" % [_buff_name(str(id)), ceili(float(st.buffs[id]))])
 	buff_label.text = " | ".join(parts)
 	# habilidades
 	pulse_label.text = _cd_text(pl.pulse_cd, pl.pulse_cd_max, "[%s] Pulso" % GameManager.key_text("skill_1"))
@@ -146,6 +144,10 @@ func refresh(r: Run) -> void:
 	pulse_box.modulate.a = 0.55 if pl.pulse_cd > 0.05 else 1.0
 	dash_box.modulate.a = 0.55 if pl.dash_cd > 0.05 else 1.0
 	emerg_box.modulate.a = 1.0 if st.pulse_charges > 0 else 0.4
+	cloud_box.visible = st.has_special("nuvem_esporos")
+	if cloud_box.visible:
+		cloud_label.text = _cd_text(pl.cloud_cd, pl.cloud_cd_max, "[%s] Nuvem" % GameManager.key_text("skill_3"))
+		cloud_box.modulate.a = 0.55 if pl.cloud_cd > 0.05 else 1.0
 	# chefe
 	if r.boss_active and r.boss != null and is_instance_valid(r.boss) and r.boss.alive:
 		boss_panel.visible = true

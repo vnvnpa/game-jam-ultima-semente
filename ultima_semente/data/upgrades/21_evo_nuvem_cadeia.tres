@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "evo_nuvem_cadeia"
+nome = "Nuvem em Cadeia"
+familia = "ressonancia"
+max_nivel = 1
+descricao = "EVOLUÇÃO: inimigos enfraquecidos que morrem podem criar uma nova nuvem de esporos."
+efeito_colateral = ""
+mods_add = {}
+mods_mul = {}
+especial = "nuvem_cadeia"
+evolucao = true
+requer_familia = "ressonancia"
+requer_upgrade = "nuvem"

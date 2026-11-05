@@ -1,0 +1,20 @@
+{
+  "outline": "#0b1214",
+  "shadow": "#05090a",
+  "white": "#f2fbf6",
+  "player_suit": "#f28c33", "player_suit_light": "#ffb066", "player_helmet": "#d2d6dc", "player_visor": "#4de6ff", "player_gun": "#66d980",
+  "larva": "#c75294", "larva_det": "#ffd9e6",
+  "cortarraiz": "#d97340", "cortarraiz_det": "#ffe680",
+  "flor": "#b333bf", "flor_det": "#ff99f2",
+  "casca": "#6b6180", "casca_det": "#bfb3d9",
+  "esporideo": "#8ca633", "esporideo_det": "#e6ff66",
+  "parasita": "#40a0cc", "parasita_det": "#b3ffff",
+  "anomalia": "#e6334d", "anomalia_det": "#ffcc4d",
+  "ninho": "#80266b", "ninho_det": "#f280b3",
+  "guardiao": "#4d8059", "guardiao_det": "#b3ff99", "core": "#80f2ff", "core_violet": "#b366ff",
+  "jardineiro": "#7a8590", "jardineiro_det": "#c9d3dc",
+  "bio": "#d9f55a", "nucleus": "#80e6ff", "nucleus_violet": "#a666ff",
+  "good": "#8cf29e", "bad": "#ff8085", "warn": "#ffd159", "accent": "#4dd9b3",
+  "ground_floresta": "#1f4d2b", "ground_bacia": "#26304d", "ground_santuario": "#3a403c", "ground_jardim": "#2a2440",
+  "contam": "#a626a0", "tech_orange": "#f2994d", "tech_grey": "#8c9496", "bark": "#47301f", "leaf_dark": "#12402a", "leaf_mid": "#1f6133", "leaf_light": "#33804a"
+}

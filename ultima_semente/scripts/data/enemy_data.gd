@@ -25,3 +25,9 @@ extends Resource
 @export var parametro_b: float = 0.0
 ## Cena instanciada para este inimigo (editável: troque por uma cena própria).
 @export var cena: PackedScene
+
+## Folha de animação do sprite (assets/art/frames/*.tres). Vazio = desenho de reserva.
+@export var frames: SpriteFrames
+## Núcleos Primordiais dados ao derrotar este chefe (sorteio entre min e max, uma única vez).
+@export var nucleos_min: int = 1
+@export var nucleos_max: int = 2

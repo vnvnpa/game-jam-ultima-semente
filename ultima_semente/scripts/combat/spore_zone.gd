@@ -10,6 +10,14 @@ var life: float = 6.0
 var t: float = 0.0
 var tick: float = 0.0
 
+@onready var sprite: AnimatedSprite2D = get_node_or_null("Sprite") as AnimatedSprite2D
+
+
+func _ready() -> void:
+	if sprite != null:
+		var k: float = radius / 46.0
+		sprite.scale = Vector2(k, k)
+
 
 func _process(delta: float) -> void:
 	if run == null or run.ended:
@@ -26,6 +34,8 @@ func _process(delta: float) -> void:
 		if pl != null and not pl.dead and not WorldLayout.in_safe(pl.global_position):
 			if pl.global_position.distance_to(global_position) < radius + Player.RADIUS * 0.5:
 				pl.take_dot(dps * 0.25)
+	if sprite != null:
+		sprite.modulate.a = clampf(life / 1.2, 0.0, 1.0)
 	queue_redraw()
 
 

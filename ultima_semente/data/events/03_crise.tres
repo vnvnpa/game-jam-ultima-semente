@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ThreatEventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/threat_event_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "crise"
+titulo = "CRISE BIOLÓGICA"
+tempo = 1020.0
+duracao = 55.0
+intervalo_surgimento = 3.0
+tamanho_base = 6.0
+dist_min = 300.0
+dist_max = 560.0
+impulso_limite = 12
+recompensa_min = 10
+recompensa_max = 25
+elite_no_inicio = true

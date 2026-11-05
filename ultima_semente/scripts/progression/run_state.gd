@@ -4,53 +4,6 @@ extends RefCounted
 ## melhorias, equipamento, buffs e atributos calculados. Também serve para
 ## pré-visualizar atributos no Laboratório de Adaptação.
 
-const BASE_HP: float = 100.0
-const BASE_SPEED: float = 190.0
-const BASE_O2: float = 180.0
-
-## Efeitos de buffs temporários. Chave = id do buff.
-const BUFF_DEFS: Dictionary = {
-	"catalisador": {"mul": {"damage_mult": 1.30}},
-	"estimulante": {"mul": {"fire_rate_mult": 1.30, "o2_use_mult": 1.35}},
-	"cartucho": {"special": "veneno"},
-	"sobrecarga": {"mul": {"skill_damage_mult": 2.2}},
-	"sobrecarga_recarga": {"mul": {"skill_cd_mult": 1.5}},
-	"carapaca": {"mul": {"damage_taken_mult": 0.45, "speed_mult": 0.7}},
-}
-
-## Limites para impedir acúmulo ilimitado de bônus semelhantes (GDD 11.4).
-const STAT_LIMITS: Dictionary = {
-	"hp_mult": [0.5, 2.2],
-	"speed_mult": [0.55, 1.6],
-	"damage_mult": [0.4, 4.0],
-	"fire_rate_mult": [0.5, 3.0],
-	"range_mult": [0.5, 2.2],
-	"pierce": [0.0, 6.0],
-	"extra_projectiles": [0.0, 4.0],
-	"proj_speed_mult": [0.5, 2.0],
-	"skill_cd_mult": [0.4, 2.0],
-	"skill_power_mult": [0.5, 3.0],
-	"skill_damage_mult": [0.5, 4.0],
-	"damage_taken_mult": [0.3, 1.8],
-	"heal_mult": [0.5, 1.6],
-	"regen": [0.0, 6.0],
-	"o2_max_mult": [0.5, 2.0],
-	"o2_use_mult": [0.3, 2.5],
-	"o2_recover_mult": [0.5, 2.0],
-	"xp_mult": [0.5, 2.5],
-	"pickup_radius": [40.0, 300.0],
-	"elite_dmg_mult": [0.5, 3.0],
-	"common_dmg_mult": [0.5, 2.0],
-	"event_biomass_bonus": [0.0, 30.0],
-	"elite_time_shift": [0.0, 120.0],
-	"event_time_mult": [0.5, 1.5],
-	"event_size_mult": [0.5, 2.0],
-	"reveal_radius": [0.0, 900.0],
-	"companions": [0.0, 4.0],
-	"mutation_power": [0.5, 2.0],
-	"regen_delay_bonus": [0.0, 6.0],
-}
-
 var perm_ids: Array = []
 var upgrades: Dictionary = {}       # id -> nível
 var equip_traje: String = ""
@@ -149,17 +102,7 @@ func total_upgrade_levels() -> int:
 
 # ------------------------------------------------- cálculo de atributos
 static func _base_stats() -> Dictionary:
-	return {
-		"hp_mult": 1.0, "speed_mult": 1.0, "damage_mult": 1.0, "fire_rate_mult": 1.0,
-		"range_mult": 1.0, "pierce": 0.0, "extra_projectiles": 0.0, "proj_speed_mult": 1.0,
-		"skill_cd_mult": 1.0, "skill_power_mult": 1.0, "skill_damage_mult": 1.0,
-		"damage_taken_mult": 1.0, "heal_mult": 1.0, "regen": 0.0, "o2_max_mult": 1.0,
-		"o2_use_mult": 1.0, "o2_recover_mult": 1.0, "xp_mult": 1.0, "pickup_radius": 70.0,
-		"elite_dmg_mult": 1.0, "common_dmg_mult": 1.0, "event_biomass_bonus": 0.0,
-		"elite_time_shift": 0.0, "event_time_mult": 1.0, "event_size_mult": 1.0,
-		"reveal_radius": 0.0, "companions": 0.0, "mutation_power": 1.0,
-		"regen_delay_bonus": 0.0,
-	}
+	return GameData.stat_rules.base_values.duplicate()
 
 
 static func _apply_mods(s: Dictionary, add: Dictionary, mul: Dictionary, power: float) -> void:
@@ -182,7 +125,8 @@ func rebuild_stats() -> void:
 		_apply_mods(s, eq.mods_add, eq.mods_mul, 1.0)
 		if eq.especial != "":
 			sp[eq.especial] = true
-	var power: float = clampf(float(s["mutation_power"]), 0.5, 2.0)
+	var mp_lim: Array = GameData.stat_rules.limits.get("mutation_power", [0.5, 2.0])
+	var power: float = clampf(float(s["mutation_power"]), float(mp_lim[0]), float(mp_lim[1]))
 	# 2) Mutações permanentes
 	for mid in perm_ids:
 		var m: MutationData = GameData.permanent_mutations.get(mid)
@@ -200,35 +144,38 @@ func rebuild_stats() -> void:
 		_apply_mods(s, u.mods_add, u.mods_mul, power * lv)
 		if u.especial != "":
 			sp[u.especial] = true
-	# 4) Compras da expedição
-	if bool(shop_flags.get("mira", false)):
-		s["range_mult"] = float(s["range_mult"]) * 1.25
+	# 4) Compras da expedição (itens de loja do tipo "flag")
+	for fid in shop_flags:
+		var fit: ShopItemData = GameData.shop_items.get(fid)
+		if fit != null and bool(shop_flags[fid]):
+			_apply_mods(s, fit.mods_add, fit.mods_mul, 1.0)
 	# 5) Buffs temporários
 	for bid in buffs:
-		var bd: Dictionary = BUFF_DEFS.get(bid, {})
-		var badd: Dictionary = bd.get("add", {})
-		var bmul: Dictionary = bd.get("mul", {})
-		_apply_mods(s, badd, bmul, 1.0)
-		if bd.has("special"):
-			sp[bd["special"]] = true
+		var bd: BuffData = GameData.buffs.get(bid)
+		if bd == null:
+			continue
+		_apply_mods(s, bd.mods_add, bd.mods_mul, 1.0)
+		if bd.especial != "":
+			sp[bd.especial] = true
 	# 6) Limites
-	for k in STAT_LIMITS:
-		var lim: Array = STAT_LIMITS[k]
+	var limits: Dictionary = GameData.stat_rules.limits
+	for k in limits:
+		var lim: Array = limits[k]
 		s[k] = clampf(float(s.get(k, 0.0)), float(lim[0]), float(lim[1]))
 	stats = s
 	specials = sp
 
 
 func max_hp() -> float:
-	return BASE_HP * stat("hp_mult")
+	return GameData.stat_rules.base_hp * stat("hp_mult")
 
 
 func move_speed() -> float:
-	return BASE_SPEED * stat("speed_mult")
+	return GameData.stat_rules.base_speed * stat("speed_mult")
 
 
 func max_o2() -> float:
-	return BASE_O2 * stat("o2_max_mult")
+	return GameData.stat_rules.base_o2 * stat("o2_max_mult")
 
 
 # ------------------------------------------------ pré-visualização

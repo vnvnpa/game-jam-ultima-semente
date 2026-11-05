@@ -13,6 +13,25 @@ var vel: Vector2 = Vector2(0.0, -42.0)
 var sparks: Array = []   # cada item: {"dir": Vector2, "dist": float}
 var font_size: int = 14
 
+@onready var ring: Sprite2D = get_node_or_null("Ring") as Sprite2D
+@onready var burst: AnimatedSprite2D = get_node_or_null("Burst") as AnimatedSprite2D
+
+
+func _ready() -> void:
+	if ring != null:
+		ring.visible = kind == "ring"
+		ring.scale = Vector2.ZERO
+	if burst != null:
+		burst.visible = kind == "burst"
+		if kind == "burst":
+			var maxd: float = 12.0
+			for s in sparks:
+				maxd = maxf(maxd, float(s["dist"]))
+			var k: float = clampf(maxd / 22.0, 0.5, 2.5)
+			burst.scale = Vector2(k, k)
+			burst.modulate = color
+			burst.play(&"burst")
+
 
 func _process(delta: float) -> void:
 	t += delta
@@ -21,11 +40,16 @@ func _process(delta: float) -> void:
 		return
 	if kind == "text":
 		position += vel * delta
+	elif kind == "ring" and ring != null:
+		var kk: float = clampf(t / maxf(life, 0.001), 0.0, 1.0)
+		var sc: float = maxf(0.02, radius * kk / 62.0)
+		ring.scale = Vector2(sc, sc)
+		ring.modulate = Color(color.r, color.g, color.b, (1.0 - kk) * 0.95)
 	queue_redraw()
 
 
 func _draw() -> void:
-	if not draw_placeholder:
+	if not draw_placeholder and kind != "text":
 		return
 	var k: float = clampf(t / maxf(life, 0.001), 0.0, 1.0)
 	match kind:

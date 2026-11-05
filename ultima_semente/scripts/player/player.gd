@@ -48,8 +48,20 @@ var shake_power: float = 0.0
 var hurt_flash: float = 0.0
 var anim_t: float = 0.0
 @onready var camera: Camera2D = $Camera
+@onready var sprite: AnimatedSprite2D = get_node_or_null("Sprite") as AnimatedSprite2D
+@onready var shield_fx: AnimatedSprite2D = get_node_or_null("ShieldFx") as AnimatedSprite2D
+@onready var spines: Sprite2D = get_node_or_null("Spines") as Sprite2D
+@onready var companions_node: Node2D = get_node_or_null("Companions") as Node2D
+## Folhas de animação do companheiro (Micélio Guardião).
+@export var companion_frames: SpriteFrames
+var comp_sprites: Array = []
+var _anim: StringName = &""
 var pulse_cd_max: float = 8.0
 var dash_cd_max: float = 5.0
+var cloud_cd: float = 0.0
+var cloud_cd_max: float = 14.0
+var dart_cd: float = 0.0
+var _pad_mode: bool = false
 
 
 func setup(r: Run) -> void:
@@ -113,7 +125,7 @@ func take_damage(amount: float, _from_pos: Vector2 = Vector2.ZERO) -> void:
 	AudioManager.play_sfx("hurt")
 	run.float_text(global_position + Vector2(0, -26), "-%d" % maxi(1, roundi(dmg)), Color(1.0, 0.45, 0.45))
 	if st.has_special("carapaca_profunda") and carapace_cd <= 0.0 and dmg >= 0.12 * st.max_hp():
-		run.add_buff("carapaca", 3.0)
+		run.add_buff("carapaca")
 		carapace_cd = 10.0
 	if hp <= 0.0:
 		_on_lethal("inimigo")
@@ -158,6 +170,7 @@ func _on_lethal(cause: String) -> void:
 		return
 	dead = true
 	hp = 0.0
+	_show_death()
 	run.on_player_died(cause)
 
 
@@ -173,6 +186,8 @@ func _physics_process(delta: float) -> void:
 	fire_cd = maxf(0.0, fire_cd - delta)
 	pulse_cd = maxf(0.0, pulse_cd - delta)
 	dash_cd = maxf(0.0, dash_cd - delta)
+	cloud_cd = maxf(0.0, cloud_cd - delta)
+	dart_cd = maxf(0.0, dart_cd - delta)
 	carapace_cd = maxf(0.0, carapace_cd - delta)
 	comp_angle += 2.2 * delta
 	# regeneração fora de perigo
@@ -185,7 +200,7 @@ func _physics_process(delta: float) -> void:
 		if field_shield_t >= 20.0:
 			field_shield_t = 0.0
 			add_shield(25.0, 60.0)
-			run.notify("Escudo de Campo recarregado.", UIKit.COL_NUC, "")
+			run.notify("Escudo de Campo recarregado.", UIKit.COL_NUC, "shield")
 	if st.has_special("casca_viva") and shield < 60.0:
 		casca_viva_t += delta
 		if casca_viva_t >= 10.0:
@@ -194,7 +209,10 @@ func _physics_process(delta: float) -> void:
 	# movimento
 	var input: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var mouse_dir: Vector2 = get_global_mouse_position() - global_position
-	if mouse_dir.length() > 6.0:
+	if _pad_mode:
+		if input.length() > 0.2:
+			facing = input.normalized()
+	elif mouse_dir.length() > 6.0:
 		facing = mouse_dir.normalized()
 	if dash_t > 0.0:
 		dash_t -= delta
@@ -213,12 +231,16 @@ func _physics_process(delta: float) -> void:
 		use_dash()
 	if Input.is_action_just_pressed("use_pulse"):
 		use_emergency_pulse()
+	if Input.is_action_just_pressed("skill_3"):
+		use_cloud()
 	# arma automática
 	var target: Enemy = _find_target()
 	if target != null:
 		aim_dir = (target.global_position - global_position).normalized()
 		if fire_cd <= 0.0:
 			_fire(target)
+		if dart_cd <= 0.0 and st.has_special("dardo"):
+			_fire_dart(target)
 	else:
 		aim_dir = facing
 	_update_companions(delta)
@@ -278,7 +300,7 @@ func _fire(target: Enemy) -> void:
 func _trigger_overload() -> void:
 	var st: RunState = run.state
 	if st.has_special("sobrecarga_celular") and not st.buffs.has("sobrecarga") and not st.buffs.has("sobrecarga_recarga"):
-		run.add_buff("sobrecarga", 4.0)
+		run.add_buff("sobrecarga")
 		run.notify("Sobrecarga Celular!", UIKit.COL_WARN, "")
 
 
@@ -294,9 +316,73 @@ func use_pulse() -> void:
 	pulse_cd = pulse_cd_max
 	var root: float = 1.6 if st.has_special("enraizar") else 0.0
 	run.damage_area(global_position, rad, dmg, pulse_knockback, root)
+	var cab: AbilityData = GameData.abilities.get("nuvem_esporos")
+	if cab != null and st.has_special("nuvem_esporos"):
+		_weaken_in_radius(rad, cab.fraqueza_pulso, cab.vulnerabilidade)
 	run.fx_ring(global_position, rad, Color(0.5, 1.0, 0.6), 0.45)
 	add_shake(5.0)
 	AudioManager.play_sfx("pulse")
+
+
+## Sinergia Pulso de Raízes + Nuvem de Esporos: quem é atingido fica vulnerável.
+func _weaken_in_radius(rad: float, sec: float, mult: float) -> void:
+	for e in run.enemies:
+		if not is_instance_valid(e):
+			continue
+		var en: Enemy = e
+		var rr: float = rad + en.radius
+		if en.alive and global_position.distance_squared_to(en.global_position) <= rr * rr:
+			en.apply_weaken(sec, mult, 1.0)
+
+
+func use_cloud() -> void:
+	if dead or cloud_cd > 0.0 or not run.state.has_special("nuvem_esporos"):
+		return
+	var ab: AbilityData = GameData.abilities.get("nuvem_esporos")
+	if ab == null:
+		return
+	var st: RunState = run.state
+	_trigger_overload()
+	var rad: float = ab.raio * st.stat("cloud_power")
+	cloud_cd_max = ab.recarga * st.stat("skill_cd_mult")
+	cloud_cd = cloud_cd_max
+	run.spawn_cloud(global_position, rad, ab.duracao, ab)
+	run.fx_ring(global_position, rad, Color(0.5, 1.0, 0.8), 0.4)
+	AudioManager.play_sfx("pulse", 0.7, -4.0)
+
+
+## Dardo de Fotossíntese: segunda arma automática (mutação "dardo").
+func _fire_dart(target: Enemy) -> void:
+	var w: WeaponData = GameData.dart_weapon
+	if w == null:
+		return
+	var st: RunState = run.state
+	var lv: float = maxf(1.0, st.stat("dart_level"))
+	dart_cd = w.intervalo / st.stat("fire_rate_mult")
+	var p: Projectile = run.new_projectile()
+	p.dir = (target.global_position - global_position).normalized()
+	p.speed = w.velocidade_projetil * st.stat("proj_speed_mult")
+	p.damage = w.dano * st.stat("damage_mult") * (1.0 + w.escala_por_nivel * (lv - 1.0))
+	p.pierce = w.perfuracao
+	p.life = (w.alcance * st.stat("range_mult") * 1.1) / p.speed
+	p.radius = w.raio_projetil
+	p.dart = true
+	p.mark_bonus = w.bonus_marcado
+	p.mark_time = w.duracao_marca
+	p.color = Color(0.5, 1.0, 0.9)
+	p.position = global_position + p.dir * 14.0
+	run.spawn_projectile(p)
+	AudioManager.play_sfx("shoot", 1.5, -12.0)
+
+
+## Detecta se o último dispositivo usado foi o gamepad (mira = direção do movimento).
+func _input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton:
+		_pad_mode = true
+	elif event is InputEventJoypadMotion and absf((event as InputEventJoypadMotion).axis_value) > 0.4:
+		_pad_mode = true
+	elif event is InputEventMouseMotion:
+		_pad_mode = false
 
 
 func use_emergency_pulse() -> void:
@@ -328,6 +414,74 @@ func use_dash() -> void:
 	AudioManager.play_sfx("dash")
 
 
+func _show_death() -> void:
+	if shield_fx != null:
+		shield_fx.visible = false
+	if sprite != null and sprite.sprite_frames != null and sprite.sprite_frames.has_animation(&"death"):
+		sprite.play(&"death")
+		sprite.frame = sprite.sprite_frames.get_frame_count(&"death") - 1
+		sprite.modulate.a = 1.0
+
+
+## Só visual (roda em _process): animação, espelhamento, espinhos de mutação,
+## escudo e companheiros.
+func _process(_delta: float) -> void:
+	if sprite == null or run == null or dead or sprite.sprite_frames == null:
+		return
+	var st: RunState = run.state
+	sprite.flip_h = aim_dir.x < 0.0
+	var want: StringName = &"idle"
+	if dash_t > 0.0:
+		want = &"dash"
+	elif hurt_flash > 0.5:
+		want = &"hurt"
+	elif velocity.length() > 10.0:
+		want = &"walk"
+	if want != _anim and sprite.sprite_frames.has_animation(want):
+		_anim = want
+		sprite.play(want)
+	var flick: bool = invuln > 0.0 and int(anim_t * 20.0) % 2 == 0
+	sprite.modulate.a = 0.45 if flick else 1.0
+	if spines != null:
+		var n_mut: int = mini(8, st.perm_ids.size() + floori(float(st.total_upgrade_levels()) / 2.0))
+		spines.visible = n_mut > 0
+		if n_mut > 0 and spines.texture != null:
+			spines.region_rect = Rect2(float((n_mut - 1) * 32), 0.0, 32.0, 32.0)
+		spines.scale.x = -1.0 if aim_dir.x < 0.0 else 1.0
+	if shield_fx != null:
+		shield_fx.visible = shield > 0.0
+	_sync_companion_sprites(int(st.stat("companions")))
+
+
+func _sync_companion_sprites(n: int) -> void:
+	if companions_node == null or companion_frames == null:
+		return
+	while comp_sprites.size() < n:
+		var s: AnimatedSprite2D = AnimatedSprite2D.new()
+		s.sprite_frames = companion_frames
+		s.play(&"idle")
+		companions_node.add_child(s)
+		comp_sprites.append(s)
+	while comp_sprites.size() > n:
+		var old: AnimatedSprite2D = comp_sprites.pop_back()
+		old.queue_free()
+	for i in n:
+		(comp_sprites[i] as AnimatedSprite2D).position = Vector2.from_angle(comp_angle + float(i) * TAU / float(n)) * companion_orbit_radius
+
+
+func _comp_attack_visual(i: int) -> void:
+	if i >= comp_sprites.size():
+		return
+	var s: AnimatedSprite2D = comp_sprites[i]
+	s.play(&"attack")
+	s.animation_finished.connect(_on_comp_anim_done.bind(s), CONNECT_ONE_SHOT)
+
+
+func _on_comp_anim_done(s: AnimatedSprite2D) -> void:
+	if is_instance_valid(s):
+		s.play(&"idle")
+
+
 func _update_companions(delta: float) -> void:
 	var n: int = int(run.state.stat("companions"))
 	while comp_cd.size() < n:
@@ -355,6 +509,7 @@ func _update_companions(delta: float) -> void:
 			comp_cd[i] = 1.1
 			best.take_damage(companion_damage * run.state.stat("damage_mult"), "mic")
 			run.fx_burst(best.global_position, Color(0.8, 0.5, 1.0), 4, 12.0)
+			_comp_attack_visual(i)
 		else:
 			comp_cd[i] = 0.25
 

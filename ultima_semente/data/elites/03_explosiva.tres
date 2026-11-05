@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EliteModifier" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/elite_modifier.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "explosiva"
+nome = "Explosiva"
+explode_on_death = true
+explosion_radius = 90.0
+explosion_enemy_damage = 20.0
+explosion_player_damage = 18.0

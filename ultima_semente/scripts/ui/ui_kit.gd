@@ -49,12 +49,23 @@ static func get_theme() -> Theme:
 
 ## Liga o som de clique a todos os botões (inclusive CheckBox) abaixo de `root`.
 static func wire_buttons(root: Node) -> void:
+	var pad: bool = Input.get_connected_joypads().size() > 0
+	var first: BaseButton = null
 	for n in root.find_children("*", "BaseButton", true, false):
 		var b: BaseButton = n as BaseButton
-		if b == null or b.has_meta("wired"):
+		if b == null:
+			continue
+		# Com gamepad conectado, os botões precisam poder receber foco (D-pad + A).
+		if pad and b.focus_mode == Control.FOCUS_NONE:
+			b.focus_mode = Control.FOCUS_ALL
+		if first == null and not b.disabled and b.is_visible_in_tree():
+			first = b
+		if b.has_meta("wired"):
 			continue
 		b.set_meta("wired", true)
 		b.pressed.connect(func() -> void: AudioManager.play_sfx("click"))
+	if pad and first != null and root.is_inside_tree() and root.get_viewport().gui_get_focus_owner() == null:
+		first.call_deferred("grab_focus")
 
 
 static func _build_fallback_theme() -> Theme:

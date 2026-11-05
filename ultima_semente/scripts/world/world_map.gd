@@ -46,3 +46,14 @@ func is_inside_obstacle(pos: Vector2, radius: float) -> bool:
 	if not gate.is_open and gate.get_rect().grow(radius).has_point(pos):
 		return true
 	return false
+
+
+## Só muralhas e a barreira fechada (não árvores/cristais): usado pelos projéteis.
+func is_inside_wall(pos: Vector2, radius: float) -> bool:
+	for wr in wall_rects:
+		var rect: Rect2 = wr
+		if rect.grow(radius).has_point(pos):
+			return true
+	if not gate.is_open and gate.get_rect().grow(radius).has_point(pos):
+		return true
+	return false

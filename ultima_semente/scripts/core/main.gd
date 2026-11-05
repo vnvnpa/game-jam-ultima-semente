@@ -12,6 +12,7 @@ extends Node
 @export var loading_scene: PackedScene
 @export var run_scene: PackedScene
 @export var garden_run_scene: PackedScene
+@export var heart_run_scene: PackedScene
 
 var screen: Control = null
 var run: Run = null
@@ -74,6 +75,8 @@ func _on_menu_action(id: String) -> void:
 		s.back_pressed.connect(show_main_menu)
 	elif id == "garden":
 		start_run("garden")
+	elif id == "heart":
+		start_run("heart")
 	elif id == "lab":
 		var l: LabScreen = lab_scene.instantiate() as LabScreen
 		_set_screen(l)
@@ -104,11 +107,16 @@ func start_run(level: String = "region") -> void:
 	# Dois quadros para a tela de carregamento aparecer antes da geração do mundo.
 	await get_tree().process_frame
 	await get_tree().process_frame
-	var scn: PackedScene = garden_run_scene if level == "garden" else run_scene
+	var scn: PackedScene = run_scene
+	if level == "garden":
+		scn = garden_run_scene
+	elif level == "heart":
+		scn = heart_run_scene
 	run = scn.instantiate() as Run
 	run.request_menu.connect(show_main_menu)
 	run.request_restart.connect(func() -> void: start_run(_level))
 	run.request_garden.connect(func() -> void: start_run("garden"))
+	run.request_heart.connect(func() -> void: start_run("heart"))
 	add_child(run)
 	_clear_screen()
 	_starting = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3]
+[gd_scene load_steps=28 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/run.gd" id="1_run"]
 [ext_resource type="PackedScene" path="res://scenes/entities/enemy.tscn" id="2_enemy"]
@@ -26,9 +26,14 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/map_overlay.tscn" id="24_map_overla"]
 [ext_resource type="PackedScene" path="res://scenes/ui/level_complete_screen.tscn" id="25_level_comp"]
 
+[ext_resource type="PackedScene" path="res://scenes/entities/friendly_cloud.tscn" id="98_cloud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/decision_screen.tscn" id="99_decision"]
+
 [node name="Run" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_run")
+cloud_scene = ExtResource("98_cloud")
+decision_scene = ExtResource("99_decision")
 enemy_scene = ExtResource("2_enemy")
 boss_scene = ExtResource("3_boss")
 projectile_scene = ExtResource("4_projectile")

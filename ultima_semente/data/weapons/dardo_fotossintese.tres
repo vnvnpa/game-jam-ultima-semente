@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "dardo_fotossintese"
+nome = "Dardo de Fotossíntese"
+dano = 7.0
+intervalo = 0.38
+alcance = 420.0
+velocidade_projetil = 900.0
+raio_projetil = 4.0
+perfuracao = 0
+bonus_marcado = 1.6
+duracao_marca = 4.0
+escala_por_nivel = 0.25

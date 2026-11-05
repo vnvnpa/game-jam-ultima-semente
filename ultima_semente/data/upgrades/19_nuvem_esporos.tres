@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/upgrade_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "nuvem"
+nome = "Nuvem de Esporos"
+familia = "ressonancia"
+max_nivel = 3
+descricao = "Libera [F]: uma nuvem que retarda e enfraquece inimigos. +25% de área por nível. O Pulso de Raízes passa a enfraquecer quem atinge."
+efeito_colateral = ""
+mods_add = {}
+mods_mul = {
+"cloud_power": 1.25
+}
+especial = "nuvem_esporos"
+evolucao = false
+requer_familia = ""
+requer_upgrade = ""

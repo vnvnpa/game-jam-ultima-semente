@@ -12,7 +12,7 @@ extends Node
 ## Distância máxima do mecanismo para a ativação continuar.
 @export var hold_radius: float = 260.0
 @export var wave_interval: float = 3.5
-@export var wave_size: int = 3
+@export var wave_size: int = 2
 @export var reward_biomass: int = 20
 
 var run: Run = null
@@ -112,6 +112,7 @@ func _complete() -> void:
 	var reward: int = reward_biomass + int(run.state.stat("event_biomass_bonus"))
 	run.state.add_biomass(reward)
 	run.float_text(run.player.global_position + Vector2(0, -34), "+%d Biomassa" % reward, UIKit.COL_BIO)
+	AudioManager.play_sfx("mechanism")
 	run.notify("Mecanismo ativado (%d/%d)! +%d Biomassa" % [activated.size(), required, reward], UIKit.COL_GOOD, "levelup")
 	if activated.size() >= required and not opened:
 		opened = true

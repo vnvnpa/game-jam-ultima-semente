@@ -46,6 +46,7 @@ layout_mode = 2
 text = "GUARDIÃO DERROTADO"
 theme_type_variation = &"TitleLabel"
 horizontal_alignment = 1
+unique_name_in_owner = true
 
 [node name="Sep" type="HSeparator" parent="Center/Panel/Body"]
 layout_mode = 2
@@ -56,6 +57,7 @@ text = "A Barreira de Raízes cede. Além do Santuário, um jardim antigo se abr
 theme_override_font_sizes/font_size = 19
 horizontal_alignment = 1
 autowrap_mode = 3
+unique_name_in_owner = true
 
 [node name="Unlocked" type="Label" parent="Center/Panel/Body"]
 layout_mode = 2
@@ -64,6 +66,7 @@ theme_type_variation = &"NucLabel"
 theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
 autowrap_mode = 3
+unique_name_in_owner = true
 
 [node name="StatsLabel" type="Label" parent="Center/Panel/Body"]
 layout_mode = 2

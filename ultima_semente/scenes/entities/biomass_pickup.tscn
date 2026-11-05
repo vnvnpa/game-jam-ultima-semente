@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/combat/biomass_pickup.gd" id="1_biomass_pi"]
 
+[ext_resource type="SpriteFrames" path="res://assets/art/frames/pickups.tres" id="2_frames"]
+
 [node name="BiomassPickup" type="Node2D"]
 script = ExtResource("1_biomass_pi")
+draw_placeholder = false
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_frames")

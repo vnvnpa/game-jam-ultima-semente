@@ -1,4 +1,30 @@
 # Projeto: Última Semente — build MVP (Godot 4.7.x, GDScript)
+---
+## Atualização (versão pós-F8a) — leia isto primeiro
+**Estado honesto:** o conteúdo abaixo foi escrito para a primeira build; várias partes mudaram. Nada desta versão foi executado na Godot pelo autor do código (o ambiente de geração não tem Godot): use `docs/QA_CHECKLIST.md`.
+
+**Novidades:** arte e áudio gerados por script (`tools/gen_art.py`, `gen_audio.py`), chão em TileMapLayer, sprites animados (Kael, inimigos, chefes, mundo), interface texturizada, balanceamento em Resources (`data/waves`, `events`, `elites`, `buffs`, `rules`, `abilities`, `audio`), Nuvem de Esporos (F), Dardo de Fotossíntese, Santuário do Último Jardim (fase 2) e Coração de Nymara (fase final, chefe em 3 etapas + escolha do final), gamepad, menu com botões que crescem.
+
+**Controles:** WASD/Setas · mouse · Espaço Pulso · Q Ruptura · R Emergência · F Nuvem · E interagir · M mapa · Esc pausa. Gamepad: analógico/D-pad, A, RB, X, Y, B, Back, Start.
+
+**Comandos úteis (raiz do projeto):**
+```
+python3 tools/run_checks.py            # validação estática (sem Godot)
+python3 tools/gen_art.py && python3 tools/build_spriteframes.py && python3 tools/build_tileset.py
+python3 tools/gen_audio.py && python3 tools/build_audio_bank.py
+python3 tools/check_scripts.py <Godot>  # erros de script com linha (usa a Godot)
+godot --headless --path . --import
+godot --headless --path . -s res://tools/smoke_test.gd
+godot --headless --path . -s res://tools/smoke_garden.gd
+godot --headless --path . -s res://tools/smoke_heart.gd
+```
+**Dados editáveis no Inspetor:** `data/waves` (dificuldade por tempo), `events`, `elites`, `buffs`, `rules/stat_rules.tres`, `abilities`, `audio/sfx_bank.tres` + `music_set.tres`, além de `enemies`, `mutations`, `upgrades`, `shop`, `equipment`, `weapons`.
+
+**Exportar para Web:** preset "Web" já em `export_presets.cfg` (sem threads, para o itch.io). Em *Projeto → Exportar* instale os templates 4.7.x e exporte para `export/web/index.html`; compacte a pasta em `.zip` e marque "play in browser". `ITCH_URL` em `scripts/core/game_config.gd` continua vazio de propósito.
+
+**Se aparecerem erros ao abrir:** apague `.godot/`, reabra, e envie as linhas completas do painel Saída.
+---
+
 
 Jogo 2D top-down de ação, sobrevivência e evolução biológica, implementado a partir de
 `docs/GDD_Projeto_Ultima_Semente.md`. Toda a arte, os sons e a música são **gerados por código**

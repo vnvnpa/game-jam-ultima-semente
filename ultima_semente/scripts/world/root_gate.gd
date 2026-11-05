@@ -6,19 +6,41 @@ extends StaticBody2D
 ## o mapa e a lógica de surgimento leem esse retângulo via get_rect().
 
 @export var draw_placeholder: bool = true
+## Começa aberta (fases sem barreira, como o Coração de Nymara).
+@export var start_open: bool = false
 
 var is_open: bool = false
 var openness: float = 0.0
 var t: float = 0.0
 
 @onready var shape_node: CollisionShape2D = $Shape
+@onready var sprite: AnimatedSprite2D = get_node_or_null("Sprite") as AnimatedSprite2D
+
+
+func _ready() -> void:
+	if start_open and not Engine.is_editor_hint():
+		is_open = true
+		openness = 1.0
+		shape_node.set_deferred("disabled", true)
+		if sprite != null:
+			sprite.play(&"open")
 
 
 func open_gate() -> void:
 	if is_open:
 		return
 	is_open = true
+	AudioManager.play_sfx("gate_open")
 	shape_node.set_deferred("disabled", true)
+	if sprite != null:
+		sprite.play(&"opening")
+		if not sprite.animation_finished.is_connected(_on_opened):
+			sprite.animation_finished.connect(_on_opened, CONNECT_ONE_SHOT)
+
+
+func _on_opened() -> void:
+	if sprite != null:
+		sprite.play(&"open")
 
 
 func _gate_size() -> Vector2:

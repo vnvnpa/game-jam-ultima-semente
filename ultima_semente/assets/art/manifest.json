@@ -1,0 +1,1051 @@
+{
+ "player/companion.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "attack",
+    "row": 1,
+    "frames": 3,
+    "fps": 12,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/larva.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "walk",
+    "row": 1,
+    "frames": 6,
+    "fps": 12,
+    "loop": true
+   },
+   {
+    "name": "hurt",
+    "row": 2,
+    "frames": 2,
+    "fps": 10,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 3,
+    "frames": 5,
+    "fps": 10,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/cortarraiz.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "walk",
+    "row": 0,
+    "frames": 6,
+    "fps": 12,
+    "loop": true
+   },
+   {
+    "name": "windup",
+    "row": 1,
+    "frames": 3,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "charge",
+    "row": 2,
+    "frames": 3,
+    "fps": 14,
+    "loop": true
+   },
+   {
+    "name": "recover",
+    "row": 3,
+    "frames": 2,
+    "fps": 6,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 4,
+    "frames": 5,
+    "fps": 10,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/flor.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "shoot",
+    "row": 1,
+    "frames": 4,
+    "fps": 10,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 2,
+    "frames": 5,
+    "fps": 10,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/casca.png": {
+  "frame": [
+   48,
+   48
+  ],
+  "anims": [
+   {
+    "name": "walk",
+    "row": 0,
+    "frames": 6,
+    "fps": 8,
+    "loop": true
+   },
+   {
+    "name": "hurt",
+    "row": 1,
+    "frames": 2,
+    "fps": 10,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 2,
+    "frames": 6,
+    "fps": 8,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/esporideo.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "walk",
+    "row": 0,
+    "frames": 6,
+    "fps": 10,
+    "loop": true
+   },
+   {
+    "name": "spore",
+    "row": 1,
+    "frames": 3,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 2,
+    "frames": 5,
+    "fps": 10,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/parasita.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "float",
+    "row": 0,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "pulse",
+    "row": 1,
+    "frames": 4,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 2,
+    "frames": 5,
+    "fps": 10,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/anomalia.png": {
+  "frame": [
+   48,
+   48
+  ],
+  "anims": [
+   {
+    "name": "walk",
+    "row": 0,
+    "frames": 6,
+    "fps": 10,
+    "loop": true
+   },
+   {
+    "name": "hurt",
+    "row": 1,
+    "frames": 2,
+    "fps": 10,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 2,
+    "frames": 6,
+    "fps": 8,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/ninho.png": {
+  "frame": [
+   64,
+   64
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 5,
+    "loop": true
+   },
+   {
+    "name": "spawn",
+    "row": 1,
+    "frames": 4,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 2,
+    "frames": 6,
+    "fps": 8,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/guardiao.png": {
+  "frame": [
+   96,
+   96
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 5,
+    "loop": true
+   },
+   {
+    "name": "slam",
+    "row": 1,
+    "frames": 6,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "summon",
+    "row": 2,
+    "frames": 6,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "phase2",
+    "row": 3,
+    "frames": 4,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 4,
+    "frames": 8,
+    "fps": 8,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/coracao.png": {
+  "frame": [
+   128,
+   128
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 5,
+    "loop": true
+   },
+   {
+    "name": "slam",
+    "row": 1,
+    "frames": 6,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "summon",
+    "row": 2,
+    "frames": 6,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "shielded",
+    "row": 3,
+    "frames": 4,
+    "fps": 5,
+    "loop": true
+   },
+   {
+    "name": "exposed",
+    "row": 4,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "death",
+    "row": 5,
+    "frames": 8,
+    "fps": 8,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/estrutura.png": {
+  "frame": [
+   48,
+   48
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 5,
+    "loop": true
+   },
+   {
+    "name": "hurt",
+    "row": 1,
+    "frames": 2,
+    "fps": 10,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 2,
+    "frames": 6,
+    "fps": 10,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/jardineiro.png": {
+  "frame": [
+   96,
+   96
+  ],
+  "anims": [
+   {
+    "name": "shielded",
+    "row": 0,
+    "frames": 4,
+    "fps": 5,
+    "loop": true
+   },
+   {
+    "name": "exposed",
+    "row": 1,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "shoot",
+    "row": 2,
+    "frames": 4,
+    "fps": 10,
+    "loop": false
+   },
+   {
+    "name": "roots",
+    "row": 3,
+    "frames": 6,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 4,
+    "frames": 8,
+    "fps": 8,
+    "loop": false
+   }
+  ]
+ },
+ "enemies/anomalia_auras.png": {
+  "frame": [
+   64,
+   64
+  ],
+  "anims": [
+   {
+    "name": "blindada",
+    "row": 0,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "veloz",
+    "row": 1,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "explosiva",
+    "row": 2,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "regenerante",
+    "row": 3,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   }
+  ]
+ },
+ "fx/burst.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "burst",
+    "row": 0,
+    "frames": 6,
+    "fps": 20,
+    "loop": false
+   }
+  ]
+ },
+ "fx/explosion.png": {
+  "frame": [
+   64,
+   64
+  ],
+  "anims": [
+   {
+    "name": "explosion",
+    "row": 0,
+    "frames": 6,
+    "fps": 18,
+    "loop": false
+   }
+  ]
+ },
+ "fx/shield.png": {
+  "frame": [
+   48,
+   48
+  ],
+  "anims": [
+   {
+    "name": "shield",
+    "row": 0,
+    "frames": 4,
+    "fps": 8,
+    "loop": true
+   }
+  ]
+ },
+ "fx/decoy.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "decoy",
+    "row": 0,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   }
+  ]
+ },
+ "fx/spores.png": {
+  "frame": [
+   96,
+   96
+  ],
+  "anims": [
+   {
+    "name": "zone",
+    "row": 0,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   }
+  ]
+ },
+ "fx/pickups.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "biomass",
+    "row": 0,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "cache",
+    "row": 1,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "nucleus",
+    "row": 2,
+    "frames": 6,
+    "fps": 8,
+    "loop": true
+   }
+  ]
+ },
+ "player/player_sheet.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "idle_down",
+    "row": 0,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "walk_down",
+    "row": 1,
+    "frames": 6,
+    "fps": 12,
+    "loop": true
+   },
+   {
+    "name": "hurt_down",
+    "row": 2,
+    "frames": 2,
+    "fps": 10,
+    "loop": false
+   },
+   {
+    "name": "dash_down",
+    "row": 3,
+    "frames": 3,
+    "fps": 14,
+    "loop": false
+   },
+   {
+    "name": "idle_up",
+    "row": 4,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "walk_up",
+    "row": 5,
+    "frames": 6,
+    "fps": 12,
+    "loop": true
+   },
+   {
+    "name": "hurt_up",
+    "row": 6,
+    "frames": 2,
+    "fps": 10,
+    "loop": false
+   },
+   {
+    "name": "dash_up",
+    "row": 7,
+    "frames": 3,
+    "fps": 14,
+    "loop": false
+   },
+   {
+    "name": "idle_side",
+    "row": 8,
+    "frames": 4,
+    "fps": 6,
+    "loop": true
+   },
+   {
+    "name": "walk_side",
+    "row": 9,
+    "frames": 6,
+    "fps": 12,
+    "loop": true
+   },
+   {
+    "name": "hurt_side",
+    "row": 10,
+    "frames": 2,
+    "fps": 10,
+    "loop": false
+   },
+   {
+    "name": "dash_side",
+    "row": 11,
+    "frames": 3,
+    "fps": 14,
+    "loop": false
+   },
+   {
+    "name": "death",
+    "row": 12,
+    "frames": 6,
+    "fps": 8,
+    "loop": false
+   }
+  ]
+ },
+ "fx/muzzle.png": {
+  "frame": [
+   16,
+   16
+  ],
+  "anims": [
+   {
+    "name": "flash",
+    "row": 0,
+    "frames": 3,
+    "fps": 24,
+    "loop": false
+   }
+  ]
+ },
+ "fx/projectiles.png": {
+  "frame": [
+   16,
+   16
+  ],
+  "anims": [
+   {
+    "name": "espinho",
+    "row": 0,
+    "frames": 3,
+    "fps": 12,
+    "loop": true
+   },
+   {
+    "name": "cuspe",
+    "row": 1,
+    "frames": 3,
+    "fps": 12,
+    "loop": true
+   },
+   {
+    "name": "bolt",
+    "row": 2,
+    "frames": 3,
+    "fps": 12,
+    "loop": true
+   },
+   {
+    "name": "estilhaco",
+    "row": 3,
+    "frames": 3,
+    "fps": 12,
+    "loop": true
+   }
+  ]
+ },
+ "player/mutation_spines.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "spines",
+    "row": 0,
+    "frames": 8,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ },
+ "world/trees.png": {
+  "frame": [
+   64,
+   72
+  ],
+  "anims": [
+   {
+    "name": "variants",
+    "row": 0,
+    "frames": 4,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ },
+ "world/crystals.png": {
+  "frame": [
+   48,
+   64
+  ],
+  "anims": [
+   {
+    "name": "variants",
+    "row": 0,
+    "frames": 4,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ },
+ "world/pillars.png": {
+  "frame": [
+   48,
+   64
+  ],
+  "anims": [
+   {
+    "name": "variants",
+    "row": 0,
+    "frames": 4,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ },
+ "world/station.png": {
+  "frame": [
+   256,
+   256
+  ],
+  "anims": [
+   {
+    "name": "dome",
+    "row": 0,
+    "frames": 4,
+    "fps": 4,
+    "loop": true
+   }
+  ]
+ },
+ "world/terminal.png": {
+  "frame": [
+   32,
+   40
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 5,
+    "loop": true
+   }
+  ]
+ },
+ "world/ship.png": {
+  "frame": [
+   128,
+   64
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 5,
+    "loop": true
+   }
+  ]
+ },
+ "world/ruin.png": {
+  "frame": [
+   48,
+   64
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 4,
+    "loop": true
+   }
+  ]
+ },
+ "world/mechanism.png": {
+  "frame": [
+   48,
+   64
+  ],
+  "anims": [
+   {
+    "name": "idle",
+    "row": 0,
+    "frames": 4,
+    "fps": 4,
+    "loop": true
+   },
+   {
+    "name": "active",
+    "row": 1,
+    "frames": 4,
+    "fps": 8,
+    "loop": true
+   }
+  ]
+ },
+ "world/gate.png": {
+  "frame": [
+   224,
+   64
+  ],
+  "anims": [
+   {
+    "name": "closed",
+    "row": 0,
+    "frames": 4,
+    "fps": 5,
+    "loop": true
+   },
+   {
+    "name": "opening",
+    "row": 1,
+    "frames": 6,
+    "fps": 8,
+    "loop": false
+   },
+   {
+    "name": "open",
+    "row": 2,
+    "frames": 1,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ },
+ "world/arena.png": {
+  "frame": [
+   544,
+   544
+  ],
+  "anims": [
+   {
+    "name": "ring",
+    "row": 0,
+    "frames": 4,
+    "fps": 4,
+    "loop": true
+   }
+  ]
+ },
+ "world/hostile_fx.png": {
+  "frame": [
+   64,
+   64
+  ],
+  "anims": [
+   {
+    "name": "fog",
+    "row": 0,
+    "frames": 4,
+    "fps": 3,
+    "loop": true
+   }
+  ]
+ },
+ "world/decor.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "decor",
+    "row": 0,
+    "frames": 16,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ },
+ "world/tileset_floresta.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "grid",
+    "row": 0,
+    "frames": 4,
+    "fps": 0,
+    "loop": false
+   }
+  ],
+  "rows": [
+   "chao",
+   "trilha",
+   "pedra",
+   "contaminado",
+   "muralha"
+  ]
+ },
+ "world/tileset_bacia.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "grid",
+    "row": 0,
+    "frames": 4,
+    "fps": 0,
+    "loop": false
+   }
+  ],
+  "rows": [
+   "chao",
+   "trilha",
+   "pedra",
+   "contaminado",
+   "muralha"
+  ]
+ },
+ "world/tileset_santuario.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "grid",
+    "row": 0,
+    "frames": 4,
+    "fps": 0,
+    "loop": false
+   }
+  ],
+  "rows": [
+   "chao",
+   "trilha",
+   "pedra",
+   "contaminado",
+   "muralha"
+  ]
+ },
+ "world/tileset_jardim.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "grid",
+    "row": 0,
+    "frames": 4,
+    "fps": 0,
+    "loop": false
+   }
+  ],
+  "rows": [
+   "chao",
+   "trilha",
+   "pedra",
+   "contaminado",
+   "muralha"
+  ]
+ },
+ "ui/icons.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "icons:pulse,dash,emergency,weapon,dose,o2,shield,biomass,nucleus,scanner,mutation,suit",
+    "row": 0,
+    "frames": 12,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ }
+}
