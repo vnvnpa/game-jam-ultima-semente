@@ -15,8 +15,8 @@ func _arrow(from: Vector2, dir: Vector2, col: Color, label: String) -> void:
 	var side: Vector2 = dir.orthogonal()
 	draw_colored_polygon(PackedVector2Array([tip, tip - dir * 14.0 + side * 8.0, tip - dir * 14.0 - side * 8.0]), col)
 	draw_line(from + dir * 52.0, tip - dir * 12.0, col, 3.0)
-	var f: Font = ThemeDB.fallback_font
-	draw_string(f, tip + dir * 8.0 + Vector2(-10, 4), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, col)
+	var f: Font = UIKit.font()
+	draw_string(f, tip + dir * 8.0 + Vector2(-10, 4), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, col)
 
 
 func _draw() -> void:

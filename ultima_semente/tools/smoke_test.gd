@@ -68,6 +68,14 @@ func _process(_delta: float) -> bool:
 		var psf: SpriteFrames = (run.player.get_node("Sprite") as AnimatedSprite2D).sprite_frames
 		_check(psf.has_animation(&"idle_down") and psf.has_animation(&"walk_up") and psf.has_animation(&"dash_side"), "Kael com animações direcionais")
 		_check(run.player.get_node_or_null("Weapon") != null, "arma do Kael (gira com a mira)")
+		var has_reticle: bool = false
+		for ch in run.world.get_children():
+			if ch is AimReticle:
+				has_reticle = true
+		_check(has_reticle, "retícula pixel na partida")
+		_check(UIKit.font() is FontFile, "fonte pixel carregada")
+		_check(UIKit.get_theme().default_font != null, "tema pixel com fonte própria")
+		_check(load("res://assets/art/ui/cursor.png") != null and load("res://assets/art/ui/logo.png") != null, "cursor e logo pixel")
 		_check(run.world.y_sort_enabled and run.enemies_node.y_sort_enabled and run.map.get_node("Obstacles").y_sort_enabled, "ordenação em Y ativa")
 		_check(GameData.abilities.has("nuvem_esporos") and GameData.dart_weapon != null, "Nuvem de Esporos e Dardo carregados")
 		_check(InputMap.has_action("skill_3"), "ação skill_3 no Input Map")

@@ -1,5 +1,26 @@
 # PROGRESSO — Última Semente
 
+## Sliders, mira em pixel e logo animado
+- **Sliders de volume:** a trilha não aparecia porque o estilo da trilha tinha margem interna 0 (a Godot desenha altura 0). Corrigido: trilha no estilo das barras de vida, **preenchimento com ponta brilhante que marca o nível**, **5 marcas de graduação (início, 25%, 50%, 75%, fim)** e a porcentagem no título ("Volume da música — 70%").
+- **Mira em pixel (`AimReticle`):** retícula de 4 frames que segue o mouse (cursor do sistema escondido só durante a partida); com controle aparece na direção da mira; quando a arma automática trava num inimigo (`Player.aim_target`) ela desliza até ele e vira a versão dourada com pontos orbitando. Em pausa/loja/menus volta o cursor normal.
+- **Logo animado:** `logo_anim.png` (24 quadros, 12 fps): brilho que varre as letras, cintilâncias em estrela, raízes balançando e a semente pulsando. Com "Reduzir tremor e efeitos" fica parado.
+- Smoke test: confere a retícula na partida.
+- Pendente de teste na Godot: textura do logo tem 480x2688 (ok em desktop; em navegadores muito antigos o limite pode ser 2048); mira com mouse escondido no navegador (conferir ao perder foco).
+
+## Refação visual: interface, menus, tiros e bolhas (pixel art de verdade)
+**Problema:** a UI antiga era vetor reduzido (cantos arredondados, bolinhas, círculos concêntricos, fonte padrão), com cara de IA.
+**Feito** (tudo gerado à mão, pixel a pixel, sem suavização; paleta etérea turquesa/violeta com rampas de matiz deslocado):
+- **Fonte pixel própria** `assets/art/ui/pixel.ttf` (5x7, maiúsculas/minúsculas, acentos pt-BR, símbolos). Tamanhos nítidos: 16/24/32/48 (as cenas foram quantizadas para esses). Tema, HUD, mundo e mapa usam `UIKit.font()`.
+- **Tema novo** `ui/game_theme.tres` (gerado por `tools/build_theme.py`): painéis com moldura dupla e joias nos cantos (modal, carta, evolução dourada, adquirida verde, chefe violeta, HUD com colchetes), botões chanfrados (normal/hover/pressed/disabled/foco), barras (vida/O2/XP/chefe), sliders, checkboxes, scrollbars, abas e separadores com ornamento. Antes sliders/checkbox/abas usavam o visual padrão da Godot (CheckBox herdava o estilo de botão).
+- **Ícones** (12, sem moldura), **marcas do mapa** (ninho, ruína, estação, cache, jogador), seta-guia, **cursor do mouse** pixel, **vinhetas** de O2/dano em pontilhado 320x180, **logo** com letras biseladas e raízes.
+- **Fundo do menu** em 3 camadas de parallax (céu com orbe e anel, aurora, cordilheiras com névoa pontilhada, árvores, ruína, folhagem e cogumelos brilhantes). Esporos do menu agora são quadrados pixel.
+- **Efeitos**: tiros (espinho, **cuspe/bolha magenta** dos inimigos, dardo, estilhaço), muzzle, burst, explosão, anel, aviso de raiz (slam), **zona de esporos com bolhas**, biomassa/cache/núcleo, isca, escudo, sombra e partícula. Mesmos tamanhos de frame: nenhuma cena/`.tres` mudou.
+- Mapa em tela cheia usa as marcas pixel e o painel do tema.
+- Geradores: `tools/pix.py` (kit), `gen_ui_font.py`, `gen_ui_kit.py`, `gen_ui_icons.py`, `gen_menu_bg.py`, `gen_fx_pixel.py`, `build_theme.py`. O `gen_art.py` antigo não sobrescreve mais `ui/` e `fx/` (use FORCE_LEGACY_UI=1 se quiser).
+- Prévias montadas em Python em `docs/previews/` (não são capturas do jogo).
+**NÃO testado na Godot.** Conferir ao abrir: (1) o import da fonte (antialiasing/hinting desligados); (2) textos que passaram de 18 para 16 px de pixel-font podem ocupar mais largura em painéis estreitos; (3) HUD/loja/laboratório ainda não vistos em tela real; (4) cursor do mouse aparece também na partida.
+**Falta/ideias:** retícula de mira em pixel durante a partida; animar o logo; sprites dos inimigos/mundo não foram mexidos nesta etapa.
+
 ## Controle (gamepad) — ligações completas
 Mover: analógico esquerdo / D-pad · **Mirar: analógico direito (novo)** · A ou **RT** Pulso de Raízes · RB ou **R3** Ruptura · Y ou **LT** Nuvem de Esporos · X Pulso de Emergência · B interagir (segurar para extrair) · Back mapa · Start pausa.
 - Novas ações `aim_left/right/up/down` (eixos 2 e 3) no Input Map; `player.gd` usa o analógico direito para a direção do Kael/arma.

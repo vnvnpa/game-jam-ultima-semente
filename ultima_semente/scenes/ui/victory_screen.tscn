@@ -63,7 +63,7 @@ layout_mode = 2
 [node name="EpilogueText" type="Label" parent="Epilogue/Center/Panel/Body"]
 layout_mode = 2
 text = ""
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 autowrap_mode = 3
 unique_name_in_owner = true
@@ -127,7 +127,7 @@ layout_mode = 2
 [node name="Done" type="Label" parent="Congrats/Center/Panel/Body"]
 layout_mode = 2
 text = "Você completou Projeto: Última Semente com sucesso."
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -135,7 +135,7 @@ autowrap_mode = 3
 layout_mode = 2
 text = "Nymara nunca mais será a mesma."
 theme_type_variation = &"AccentLabel"
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 
 [node name="CongratsStats" type="Label" parent="Congrats/Center/Panel/Body"]

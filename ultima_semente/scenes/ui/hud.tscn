@@ -124,14 +124,14 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 unique_name_in_owner = true
 
 [node name="ObjectiveLabel" type="Label" parent="TopLeft/Box"]
 layout_mode = 2
 text = ""
 theme_type_variation = &"WarnLabel"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 autowrap_mode = 3
 custom_minimum_size = Vector2(300.0, 0.0)
 unique_name_in_owner = true
@@ -140,7 +140,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 theme_type_variation = &"GoodLabel"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 autowrap_mode = 3
 custom_minimum_size = Vector2(300.0, 0.0)
 unique_name_in_owner = true
@@ -174,7 +174,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -182,7 +182,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -190,7 +190,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 theme_type_variation = &"BioLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -198,7 +198,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 theme_type_variation = &"NucLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -206,7 +206,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "[M] Mapa   [Esc] Pausa"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -235,7 +235,7 @@ layout_mode = 2
 [node name="BossLabel" type="Label" parent="TopCenter/BossPanel/Box"]
 layout_mode = 2
 text = "Guardião de Raízes"
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.95, 0.7, 1.0, 1.0)
 unique_name_in_owner = true
@@ -254,7 +254,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 theme_type_variation = &"BadLabel"
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 unique_name_in_owner = true
 
@@ -287,7 +287,7 @@ unique_name_in_owner = true
 [node name="WeaponLabel" type="Label" parent="Skills/WeaponBox"]
 layout_mode = 2
 text = "Espinho\n(automático)"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -301,7 +301,7 @@ unique_name_in_owner = true
 [node name="PulseLabel" type="Label" parent="Skills/PulseBox"]
 layout_mode = 2
 text = "[Espaço] Pulso"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -315,7 +315,7 @@ unique_name_in_owner = true
 [node name="DashLabel" type="Label" parent="Skills/DashBox"]
 layout_mode = 2
 text = "[Q] Ruptura"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -329,7 +329,7 @@ unique_name_in_owner = true
 [node name="EmergLabel" type="Label" parent="Skills/EmergBox"]
 layout_mode = 2
 text = "[R] Emergência"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -337,7 +337,7 @@ unique_name_in_owner = true
 layout_mode = 1
 text = ""
 theme_type_variation = &"WarnLabel"
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -356,7 +356,7 @@ unique_name_in_owner = true
 layout_mode = 1
 text = "Nível 1"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -442,7 +442,7 @@ unique_name_in_owner = true
 [node name="CloudLabel" type="Label" parent="Skills/CloudBox"]
 layout_mode = 2
 text = "[F] Nuvem"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 

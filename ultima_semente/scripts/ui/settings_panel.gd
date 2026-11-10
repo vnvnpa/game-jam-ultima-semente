@@ -21,6 +21,8 @@ var _key_buttons: Dictionary = {}
 @onready var keys_button: Button = %KeysButton
 @onready var keys_back_button: Button = %KeysBackButton
 @onready var reset_keys_button: Button = %ResetKeysButton
+@onready var music_title: Label = %MusicTitle
+@onready var sfx_title: Label = %SfxTitle
 @onready var music_slider: HSlider = %MusicSlider
 @onready var sfx_slider: HSlider = %SfxSlider
 @onready var reduce_fx_check: CheckBox = %ReduceFxCheck
@@ -38,6 +40,7 @@ func _ready() -> void:
 	sfx_slider.value = float(SaveManager.get_setting("sfx"))
 	reduce_fx_check.button_pressed = bool(SaveManager.get_setting("reduce_fx"))
 	damage_check.button_pressed = bool(SaveManager.get_setting("damage_numbers"))
+	_update_titles()
 	music_slider.value_changed.connect(_on_slider.bind("music"))
 	sfx_slider.value_changed.connect(_on_slider.bind("sfx"))
 	reduce_fx_check.toggled.connect(_on_check.bind("reduce_fx"))
@@ -66,7 +69,14 @@ func _flush() -> void:
 func _on_slider(v: float, key: String) -> void:
 	SaveManager.set_setting(key, v, false)
 	AudioManager.apply_volumes()
+	_update_titles()
 	_save_timer.start()
+
+
+## Mostra o valor em porcentagem ao lado do nome de cada volume.
+func _update_titles() -> void:
+	music_title.text = "Volume da música — %d%%" % roundi(music_slider.value * 100.0)
+	sfx_title.text = "Volume dos efeitos — %d%%" % roundi(sfx_slider.value * 100.0)
 
 
 func _on_check(v: bool, key: String) -> void:

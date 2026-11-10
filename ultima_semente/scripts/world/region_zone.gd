@@ -36,4 +36,4 @@ func _draw() -> void:
 	var r: Rect2 = Rect2(-size * 0.5, size)
 	draw_rect(r, Color(map_color.r, map_color.g, map_color.b, 0.12))
 	draw_rect(r, Color(map_color.r, map_color.g, map_color.b, 0.7), false, 3.0)
-	draw_string(ThemeDB.fallback_font, r.position + Vector2(12, 28), region_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color(1, 1, 1, 0.8))
+	draw_string(UIKit.font(), r.position + Vector2(12, 28), region_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 24, Color(1, 1, 1, 0.8))

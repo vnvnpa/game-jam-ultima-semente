@@ -533,10 +533,10 @@ func _draw() -> void:
 		draw_rect(Rect2(-w * 0.5, y, w * clampf(hp / max_hp, 0.0, 1.0), 3.0), Color(0.9, 0.3, 0.35))
 	if elite:
 		draw_arc(Vector2.ZERO, radius + 5.0, 0.0, TAU, 28, Color(1.0, 0.8, 0.2, 0.6 + 0.3 * sin(anim_t * 5.0)), 2.0)
-		var font: Font = ThemeDB.fallback_font
+		var font: Font = UIKit.font()
 		var label: String = display_name()
-		var sz: Vector2 = font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 11)
-		draw_string(font, Vector2(-sz.x * 0.5, -radius - 14.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.9, 0.5))
+		var sz: Vector2 = font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 8)
+		draw_string(font, Vector2(-sz.x * 0.5, -radius - 14.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(1.0, 0.9, 0.5))
 	if weaken_time > 0.0:
 		draw_arc(Vector2.ZERO, radius + 8.0, 0.0, TAU, 20, Color(0.5, 1.0, 0.8, 0.55), 1.5)
 	if mark_time > 0.0:

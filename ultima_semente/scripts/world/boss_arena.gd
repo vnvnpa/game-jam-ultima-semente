@@ -44,4 +44,4 @@ func _draw() -> void:
 		draw_arc(Vector2.ZERO, ring_radius, 0.0, TAU, 64, Color(0.7, 0.4, 0.9, 0.35), 3.0)
 	if Engine.is_editor_hint():
 		draw_arc(Vector2.ZERO, trigger_radius, 0.0, TAU, 64, Color(1.0, 0.5, 0.5, 0.25), 1.0)
-		draw_string(ThemeDB.fallback_font, Vector2(-40, 4), "Arena do chefe", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.9, 0.7, 1.0))
+		draw_string(UIKit.font(), Vector2(-40, 4), "Arena do chefe", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.9, 0.7, 1.0))

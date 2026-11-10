@@ -140,7 +140,7 @@ func _draw() -> void:
 		draw_circle(Vector2.ZERO, radius * 0.3, Color(0.35, 0.4, 0.45))
 		draw_arc(Vector2.ZERO, radius + 8.0, 0.0, TAU, 32, Color(0.5, 0.8, 1.0, 0.45 + 0.2 * pulse), 3.0)
 	if run != null and run.state.has_special("consciencia_rede"):
-		var font: Font = ThemeDB.fallback_font
+		var font: Font = UIKit.font()
 		var txt: String = "%s em %.0fs" % ["Fecha" if vulnerable else "Núcleo expõe", maxf(0.0, cycle_t)]
-		var sz: Vector2 = font.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
-		draw_string(font, Vector2(-sz.x * 0.5, -radius - 30.0), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.7, 0.95, 1.0))
+		var sz: Vector2 = font.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 8)
+		draw_string(font, Vector2(-sz.x * 0.5, -radius - 30.0), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(0.7, 0.95, 1.0))

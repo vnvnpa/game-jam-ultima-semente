@@ -119,3 +119,7 @@ de tema e propriedades das cenas/`.tres`.
 ## Estrutura
 `scenes/` (entities, world, ui, main) · `data/` (.tres) · `ui/` (tema) · `scripts/core` (autoloads, main, config) · `scripts/data` (classes Resource) · `scripts/player` · `scripts/enemies` ·
 `scripts/combat` · `scripts/progression` · `scripts/economy` · `scripts/oxygen` · `scripts/world` · `scripts/ui`.
+
+
+## Arte de interface e efeitos (pixel art própria)
+Gerada por scripts em `tools/` (rodar na raiz do projeto, nesta ordem): `python3 tools/gen_ui_font.py`, `gen_ui_kit.py`, `gen_ui_icons.py`, `gen_menu_bg.py`, `gen_fx_pixel.py` e `build_theme.py` (recria `ui/game_theme.tres`). Fonte: `assets/art/ui/pixel.ttf` (criada por nós; sem licença de terceiros). Use tamanhos 16/24/32/48 para texto nítido.

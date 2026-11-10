@@ -53,14 +53,14 @@ layout_mode = 2
 [node name="Goal" type="Label" parent="Center/Panel/Body"]
 layout_mode = 2
 text = "Kael precisa chegar ao Santuário das Raízes. Destrua 2 dos 3 ninhos para abrir a barreira, enfrente o Guardião de Raízes e sobreviva. A expedição dura em média 20–30 minutos."
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 autowrap_mode = 3
 
 [node name="ControlsTitle" type="Label" parent="Center/Panel/Body"]
 layout_mode = 2
 text = "Controles"
 theme_type_variation = &"AccentLabel"
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 16
 
 [node name="Controls" type="Label" parent="Center/Panel/Body"]
 layout_mode = 2
@@ -74,7 +74,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Dicas"
 theme_type_variation = &"AccentLabel"
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 16
 
 [node name="Tips" type="Label" parent="Center/Panel/Body"]
 layout_mode = 2

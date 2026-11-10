@@ -11,7 +11,7 @@ var radius: float = 40.0
 var text: String = ""
 var vel: Vector2 = Vector2(0.0, -42.0)
 var sparks: Array = []   # cada item: {"dir": Vector2, "dist": float}
-var font_size: int = 14
+var font_size: int = 16
 
 @onready var ring: Sprite2D = get_node_or_null("Ring") as Sprite2D
 @onready var burst: AnimatedSprite2D = get_node_or_null("Burst") as AnimatedSprite2D
@@ -64,9 +64,9 @@ func _draw() -> void:
 				var dist: float = float(s["dist"]) * k
 				draw_line(d * dist, d * (dist + 5.0), Color(color.r, color.g, color.b, a2), 2.0)
 		"text":
-			var font: Font = ThemeDB.fallback_font
+			var font: Font = UIKit.font()
 			var size: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
 			var pos: Vector2 = Vector2(-size.x * 0.5, 0.0)
 			var a3: float = 1.0 - maxf(0.0, (k - 0.6) / 0.4)
-			draw_string(font, pos + Vector2(1.0, 1.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(0, 0, 0, a3))
+			draw_string(font, pos + Vector2(2.0, 2.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(0, 0, 0, a3))
 			draw_string(font, pos, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(color.r, color.g, color.b, a3))

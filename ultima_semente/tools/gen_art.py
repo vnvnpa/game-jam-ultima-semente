@@ -34,7 +34,14 @@ def new(w, h=None):
     return Image.new("RGBA", (w, h or w), (0, 0, 0, 0))
 
 
+# ui/ e fx/ agora são gerados por gen_ui_font/gen_ui_kit/gen_ui_icons/gen_menu_bg/gen_fx_pixel
+# (pixel art feita à mão). Este gerador antigo só os sobrescreve com FORCE_LEGACY_UI=1.
+PIXEL_OWNED = {"ui", "fx"}
+
+
 def save(img, group, name):
+    if group in PIXEL_OWNED and os.environ.get("FORCE_LEGACY_UI") != "1":
+        return
     d = os.path.join(OUT, group)
     os.makedirs(d, exist_ok=True)
     img.save(os.path.join(d, name))

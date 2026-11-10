@@ -56,7 +56,7 @@ layout_mode = 2
 layout_mode = 2
 text = ""
 theme_type_variation = &"NucLabel"
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 unique_name_in_owner = true
 
 [node name="MsgLabel" type="Label" parent="Center/Panel/Body"]
@@ -86,7 +86,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Linha A — Simbiose defensiva"
 theme_type_variation = &"AccentLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 autowrap_mode = 3
 
 [node name="ColPredacao" type="VBoxContainer" parent="Center/Panel/Body/Scroll/Columns"]
@@ -98,7 +98,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Linha B — Predação adaptativa"
 theme_type_variation = &"AccentLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 autowrap_mode = 3
 
 [node name="ColRessonancia" type="VBoxContainer" parent="Center/Panel/Body/Scroll/Columns"]
@@ -110,7 +110,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Linha C — Ressonância da Semente"
 theme_type_variation = &"AccentLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 autowrap_mode = 3
 
 [node name="BackButton" type="Button" parent="Center/Panel/Body"]
@@ -171,7 +171,7 @@ layout_mode = 2
 layout_mode = 2
 text = ""
 theme_type_variation = &"AccentLabel"
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 unique_name_in_owner = true
 
@@ -179,7 +179,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 theme_type_variation = &"NucLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 autowrap_mode = 3
 unique_name_in_owner = true

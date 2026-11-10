@@ -32,6 +32,17 @@ static func panel_style(bg: Color = COL_PANEL, border: Color = COL_BORDER, radiu
 
 
 const THEME_PATH: String = "res://ui/game_theme.tres"
+const FONT_PATH: String = "res://assets/art/ui/pixel.ttf"
+static var _font: Font = null
+
+
+## Fonte pixel do jogo (HUD, mundo e menus). Cai na fonte padrão se faltar.
+static func font() -> Font:
+	if _font == null:
+		_font = load(FONT_PATH) as Font
+		if _font == null:
+			_font = ThemeDB.fallback_font
+	return _font
 
 
 ## Tema da interface: carregado de res://ui/game_theme.tres (editável no editor).
@@ -70,14 +81,14 @@ static func wire_buttons(root: Node) -> void:
 
 static func _build_fallback_theme() -> Theme:
 	var t: Theme = Theme.new()
-	t.default_font_size = 18
+	t.default_font_size = 16
 	t.set_color("font_color", "Label", COL_TEXT)
 	t.set_color("font_color", "Button", COL_TEXT)
 	t.set_color("font_hover_color", "Button", Color(1, 1, 1))
 	t.set_color("font_pressed_color", "Button", COL_ACCENT)
 	t.set_color("font_disabled_color", "Button", Color(0.45, 0.52, 0.5))
 	t.set_color("font_focus_color", "Button", Color(1, 1, 1))
-	t.set_font_size("font_size", "Button", 20)
+	t.set_font_size("font_size", "Button", 16)
 	t.set_stylebox("normal", "Button", panel_style(Color(0.08, 0.17, 0.17), COL_BORDER, 5, 2))
 	t.set_stylebox("hover", "Button", panel_style(Color(0.12, 0.27, 0.26), COL_ACCENT, 5, 2))
 	t.set_stylebox("pressed", "Button", panel_style(Color(0.05, 0.12, 0.12), COL_ACCENT, 5, 2))

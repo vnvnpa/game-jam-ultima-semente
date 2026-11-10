@@ -55,4 +55,4 @@ func _draw() -> void:
 	if draw_placeholder:
 		draw_rect(r, Color(0.6, 0.1, 0.5, 0.18))
 	draw_rect(r, Color(0.8, 0.2, 0.7, 0.8), false, 2.0)
-	draw_string(ThemeDB.fallback_font, r.position + Vector2(10, 22), zone_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.5, 0.9, 0.85))
+	draw_string(UIKit.font(), r.position + Vector2(10, 22), zone_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.5, 0.9, 0.85))

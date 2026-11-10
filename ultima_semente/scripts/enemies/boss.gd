@@ -81,7 +81,7 @@ func _draw() -> void:
 		draw_circle(Vector2.ZERO, radius * 0.4, Color(core_col.r, core_col.g, core_col.b, 0.35 + 0.4 * core))
 		draw_circle(Vector2.ZERO, radius * 0.22, _tint(Color(0.7, 0.4, 1.0)))
 	if run != null and run.state.has_special("consciencia_rede"):
-		var font: Font = ThemeDB.fallback_font
+		var font: Font = UIKit.font()
 		var txt: String = "Raízes em %.0fs  |  Invocação em %.0fs" % [maxf(0.0, slam_timer), maxf(0.0, summon_timer)]
-		var sz: Vector2 = font.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
-		draw_string(font, Vector2(-sz.x * 0.5, -radius - 30.0), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.7, 0.95, 1.0))
+		var sz: Vector2 = font.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 8)
+		draw_string(font, Vector2(-sz.x * 0.5, -radius - 30.0), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(0.7, 0.95, 1.0))

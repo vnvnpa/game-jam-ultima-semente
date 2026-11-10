@@ -81,26 +81,27 @@ mouse_filter = 2
 texture = ExtResource("6_logo")
 expand_mode = 1
 stretch_mode = 5
+unique_name_in_owner = true
 
 [node name="PreTitle" type="Label" parent="Margin/Box"]
 visible = false
 layout_mode = 2
 text = "PROJETO"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 24
 
 [node name="GameTitle" type="Label" parent="Margin/Box"]
 visible = false
 layout_mode = 2
 text = "ÚLTIMA SEMENTE"
 theme_type_variation = &"AccentLabel"
-theme_override_font_sizes/font_size = 56
+theme_override_font_sizes/font_size = 48
 
 [node name="Subtitle" type="Label" parent="Margin/Box"]
 layout_mode = 2
 text = "Sobrevivência • Exploração • Evolução biológica"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 16
 
 [node name="Spacer" type="Control" parent="Margin/Box"]
 layout_mode = 2
@@ -117,7 +118,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 theme_type_variation = &"WarnLabel"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 autowrap_mode = 3
 unique_name_in_owner = true
 
@@ -126,7 +127,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250.0, 38.0)
 focus_mode = 2
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Nova Expedição"
 unique_name_in_owner = true
 
@@ -135,7 +136,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250.0, 38.0)
 focus_mode = 2
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Santuário do Último Jardim"
 unique_name_in_owner = true
 
@@ -144,7 +145,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250.0, 38.0)
 focus_mode = 2
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Coração de Nymara"
 unique_name_in_owner = true
 
@@ -153,7 +154,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250.0, 38.0)
 focus_mode = 2
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Laboratório de Adaptação"
 unique_name_in_owner = true
 
@@ -162,7 +163,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250.0, 38.0)
 focus_mode = 2
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Arquivo Biológico"
 unique_name_in_owner = true
 
@@ -171,7 +172,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250.0, 38.0)
 focus_mode = 2
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Configurações"
 unique_name_in_owner = true
 
@@ -180,7 +181,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250.0, 38.0)
 focus_mode = 2
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Créditos"
 unique_name_in_owner = true
 
@@ -189,7 +190,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250.0, 38.0)
 focus_mode = 2
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Sair"
 unique_name_in_owner = true
 
@@ -201,5 +202,5 @@ size_flags_vertical = 3
 layout_mode = 2
 text = ""
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 unique_name_in_owner = true

@@ -61,7 +61,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Obrigado por jogar e ajudar Kael a descobrir o destino de Nymara."
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -72,13 +72,13 @@ layout_mode = 2
 layout_mode = 2
 text = "Quer ajudar a financiar um próximo projeto?"
 theme_type_variation = &"AccentLabel"
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 
 [node name="SupportText" type="Label" parent="Center/Panel/Body"]
 layout_mode = 2
 text = "Se você gostou do jogo, poderá apoiar voluntariamente o próximo projeto pela página oficial de Projeto: Última Semente no itch.io.\n\nBaixar, concluir o jogo e assistir aos créditos nunca depende de pagar ou doar. Obrigado por fazer parte desta jornada."
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -96,7 +96,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = ""
 theme_type_variation = &"NucLabel"
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 unique_name_in_owner = true
 
@@ -104,7 +104,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Arte, efeitos sonoros e música são gerados por código neste projeto; nenhum asset de terceiros é utilizado. Motor: Godot Engine (licença MIT)."
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 autowrap_mode = 3
 

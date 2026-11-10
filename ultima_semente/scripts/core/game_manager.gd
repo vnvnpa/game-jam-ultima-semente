@@ -139,6 +139,8 @@ func _input(event: InputEvent) -> void:
 		using_pad = true
 	elif event is InputEventKey or event is InputEventMouseButton:
 		using_pad = false
+	elif event is InputEventMouseMotion and (event as InputEventMouseMotion).relative.length() > 3.0:
+		using_pad = false
 
 
 func _setup_input() -> void:

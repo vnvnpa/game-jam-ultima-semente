@@ -12,6 +12,15 @@ const MENU_GROW: float = 1.18
 var _t: float = 0.0
 var _spores: Array = []
 
+const LOGO_SHEET: String = "res://assets/art/ui/logo_anim.png"
+const LOGO_FRAME_SIZE: Vector2 = Vector2(480.0, 112.0)
+const LOGO_FRAMES: int = 24
+const LOGO_FPS: float = 12.0
+
+var _logo_atlas: AtlasTexture = null
+var _logo_t: float = 0.0
+
+@onready var logo: TextureRect = %Logo
 @onready var status_label: Label = %StatusLabel
 @onready var notice_label: Label = %NoticeLabel
 @onready var version_label: Label = %VersionLabel
@@ -26,6 +35,7 @@ var _spores: Array = []
 
 
 func _ready() -> void:
+	_setup_logo_animation()
 	for i in 70:
 		_spores.append({"x": randf(), "y": randf(), "s": randf_range(0.01, 0.04), "r": randf_range(1.5, 4.0), "c": randf()})
 	var total: int = GameData.mutation_order.size()
@@ -80,7 +90,28 @@ func _bind(b: Button, id: String) -> void:
 	b.pressed.connect(func() -> void: action.emit(id))
 
 
+## Logo animado: folha de 24 quadros (brilho que varre as letras, cintilâncias,
+## raízes balançando, semente pulsando). Com "Reduzir efeitos" fica no quadro parado.
+func _setup_logo_animation() -> void:
+	var sheet: Texture2D = load(LOGO_SHEET) as Texture2D
+	if sheet == null or logo == null:
+		return
+	_logo_atlas = AtlasTexture.new()
+	_logo_atlas.atlas = sheet
+	_logo_atlas.region = Rect2(Vector2.ZERO, LOGO_FRAME_SIZE)
+	logo.texture = _logo_atlas
+
+
+func _update_logo(delta: float) -> void:
+	if _logo_atlas == null or GameManager.reduce_fx():
+		return
+	_logo_t += delta
+	var frame: int = int(_logo_t * LOGO_FPS) % LOGO_FRAMES
+	_logo_atlas.region = Rect2(Vector2(0.0, float(frame) * LOGO_FRAME_SIZE.y), LOGO_FRAME_SIZE)
+
+
 func _process(delta: float) -> void:
+	_update_logo(delta)
 	_t += delta
 	queue_redraw()
 
@@ -111,4 +142,5 @@ func _draw_spores(vs: Vector2) -> void:
 		var yy: float = fmod(float(sp["y"]) - _t * float(sp["s"]) + 10.0, 1.0)
 		var xx: float = float(sp["x"]) + sin(_t * 0.5 + float(sp["c"]) * 6.0) * 0.01
 		var col: Color = Color(0.5, 1.0, 0.7, 0.5) if float(sp["c"]) < 0.5 else Color(0.8, 0.5, 1.0, 0.5)
-		draw_circle(Vector2(xx * vs.x, yy * vs.y), float(sp["r"]), col)
+		var sz: float = 2.0 if float(sp["r"]) < 2.8 else 4.0
+		draw_rect(Rect2((Vector2(xx * vs.x, yy * vs.y) / 2.0).floor() * 2.0, Vector2(sz, sz)), Color(col.r, col.g, col.b, 0.85))

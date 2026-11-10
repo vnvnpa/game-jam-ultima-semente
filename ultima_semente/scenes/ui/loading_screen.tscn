@@ -32,4 +32,4 @@ text = "Preparando expedição..."
 horizontal_alignment = 1
 vertical_alignment = 1
 theme_type_variation = &"AccentLabel"
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 32

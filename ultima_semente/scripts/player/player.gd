@@ -58,6 +58,8 @@ var comp_sprites: Array = []
 var _anim: StringName = &""
 ## Vista atual do Kael: "down" (frente), "up" (costas) ou "side" (perfil, espelhado pela mira).
 var _view: String = "down"
+## Inimigo travado pela arma automática (a retícula desliza até ele).
+var aim_target: Enemy = null
 var _weapon_front: bool = true
 var _mouse_last: Vector2 = Vector2.ZERO
 var _mouse_still_t: float = 0.0
@@ -244,6 +246,7 @@ func _physics_process(delta: float) -> void:
 		use_cloud()
 	# arma automática
 	var target: Enemy = _find_target()
+	aim_target = target
 	if target != null:
 		aim_dir = (target.global_position - global_position).normalized()
 		if fire_cd <= 0.0:

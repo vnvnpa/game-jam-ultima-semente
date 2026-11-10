@@ -54,7 +54,7 @@ layout_mode = 2
 [node name="Story" type="Label" parent="Center/Panel/Body"]
 layout_mode = 2
 text = "A Barreira de Raízes cede. Além do Santuário, um jardim antigo se abre: o Último Jardim dos Arquitetos Verdes. Nenhuma expedição comum o alcança. É uma missão dedicada, que começa com Kael e as mutações permanentes que ele já carrega."
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 autowrap_mode = 3
 unique_name_in_owner = true
@@ -63,7 +63,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Santuário do Último Jardim liberado no menu principal."
 theme_type_variation = &"NucLabel"
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 autowrap_mode = 3
 unique_name_in_owner = true

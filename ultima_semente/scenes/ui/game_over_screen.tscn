@@ -55,7 +55,7 @@ layout_mode = 2
 layout_mode = 2
 text = ""
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 autowrap_mode = 3
 unique_name_in_owner = true
@@ -68,13 +68,13 @@ columns = 2
 layout_mode = 2
 text = "Tempo de expedição"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 size_flags_horizontal = 3
 
 [node name="ValTime" type="Label" parent="Center/Panel/Body/Stats"]
 layout_mode = 2
 text = "0"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -82,13 +82,13 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Nível alcançado"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 size_flags_horizontal = 3
 
 [node name="ValLevel" type="Label" parent="Center/Panel/Body/Stats"]
 layout_mode = 2
 text = "0"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -96,13 +96,13 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Criaturas derrotadas"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 size_flags_horizontal = 3
 
 [node name="ValKills" type="Label" parent="Center/Panel/Body/Stats"]
 layout_mode = 2
 text = "0"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -110,13 +110,13 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Ninhos destruídos"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 size_flags_horizontal = 3
 
 [node name="ValNests" type="Label" parent="Center/Panel/Body/Stats"]
 layout_mode = 2
 text = "0"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -124,13 +124,13 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Biomassa coletada"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 size_flags_horizontal = 3
 
 [node name="ValBiomass" type="Label" parent="Center/Panel/Body/Stats"]
 layout_mode = 2
 text = "0"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -138,13 +138,13 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Registros descobertos"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 size_flags_horizontal = 3
 
 [node name="ValRecords" type="Label" parent="Center/Panel/Body/Stats"]
 layout_mode = 2
 text = "0"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -152,13 +152,13 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Núcleos Primordiais obtidos"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 size_flags_horizontal = 3
 
 [node name="ValNuclei" type="Label" parent="Center/Panel/Body/Stats"]
 layout_mode = 2
 text = "0"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -166,13 +166,13 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Núcleos totais (permanentes)"
 theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 size_flags_horizontal = 3
 
 [node name="ValNucleiTotal" type="Label" parent="Center/Panel/Body/Stats"]
 layout_mode = 2
 text = "0"
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
 unique_name_in_owner = true
 
@@ -180,7 +180,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Núcleos e mutações permanentes foram preservados. Use o Laboratório de Adaptação no menu."
 theme_type_variation = &"NucLabel"
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 autowrap_mode = 3
 

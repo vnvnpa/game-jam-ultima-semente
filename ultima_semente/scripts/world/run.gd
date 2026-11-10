@@ -102,6 +102,9 @@ func _ready() -> void:
 	if objectives != null:
 		objectives.setup(self)
 	_bind_scene_actors()
+	var reticle: AimReticle = AimReticle.new()
+	world.add_child(reticle)
+	reticle.setup(self)
 	if starting_record != "" and SaveManager.add_record(starting_record):
 		state.records_found.append(starting_record)
 	AudioManager.start_music()
