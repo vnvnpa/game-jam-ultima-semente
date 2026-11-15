@@ -27,6 +27,7 @@ GameManager="*res://scripts/core/game_manager.gd"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/size/mode=3
 window/stretch/mode="canvas_items"
 mouse_cursor/custom_image="res://assets/art/ui/cursor.png"
 mouse_cursor/custom_image_hotspot=Vector2(1, 1)

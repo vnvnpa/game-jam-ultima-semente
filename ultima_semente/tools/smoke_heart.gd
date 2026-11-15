@@ -58,12 +58,24 @@ func _process(_delta: float) -> bool:
 				var hp_before: float = h.hp
 				h.take_damage(500.0)
 				_check(is_equal_approx(h.hp, hp_before), "núcleo protegido na etapa 2")
+				h.die()
+				_check(h.alive and is_equal_approx(h.hp, hp_before) and not h.decision_started, "golpe fatal na etapa 2 não pula nem encerra a luta")
 				for s in h.structures:
 					(s as Enemy).die()
 				step = 2
 		2:
 			if h.stage == 3:
 				_check(h.alive, "núcleo vivo na etapa 3")
+				var mult: float = maxf(0.01, run.state.stat("elite_dmg_mult"))
+				var vint0: float = h._volley_interval()
+				h.take_damage((h.hp - h.max_hp * 0.5) / mult)
+				_check(h.alive and not h.decision_started and h.hp > h.max_hp * 0.45, "com ~50% de vida a luta continua")
+				h.take_damage((h.hp - h.max_hp * 0.12) / mult)
+				_check(h.alive and not h.decision_started and h.hp > h.max_hp * 0.10, "com ~12% de vida a luta continua (antes encerrava aqui)")
+				_check(h._volley_interval() < vint0 and h._volley_interval() <= h.volley_interval_end + 0.6, "rajada mais frequente com o núcleo fraco")
+				var proj_before: int = run.projectiles_node.get_child_count()
+				h._pattern_volley()
+				_check(run.projectiles_node.get_child_count() - proj_before >= h.volley_count_start, "rajada em anel dispara ao menos o mínimo de projéteis")
 				h.take_damage(99999.0)
 				step = 3
 		3:

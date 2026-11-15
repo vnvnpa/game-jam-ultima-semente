@@ -1,5 +1,16 @@
 # PROGRESSO — Última Semente
 
+## Correção do fim precoce do Coração + rajada mais difícil (NOVO — não executado na Godot)
+- **Bug:** a luta final terminava com o Coração ainda com vida (`DECISION_AT = 12%` abria a decisão da Última Semente). Agora `HeartBoss.die()`
+  é quem decide: golpe fatal na etapa 3 -> a Rede se rende (vida fica em 1 até a escolha) e abre a decisão; nenhuma outra condição encerra a luta.
+- **Bug relacionado:** `die()` durante a etapa 2 jogava a vida de 66% para 12% (pulava vida do chefe). Agora a vida fica em 66% na etapa 2.
+- **Dificuldade (etapa 3):** a rajada em anel acelera conforme o Coração enfraquece (`@export` em `heart_boss.gd`, grupo "Rajada em anel"):
+  intervalo 3,4 s -> 1,5 s, projéteis por anel 12 -> 20, velocidade 230 -> 310, e a partir de 40% de progresso cada rajada ganha um segundo anel defasado (eco de 0,4 s).
+  Antes: 10 projéteis a 210 de velocidade a cada 5 s. Ajuste os números no Inspector se ficar demais.
+- **Varredura nos modos:** Guardião (região) e Jardineiro só terminam com a vida em 0 (as fases a 50% são só mudança de padrão); `end_run("victory")` do Coração
+  só ocorre depois da escolha final; nenhum outro gatilho de vitória ou fim encontrado.
+- `smoke_heart.gd` ganhou 5 checagens (50% e 12% não encerram, golpe fatal na etapa 2 não pula vida, rajada mais frequente e com projéteis mínimos).
+
 ## Mundo em pixel art + mapas próprios do Santuário e do Coração (NOVO — não executado na Godot)
 **Arte** (`tools/gen_world_pixel.py`, mesmo kit pix.py/ui_pal.py dos outros geradores; rode de novo para regerar):
 - `trees.png` (4 árvores distintas: copa larga, pinheiro, retorcida bioluminescente, baobá), `crystals.png` (prismas pontudos, violeta/ciano/rosa),
@@ -164,7 +175,7 @@ Mover: analógico esquerdo / D-pad · **Mirar: analógico direito (novo)** · A 
 **Fluxo novo da campanha:** Guardião → Santuário do Último Jardim → **Coração de Nymara (final)**. Vencer o Jardineiro agora mostra a tela de fase concluída ("Descer ao Coração de Nymara") em vez de encerrar a campanha; a vitória final (epílogo + "PARABÉNS" + créditos) vem depois do Coração. Saves antigos com a campanha já concluída também liberam o Coração.
 **Feito**
 - Fase `heart_run.tscn` + `heart_map.tscn` (mapa gerado: Câmara de Acesso com estação, terminal e nave; 2 ecos de Nymara com registros novos `reg_coracao_a/b` e 1 Núcleo descoberto; ~56 obstáculos; 9 caches; arena central; barreira já aberta via novo `RootGate.start_open`). Perfil de ondas `data/waves/03_coracao.tres`.
-- Chefe `HeartBoss` (`scripts/enemies/heart_boss.gd`, 2600 de vida, recompensa 3–5 Núcleos via novos `EnemyData.nucleos_min/max`): **Etapa 1 Defesa** (raízes + invocações, vulnerável até 66%); **Etapa 2 Exposição** (núcleo protegido, 4 `estrutura_raiz` ao redor que lançam raízes telegrafadas; "Estruturas restantes: N"); **Etapa 3 Decisão** (núcleo exposto com raízes, invocações e anel de projéteis; aos 12% a Rede se rende, os inimigos somem e abre a escolha). Nunca morre antes da decisão (`die()` bloqueado, veneno/DoT respeitam as etapas).
+- Chefe `HeartBoss` (`scripts/enemies/heart_boss.gd`, 2600 de vida, recompensa 3–5 Núcleos via novos `EnemyData.nucleos_min/max`): **Etapa 1 Defesa** (raízes + invocações, vulnerável até 66%); **Etapa 2 Exposição** (núcleo protegido, 4 `estrutura_raiz` ao redor que lançam raízes telegrafadas; "Estruturas restantes: N"); **Etapa 3 Decisão** (núcleo exposto com raízes, invocações e anel de projéteis; a Rede só se rende quando a vida do Coração ACABA (golpe fatal): os inimigos somem e abre a escolha; corrigido em F8.1). Nunca morre antes da decisão (`die()` bloqueado, veneno/DoT respeitam as etapas).
 - Escolha final (`DecisionScreen`): **Plantar a Última Semente (restaurar Nymara)** ou **Entregar a Semente à Rede Raiz (coexistir)**; o epílogo muda pela escolha e pelos registros lidos (≥ 8); `last_ending` salvo. HUD mostra objetivo por etapa e "Fase N" na barra do chefe.
 - Arte nova (`coracao.png`, `estrutura.png`), `EnemyData` novos (`11_coracao_rede`, `12_estrutura_raiz`), comportamento `estrutura` no `enemy.gd`, botão "Coração de Nymara" no menu (aparece ao liberar), `tools/smoke_heart.gd` (3 etapas + decisão + fim).
 **Não testado na Godot:** toda a fase. Prováveis ajustes: dificuldade (vida 2600, ondas, volumes de raízes), posição/escala do sprite do Coração (128 px), estruturas posicionadas por `is_free_spot`, legibilidade da tela de decisão, tempo do smoke (`smoke_heart.gd` espera até 4000 quadros).

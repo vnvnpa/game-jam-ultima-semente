@@ -25,7 +25,7 @@ Marque cada item ao testar. Tudo aqui exige abrir o projeto na Godot 4.7.x; as c
 - [ ] Concluir o Jardim mostra "JARDINEIRO DESATIVADO" e leva ao Coração; botão aparece no menu depois.
 - [ ] Câmara de Acesso (estação, terminal, nave); ecos de Nymara dão registros; Núcleo do primeiro eco só uma vez.
 - [ ] Etapa 1: raízes telegrafadas e invocações; aos 66% o núcleo se protege ("Protegido") e surgem 4 estruturas.
-- [ ] Etapa 2: destruir as estruturas (contador no HUD); etapa 3: anel de projéteis; aos 12% a tela de decisão.
+- [ ] Etapa 2: destruir as estruturas (contador no HUD); etapa 3: anel de projéteis cada vez mais rápido/denso; a tela de decisão só aparece quando a barra do Coração ZERA (conferir que com 50% e 12% a luta continua).
 - [ ] Os dois finais mostram epílogos diferentes; "PARABÉNS" e créditos funcionam; morrer reinicia o Coração.
 - [ ] `godot --headless --path . -s res://tools/smoke_heart.gd` termina com "Falhas: 0".
 
