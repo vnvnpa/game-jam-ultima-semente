@@ -7,6 +7,19 @@ extends Control
 const MAP_W: float = 720.0
 const MAP_H: float = 520.0
 
+## Título, nome do chefe e legenda de cada fase (level_id do Run).
+const LEVEL_TITLES: Dictionary = {
+	"region": "MAPA DE NYMARA",
+	"garden": "MAPA — SANTUÁRIO DO ÚLTIMO JARDIM",
+	"heart": "MAPA — CORAÇÃO DE NYMARA",
+}
+const BOSS_LABELS: Dictionary = {"region": "Guardião", "garden": "Jardineiro", "heart": "Núcleo"}
+const LEGEND: Dictionary = {
+	"region": ["Laranja: você   Azul: ar pressurizado   Magenta: zona contaminada", "Rosa: ninho   Roxo: ruína   Roxo escuro: muralha"],
+	"garden": ["Laranja: você   Azul: ar pressurizado   Magenta: zona contaminada", "Dourado: mecanismo (verde = ativo)   Roxo: registro   Roxo escuro: muralha"],
+	"heart": ["Laranja: você   Azul: Câmara de Acesso (ar seguro)", "Vermelho: estrutura do Núcleo   Roxo: registro"],
+}
+
 var run: Run = null
 var _marks: Dictionary = {}
 
@@ -40,14 +53,15 @@ func _draw() -> void:
 	var vs: Vector2 = get_viewport_rect().size
 	var origin: Vector2 = (vs - Vector2(MAP_W, MAP_H)) * 0.5
 	var s: float = MAP_W / WorldLayout.WORLD_RECT.size.x
-	draw_style_box(UIKit.get_theme().get_stylebox(&"panel", &"ModalPanel"), Rect2(origin - Vector2(26, 54), Vector2(MAP_W + 52, MAP_H + 90)))
+	draw_style_box(UIKit.get_theme().get_stylebox(&"panel", &"ModalPanel"), Rect2(origin - Vector2(26, 54), Vector2(MAP_W + 52, MAP_H + 118)))
 	var font: Font = UIKit.font()
-	draw_string(font, origin + Vector2(0, -16), "MAPA DE NYMARA — [%s] fechar" % GameManager.key_text("map"), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, UIKit.COL_ACCENT)
+	draw_string(font, origin + Vector2(0, -16), "%s — [%s] fechar" % [str(LEVEL_TITLES.get(run.level_id, "MAPA DE NYMARA")), GameManager.key_text("map")], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, UIKit.COL_ACCENT)
 	# regiões
 	for rg in WorldLayout.regions:
 		var rz: RegionZone = rg
 		var rr: Rect2 = rz.get_rect()
 		draw_rect(Rect2(origin + rr.position * s, rr.size * s), rz.map_color)
+		draw_rect(Rect2(origin + rr.position * s, rr.size * s), Color(1, 1, 1, 0.16), false, 1.0)
 		draw_string(font, origin + rr.position * s + Vector2(10, 20), rz.region_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.9, 1, 0.9))
 	for hz in WorldLayout.hostile_zones:
 		var rect: Rect2 = (hz as HostileZone).get_rect()
@@ -56,16 +70,20 @@ func _draw() -> void:
 	for wr in run.map.wall_rects:
 		var wrect: Rect2 = wr
 		draw_rect(Rect2(origin + wrect.position * s, wrect.size * s), Color(0.5, 0.25, 0.55))
-	var grect: Rect2 = run.map.gate.get_rect()
-	var gate_col: Color = Color(1.0, 0.4, 0.4) if not run.map.gate.is_open else Color(0.4, 1.0, 0.5)
-	draw_rect(Rect2(origin + grect.position * s, grect.size * s), gate_col)
+	# Barreira: só existe de verdade nas fases com portão (no Coração ela fica fora do mundo, já aberta).
+	if WorldLayout.WORLD_RECT.has_point(run.map.gate.global_position):
+		var grect: Rect2 = run.map.gate.get_rect()
+		var gate_col: Color = Color(1.0, 0.4, 0.4) if not run.map.gate.is_open else Color(0.4, 1.0, 0.5)
+		draw_rect(Rect2(origin + grect.position * s, grect.size * s), gate_col)
 	for stn in WorldLayout.stations:
 		var st: Station = stn
 		_mark("station", _w2m(st.global_position, origin))
 	var arena: BossArena = WorldLayout.boss_arena
 	if arena != null:
 		draw_circle(_w2m(arena.global_position, origin), arena.ring_radius * s, Color(0.7, 0.4, 0.9, 0.18))
-		draw_string(font, _w2m(arena.global_position, origin) + Vector2(-26, 4), "Chefe", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(0.9, 0.7, 1.0))
+		var blabel: String = str(BOSS_LABELS.get(run.level_id, "Chefe"))
+		var bsz: Vector2 = font.get_string_size(blabel, HORIZONTAL_ALIGNMENT_LEFT, -1, 16)
+		draw_string(font, (_w2m(arena.global_position, origin) + Vector2(-bsz.x * 0.5, 6.0)).round(), blabel, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.95, 0.8, 1.0))
 	var ppos: Vector2 = run.player.global_position
 	var reveal: float = run.state.stat("reveal_radius")
 	var scanner: bool = run.state.has_special("scanner")
@@ -88,6 +106,9 @@ func _draw() -> void:
 		if not is_instance_valid(e):
 			continue
 		var en: Enemy = e
+		if en.alive and en.data.id == "estrutura_raiz":
+			_mark("nest", _w2m(en.global_position, origin), Color(1.0, 0.35, 0.35))
+			continue
 		if en.alive and en.data.comportamento == "ninho" and (en.seen or (reveal > 0.0 and ppos.distance_to(en.global_position) < reveal)):
 			_mark("nest", _w2m(en.global_position, origin))
 	# caches (apenas com Sentido Biológico)
@@ -99,4 +120,6 @@ func _draw() -> void:
 	# jogador
 	var pm: Vector2 = _w2m(ppos, origin)
 	_mark("player", pm)
-	draw_string(font, origin + Vector2(0, MAP_H + 22), "Laranja: você  Azul: ar  Magenta: contaminada  Rosa: ninho  Roxo: ruína  Dourado: mecanismo", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, UIKit.COL_DIM)
+	var legend: Array = LEGEND.get(run.level_id, LEGEND["region"])
+	for i in legend.size():
+		draw_string(font, origin + Vector2(0, MAP_H + 22 + 20 * i), str(legend[i]), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, UIKit.COL_DIM)

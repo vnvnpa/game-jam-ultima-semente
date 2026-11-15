@@ -20,6 +20,8 @@ var _hidden_cursor: bool = false
 
 func setup(r: Run) -> void:
 	run = r
+	# Roda mesmo com o jogo pausado: é ela que devolve o cursor do sistema nos menus.
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	z_index = 35
 	_sprite = Sprite2D.new()
 	_sprite.texture = load(TEX_PATH) as Texture2D

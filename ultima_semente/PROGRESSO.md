@@ -1,5 +1,41 @@
 # PROGRESSO — Última Semente
 
+## Mundo em pixel art + mapas próprios do Santuário e do Coração (NOVO — não executado na Godot)
+**Arte** (`tools/gen_world_pixel.py`, mesmo kit pix.py/ui_pal.py dos outros geradores; rode de novo para regerar):
+- `trees.png` (4 árvores distintas: copa larga, pinheiro, retorcida bioluminescente, baobá), `crystals.png` (prismas pontudos, violeta/ciano/rosa),
+  `pillars.png` (colunas dos Arquitetos com musgo, runa e uma quebrada).
+- Props NOVOS: `planters.png` e `capsules.png` (estufa), `roots.png` e `bulbs.png` (Coração) + cenas `planter/capsule/root_mass/bulb.tscn`
+  (mesmo script `obstacle.gd`; nenhum código novo).
+- Chão: `tileset_<bioma>.png` agora com 6 biomas (floresta, bacia, santuario, jardim, **estufa, nucleo**), sem emendas, variantes com o mesmo brilho.
+  `ground_tileset.tres` tem 6 fontes (`tools/build_tileset.py`). Decoração: `decor.png`, `decor_estufa.png`, `decor_nucleo.png`.
+- Muralhas: `wall_raizes.png` / `wall_raizes_v.png` (TextureRect em repetição) nos 3 mapas, no lugar dos retângulos roxos lisos.
+- `GroundPainter` pinta **trilhas** (linha 1 do tileset) ligando estações, terminais, ruínas, mecanismos e a arena (`paint_trails`, `trail_half_width`).
+**Mapas** (`tools/build_maps.py` escreve `garden_map.tscn` e `heart_map.tscn`; semente fixa, regras de exclusão):
+- Santuário do Último Jardim: deixou de ser cópia da Floresta. Eclusa (SO) -> Estufas Esquecidas (fileiras de vasos, paredes de cápsulas)
+  -> Jardim Suspenso (colunata, 2 zonas contaminadas, 3 mecanismos em círculos de pilares) -> muralha + Barreira (centro) -> Câmara do Jardineiro (faixa norte inteira).
+- Coração de Nymara: 3 regiões (Câmara de Acesso, Raízes Profundas, Núcleo das Raízes); 3 cortinas de raízes ondulantes com passagens em zigue-zague
+  marcadas por bulbos; arena a leste (2750,1300) cercada de cristais e bulbos. O portão fantasma foi para fora do mundo (já aberto).
+- Mapa em tela cheia (M) por fase: título e legenda próprios, regiões com borda, nome do chefe legível (16 px, antes 8), estruturas do Núcleo em vermelho,
+  barreira só quando existe (no Coração aparecia um retângulo verde fora do painel).
+- `garden_run.tscn`: jogador nasce em (400,1970). `smoke_garden.gd` ajustado (região inicial e posição do chefe).
+**Análise geral (sem Godot):** `python3 tools/run_checks.py` agora roda também
+- `check_map_layout.py`: sobreposição de obstáculos, itens em cima de estações/interativos/caches/arena/muralhas e **alcançabilidade** por flood-fill
+  (portão fechado e aberto) nos 3 mapas;
+- `check_art.py`: tamanhos x manifest, sprites cortados na borda, halos cortados, decoração cortada, tiles sem emenda, variantes repetidas, brilho desigual.
+- Problemas reais que a análise achou e foram corrigidos: topo do pinheiro e raízes sem contorno (encostavam na borda), halos de brilho cortados retos,
+  4 itens de decoração cortados, pedras dos cristais saindo do quadro, variantes de trilha com brilho desigual.
+- `tools/render_map_preview.py` gera `docs/previews/mapa_{world,garden,heart}.png` (aproximação do que a Godot desenha).
+**Falta validar na Godot:** rodar `--import` e os 3 smoke tests; conferir se a escala dos props (raio/20) e o contraste do chão agradam; desempenho do Coração (261 obstáculos).
+
+## Pausa com cursor + sprites dos inimigos redesenhados
+- **Cursor na pausa:** a retícula ficava no mundo (que para na pausa), então não devolvia o cursor do sistema. `AimReticle` agora roda com `PROCESS_MODE_ALWAYS`: o cursor aparece ao pausar/abrir loja/menu e some ao despausar.
+- **Inimigos redesenhados** (pixel art à mão, mesma folha/animações/tamanhos do manifest; nenhuma cena ou `.tres` mudou): Larva-Fértil (lagarta segmentada), Cortarraiz (fera com crista de casca), Flor de Ruptura (flor carnívora com dentes), Esporídeo (cogumelo ambulante), Parasita de Sinal (água-viva com antena), Casca-Túmulo (casco de pedra com rachaduras âmbar), Anomalia (massa carmesim com espinhos de cristal), Ninho (casulos sobre raízes), Guardião de Raízes (golem de madeira com núcleo), Jardineiro Vazio (drone jardineiro com escudo hexagonal / núcleo exposto), Coração de Nymara (órgão escuro com costelas de pedra e coroa de tentáculos), Estrutura (pilar com cristal) e as 4 auras de elite.
+- Mortes: dissolução em esporos/fagulhas por dithering; dano: flash branco com recuo.
+- Geradores: `tools/creat.py`, `gen_enemies_pixel.py`, `gen_bosses_pixel.py` (o `gen_art.py` antigo não sobrescreve mais `enemies/` se rodado com a proteção — use `FORCE_LEGACY_UI=1` só para `ui/` e `fx/`; para inimigos rode os novos).
+- Prévia: `docs/previews/inimigos.png`.
+- **NÃO testado na Godot.** Conferir: tamanho aparente (o código escala pelo raio do inimigo), o escudo do Jardineiro (cobre o corpo), e se o Coração/Guardião cabem bem na arena.
+- Ainda no estilo antigo: sprites do Kael (já bons), árvores/cristais/pilares/terreno e tiles do mundo.
+
 ## Sliders, mira em pixel e logo animado
 - **Sliders de volume:** a trilha não aparecia porque o estilo da trilha tinha margem interna 0 (a Godot desenha altura 0). Corrigido: trilha no estilo das barras de vida, **preenchimento com ponta brilhante que marca o nível**, **5 marcas de graduação (início, 25%, 50%, 75%, fim)** e a porcentagem no título ("Volume da música — 70%").
 - **Mira em pixel (`AimReticle`):** retícula de 4 frames que segue o mouse (cursor do sistema escondido só durante a partida); com controle aparece na direção da mira; quando a arma automática trava num inimigo (`Player.aim_target`) ela desliza até ele e vira a versão dourada com pontos orbitando. Em pausa/loja/menus volta o cursor normal.

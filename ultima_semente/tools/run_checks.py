@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Roda todas as checagens estáticas (sem Godot): validate_scenes, lint_gd e lint_syntax.
+"""Roda todas as checagens estáticas (sem Godot): validate_scenes, lint_gd, lint_syntax, check_map_layout e check_art.
 Uso (raiz do projeto):  python3 tools/run_checks.py"""
 import os, subprocess, sys
 T = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(T); ok = True
-for s in ("validate_scenes.py", "lint_gd.py", "lint_syntax.py"):
+for s in ("validate_scenes.py", "lint_gd.py", "lint_syntax.py", "check_map_layout.py", "check_art.py"):
     r = subprocess.run([sys.executable, os.path.join(T, s)], cwd=ROOT, capture_output=True, text=True)
     tail = (r.stdout.strip().splitlines() or [""])[-1]
     print(f"{s}: {tail}")

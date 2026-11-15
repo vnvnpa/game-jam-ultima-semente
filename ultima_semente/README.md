@@ -79,7 +79,9 @@ WASD/Setas mover · Mouse mirar · a arma (Espinho Simbiótico) dispara sozinha 
 | Projéteis, coletáveis, zonas de esporos, golpe do chefe, isca, efeitos, interativos | `scenes/entities/*.tscn` |
 | **Cenário inteiro** (terreno, regiões, zonas contaminadas, estações, muralhas, barreira, obstáculos, caches, nave, terminais, ruínas, ninhos, arena do chefe) | `scenes/world/world_map.tscn`: abra e mova/duplique/apague os nós no editor (grupos `Regions`, `HostileZones`, `Stations`, `Walls`, `Obstacles`, `Caches`, `Interactables`, `Nests`, `BossArena`) |
 | Imagem do terreno | `assets/world/terrain.png` (pinte/substitua no editor de imagens; 1 pixel = 4 px do mundo) |
-| Cada tipo de elemento | `scenes/world/station.tscn`, `hostile_zone.tscn`, `region_zone.tscn`, `boss_arena.tscn`, `tree/crystal/pillar.tscn`, `root_gate.tscn` e `scenes/entities/interactable.tscn`, `biomass_pickup.tscn` |
+| Mapas do Santuário e do Coração | `scenes/world/garden_map.tscn` e `heart_map.tscn` (gerados por `tools/build_maps.py`; pode editar à mão depois). Valide com `python3 tools/check_map_layout.py` |
+| Arte do mundo (árvores, cristais, pilares, vasos, cápsulas, raízes, bulbos, chão, decoração, muralhas) | `python3 tools/gen_world_pixel.py` e `python3 tools/build_tileset.py` |
+| Cada tipo de elemento | `scenes/world/station.tscn`, `hostile_zone.tscn`, `region_zone.tscn`, `boss_arena.tscn`, `tree/crystal/pillar/planter/capsule/root_mass/bulb.tscn`, `root_gate.tscn` e `scenes/entities/interactable.tscn`, `biomass_pickup.tscn` |
 | Nível do Jardim | `scenes/world/garden_map.tscn` (mapa), `scenes/world/garden_run.tscn` (regras: `Level Id`, `Boss Id`, dificuldade inicial no `SpawnDirector`, `Objectives`), `data/enemies/10_jardineiro_vazio.tres` |
 | Estrutura da expedição (mundo, sistemas, HUD, quais cenas são usadas) | `scenes/world/run.tscn` |
 | HUD, mapa, menus, loja, laboratório, créditos etc. | `scenes/ui/*.tscn` |

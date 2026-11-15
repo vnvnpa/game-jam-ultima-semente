@@ -2,12 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-path="res://.godot/imported/pixel.ttf-5c1e0b2f7d8a4e19a6b3f0d2c9e84a71.fontdata"
+uid="uid://dag68qf4pox3w"
+path="res://.godot/imported/pixel.ttf-0a41b59031ba03eec9a9aa425e52f3a4.fontdata"
 
 [deps]
 
 source_file="res://assets/art/ui/pixel.ttf"
-dest_files=["res://.godot/imported/pixel.ttf-5c1e0b2f7d8a4e19a6b3f0d2c9e84a71.fontdata"]
+dest_files=["res://.godot/imported/pixel.ttf-0a41b59031ba03eec9a9aa425e52f3a4.fontdata"]
 
 [params]
 
@@ -19,7 +20,7 @@ multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
-force_autohint=false
+force_autohinter=false
 modulate_color_glyphs=false
 hinting=0
 subpixel_positioning=0

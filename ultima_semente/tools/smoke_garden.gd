@@ -71,7 +71,7 @@ func _process(_delta: float) -> bool:
 			_check(not run.map.gate.is_open, "passagem começa fechada")
 			_check(run.director.time_offset > 0.0, "diretor com deslocamento de dificuldade")
 			_check(run.events.schedule.is_empty(), "eventos aleatórios desligados no jardim")
-			_check(WorldLayout.region_name(Vector2(450, 2150)) == "Estufas Esquecidas", "nome da região inicial")
+			_check(WorldLayout.region_name(Vector2(400, 1900)) == "Estufas Esquecidas", "nome da região inicial")
 			run.objectives.activation_time = 0.5
 			_goto(1)
 		1:
@@ -92,7 +92,7 @@ func _process(_delta: float) -> bool:
 		3:
 			_check(run.objectives.activated_count() == 3, "3 mecanismos ativados")
 			_check(run.map.gate.is_open, "passagem aberta após os mecanismos")
-			run.player.global_position = Vector2(2650, 600)
+			run.player.global_position = WorldLayout.boss_arena.global_position + Vector2(0.0, 260.0)
 			_goto(4)
 		4:
 			if run.boss != null:

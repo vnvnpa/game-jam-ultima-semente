@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3]
+[gd_scene load_steps=27 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/world_map.gd" id="1_world_map"]
 [ext_resource type="Texture2D" path="res://assets/world/terrain.png" id="2_terrain"]
@@ -18,6 +18,8 @@
 [ext_resource type="Script" path="res://scripts/world/ground_painter.gd" id="90_painter"]
 [ext_resource type="TileSet" path="res://assets/art/world/ground_tileset.tres" id="91_tileset"]
 [ext_resource type="Texture2D" path="res://assets/art/world/decor.png" id="92_decor"]
+[ext_resource type="Texture2D" path="res://assets/art/world/wall_raizes.png" id="93_wall_h"]
+[ext_resource type="Texture2D" path="res://assets/art/world/wall_raizes_v.png" id="94_wall_v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6"]
 size = Vector2(3800.0, 100.0)
@@ -159,14 +161,16 @@ collision_mask = 0
 [node name="Shape" type="CollisionShape2D" parent="Walls/WallWest"]
 shape = SubResource("RectangleShape2D_10")
 
-[node name="Visual" type="ColorRect" parent="Walls/WallWest"]
+[node name="Visual" type="TextureRect" parent="Walls/WallWest"]
 layout_mode = 0
 offset_left = -400.0
 offset_top = -18.0
 offset_right = 400.0
 offset_bottom = 18.0
 mouse_filter = 2
-color = Color(0.35, 0.18, 0.4, 1.0)
+texture = ExtResource("93_wall_h")
+expand_mode = 1
+stretch_mode = 1
 
 [node name="WallEast" type="StaticBody2D" parent="Walls"]
 position = Vector2(3150.0, 640.0)
@@ -176,14 +180,16 @@ collision_mask = 0
 [node name="Shape" type="CollisionShape2D" parent="Walls/WallEast"]
 shape = SubResource("RectangleShape2D_11")
 
-[node name="Visual" type="ColorRect" parent="Walls/WallEast"]
+[node name="Visual" type="TextureRect" parent="Walls/WallEast"]
 layout_mode = 0
 offset_left = -450.0
 offset_top = -18.0
 offset_right = 450.0
 offset_bottom = 18.0
 mouse_filter = 2
-color = Color(0.35, 0.18, 0.4, 1.0)
+texture = ExtResource("93_wall_h")
+expand_mode = 1
+stretch_mode = 1
 
 [node name="WallVertical" type="StaticBody2D" parent="Walls"]
 position = Vector2(1700.0, 320.0)
@@ -193,14 +199,16 @@ collision_mask = 0
 [node name="Shape" type="CollisionShape2D" parent="Walls/WallVertical"]
 shape = SubResource("RectangleShape2D_12")
 
-[node name="Visual" type="ColorRect" parent="Walls/WallVertical"]
+[node name="Visual" type="TextureRect" parent="Walls/WallVertical"]
 layout_mode = 0
 offset_left = -18.0
 offset_top = -320.0
 offset_right = 18.0
 offset_bottom = 320.0
 mouse_filter = 2
-color = Color(0.35, 0.18, 0.4, 1.0)
+texture = ExtResource("94_wall_v")
+expand_mode = 1
+stretch_mode = 1
 
 [node name="Gate" parent="." instance=ExtResource("13_root_gate")]
 

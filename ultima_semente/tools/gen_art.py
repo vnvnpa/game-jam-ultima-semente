@@ -36,7 +36,7 @@ def new(w, h=None):
 
 # ui/ e fx/ agora são gerados por gen_ui_font/gen_ui_kit/gen_ui_icons/gen_menu_bg/gen_fx_pixel
 # (pixel art feita à mão). Este gerador antigo só os sobrescreve com FORCE_LEGACY_UI=1.
-PIXEL_OWNED = {"ui", "fx"}
+PIXEL_OWNED = {"ui", "fx", "enemies"}
 
 
 def save(img, group, name):

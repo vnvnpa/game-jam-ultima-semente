@@ -940,7 +940,7 @@
     "name": "decor",
     "row": 0,
     "frames": 16,
-    "fps": 1,
+    "fps": 0,
     "loop": false
    }
   ]
@@ -1046,6 +1046,140 @@
     "fps": 1,
     "loop": false
    }
+  ]
+ },
+ "world/planters.png": {
+  "frame": [
+   64,
+   72
+  ],
+  "anims": [
+   {
+    "name": "variants",
+    "row": 0,
+    "frames": 4,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ },
+ "world/capsules.png": {
+  "frame": [
+   48,
+   64
+  ],
+  "anims": [
+   {
+    "name": "variants",
+    "row": 0,
+    "frames": 4,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ },
+ "world/roots.png": {
+  "frame": [
+   64,
+   72
+  ],
+  "anims": [
+   {
+    "name": "variants",
+    "row": 0,
+    "frames": 4,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ },
+ "world/bulbs.png": {
+  "frame": [
+   48,
+   64
+  ],
+  "anims": [
+   {
+    "name": "variants",
+    "row": 0,
+    "frames": 4,
+    "fps": 1,
+    "loop": false
+   }
+  ]
+ },
+ "world/decor_estufa.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "decor",
+    "row": 0,
+    "frames": 16,
+    "fps": 0,
+    "loop": false
+   }
+  ]
+ },
+ "world/decor_nucleo.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "decor",
+    "row": 0,
+    "frames": 16,
+    "fps": 0,
+    "loop": false
+   }
+  ]
+ },
+ "world/tileset_estufa.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "grid",
+    "row": 0,
+    "frames": 4,
+    "fps": 0,
+    "loop": false
+   }
+  ],
+  "rows": [
+   "chao",
+   "trilha",
+   "pedra",
+   "contaminado",
+   "muralha"
+  ]
+ },
+ "world/tileset_nucleo.png": {
+  "frame": [
+   32,
+   32
+  ],
+  "anims": [
+   {
+    "name": "grid",
+    "row": 0,
+    "frames": 4,
+    "fps": 0,
+    "loop": false
+   }
+  ],
+  "rows": [
+   "chao",
+   "trilha",
+   "pedra",
+   "contaminado",
+   "muralha"
   ]
  }
 }
